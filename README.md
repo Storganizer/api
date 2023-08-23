@@ -6,10 +6,10 @@ Application to manage your storage at home
       Database-->Api;
       Api-->Database;
 
-      Api-->Website;
-      Website-->Api;
-      
-      Api-->MobileApp;
-      MobileApp-->Api;
+      Api<-->Website;
+      #Website-->Api;
+
+      Api<-->MobileApp;
+      #MobileApp-->Api;
 
 ```
