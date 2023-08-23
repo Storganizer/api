@@ -25,25 +25,38 @@ erDiagram
         string description
         string image
     }
-    LOCATION ||--|{ BOX : stores
 
     
     BOX {
         string name
         string description
     }
-    BOX ||--|{ ITEM : contains
 
 
     ITEM {
         string name
-        int quantity
-        float pricePerUnit
+        string description
+        string image
+
     }
-    ITEM }|--|{ TAG : has
 
     TAG {
         string name
         string value
     }
+
+    Brand {
+        string name
+    }
+
+
+
+
+    LOCATION ||--|{ BOX : stores
+    BOX ||--|{ ITEM : contains
+    ITEM }|--|{ TAG : has
+    ITEM ||--|{ BRAND : is
+
+
+
 ```
