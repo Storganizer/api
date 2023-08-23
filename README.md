@@ -5,7 +5,11 @@ Application to manage your storage at home
   graph TD;
       Database-->Api;
       Api-->Database;
+
       Api-->Website;
+      Website-->Api;
+      
       Api-->MobileApp;
+      MobileApp-->Api;
 
 ```
