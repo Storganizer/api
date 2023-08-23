@@ -25,4 +25,7 @@ Application to manage your storage at home
     Box;
     Item;
 
+    Location-->Box;
+    Box-->Item;
+
 ```
