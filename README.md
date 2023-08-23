@@ -45,7 +45,7 @@ erDiagram
         string value
     }
 
-    Brand {
+    BRAND {
         string name
     }
 
