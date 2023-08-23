@@ -18,32 +18,20 @@ Application to manage your storage at home
 
 ## Data Structure
 
-
-```mermaid
-  graph TD;
-    Location;
-    Box;
-    Item;
-
-    Location-->Box;
-    Box-->Item;
-
-```
-
 ```mermaid
 erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    CUSTOMER {
+    LOCATION ||--o{ BOX : places
+    LOCATION {
         string name
-        string custNumber
-        string sector
+        string description
+        string image
     }
-    ORDER ||--|{ LINE-ITEM : contains
-    ORDER {
+    BOX ||--|{ ITEM : contains
+    BOX {
         int orderNumber
         string deliveryAddress
     }
-    LINE-ITEM {
+    ITEM {
         string productCode
         int quantity
         float pricePerUnit
