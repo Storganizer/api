@@ -20,20 +20,30 @@ Application to manage your storage at home
 
 ```mermaid
 erDiagram
-    LOCATION ||--o{ BOX : places
     LOCATION {
         string name
         string description
         string image
     }
-    BOX ||--|{ ITEM : contains
+    LOCATION ||--|{ BOX : stores
+
+    
     BOX {
-        int orderNumber
-        string deliveryAddress
+        string name
+        string description
     }
+    BOX ||--|{ ITEM : contains
+
+
     ITEM {
-        string productCode
+        string name
         int quantity
         float pricePerUnit
+    }
+    ITEM }|--|{ TAG : has
+
+    TAG {
+        string name
+        string value
     }
 ```
