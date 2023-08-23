@@ -7,9 +7,7 @@ Application to manage your storage at home
       Api-->Database;
 
       Api<-->Website;
-      #Website-->Api;
 
       Api<-->MobileApp;
-      #MobileApp-->Api;
 
 ```
