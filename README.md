@@ -55,7 +55,7 @@ erDiagram
     LOCATION ||--|{ BOX : stores
     BOX ||--|{ ITEM : contains
     ITEM }|--|{ TAG : has
-    ITEM ||--|{ BRAND : is
+    ITEM }|--|| BRAND : is
 
 
 
