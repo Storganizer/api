@@ -12,7 +12,7 @@ app = flask.Flask('storganizer-api')
 def asJson(data):
   response = flask.make_response(
     flask.jsonify(data),
-    401,
+    200,
   )
   response.headers["Content-Type"] = "application/json"
   return response
