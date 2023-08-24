@@ -31,6 +31,7 @@ Items without QR codes, for whatever reason, can still change state by scanning 
  - web-app
  - desktop-app (dont judge, since my pinephone pro does not yet support aosp, I do need kind of a native linux app)
 
+Right now, I am going to do everything just in here
 
 ## High Level Architecture
 
@@ -55,12 +56,14 @@ erDiagram
         string name
         string description
         string image
+        int classification
     }
 
     
     BOX {
         string name
         string description
+        date lastAccess
     }
 
 
@@ -68,6 +71,8 @@ erDiagram
         string name
         string description
         string image
+        string state
+        date lastUse
 
     }
 
