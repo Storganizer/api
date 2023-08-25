@@ -2,7 +2,7 @@
 
 ## Description
 Application to manage your storage at home. It is really not much more than an idea.
-I did not find anything simple to digitally manage my mess (all of unimagible value of course) at home.
+I did not find anything simple to digitally manage my mess at home. Everything I own is of unimaginable value of course.
 
 I want to classify my storage possibilities based on accessibility. Most accessible will be 1, next is 2 and so on.
 Then, I want to mark my boxes with QR codes and add what items are in there.
@@ -31,7 +31,7 @@ Items without QR codes, for whatever reason, can still change state by scanning 
  - web-app
  - desktop-app (dont judge, since my pinephone pro does not yet support aosp, I do need kind of a native linux app)
 
-Right now, I am going to do everything just in here
+Right now, I am going to do everything just in here.
 
 ## High Level Architecture
 
