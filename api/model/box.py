@@ -2,8 +2,8 @@ from model.base import Base
 
 from typing import List
 from typing import Optional
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
+
+from sqlalchemy import ForeignKey, Column, String, Integer, CHAR, TEXT, DateTime
 from sqlalchemy.orm import relationship
 
 
@@ -11,14 +11,19 @@ class Box(Base):
 
     __tablename__ = "box"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str]
-    description: Mapped[Optional[str]]
-    lastAccess: DateTime(timezone=True)
+    dtoColumns = ["id", "name", "description", "lastAccess"]
 
-    items: Mapped[List["Item"]] = relationship(
-        back_populates="item", cascade="all, delete-orphan"
-    )
+
+    id          = Column("id", Integer, primary_key=True)
+    name        = Column("name", String)
+    description = Column("description", TEXT)
+    lastAccess  = Column("lastAccess", DateTime)
+    locationId  = Column(
+                      Integer,
+                      ForeignKey('location.id', ondelete='CASCADE'),
+                      nullable=True,
+                      index=True
+                  )
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r}, lastAccess={self.lastAccess!r})"
