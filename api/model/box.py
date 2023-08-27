@@ -14,7 +14,7 @@ class Box(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
     description: Mapped[Optional[str]]
-    lastAccess: DateTime(timezone=True), server_default=func.now()
+    lastAccess: DateTime(timezone=True)
 
     items: Mapped[List["Item"]] = relationship(
         back_populates="item", cascade="all, delete-orphan"
