@@ -6,7 +6,7 @@ from model.box import Box
 #from model.item import item
 from model.connection import engine, session
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session
 
 
@@ -18,6 +18,11 @@ if __name__ == "__main__":
   print("db setup done")
 
   print("start seeding data")
+
+  session.execute(text('''DELETE FROM location;'''))
+  session.commit()
+  session.execute(text('''VACUUM;'''))
+  session.commit()
 
   airRaidShelter = Location(name="Luftschutzkeller", description="Luftschutzkeller", classification=1)
   
