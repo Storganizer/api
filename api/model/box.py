@@ -4,7 +4,6 @@ from typing import List
 from typing import Optional
 
 from sqlalchemy import ForeignKey, Column, String, Integer, CHAR, TEXT, DateTime
-from sqlalchemy.orm import relationship
 
 
 class Box(Base):

@@ -3,13 +3,10 @@
 from model.base import Base
 from model.location import Location
 from model.box import Box
-#from model.item import item
+from model.item import Item, Tag
 from model.connection import engine, session
 
-from sqlalchemy import create_engine, text
-from sqlalchemy.orm import Session
-
-
+from sqlalchemy import text
 
 # main loop
 if __name__ == "__main__":
@@ -17,16 +14,18 @@ if __name__ == "__main__":
   Base.metadata.create_all(bind=engine)
   print("db setup done")
 
-  print("start seeding data")
-
+  print("Truncate everything first / very sqlite specific")
   session.execute(text('''DELETE FROM location;'''))
   session.commit()
   session.execute(text('''VACUUM;'''))
   session.commit()
 
-  airRaidShelter = Location(name="Luftschutzkeller", description="Luftschutzkeller", classification=1)
-  
-  session.add(airRaidShelter)   
+  print("start seeding data")
+  airRaidShelter = Location(name="Luftschutzkeller", description="Luftschutzkeller - ungeheizt - nicht so gut belüftet", classification=1)
+  cellar = Location(name="Naturkeller", description="Naturkeller - ungeheizt - gut belüftet", classification=3)
+
+  session.add(airRaidShelter)
+  session.add(cellar)
   session.commit()
 
   print("seeding data done")
