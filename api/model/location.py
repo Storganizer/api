@@ -1,4 +1,5 @@
 from model.base import Base
+from model.box import Box
 
 from typing import List
 
@@ -7,7 +8,7 @@ from sqlalchemy.orm import Mapped, relationship
 
 
 class Location(Base):
-    
+
     __tablename__ = "location"
     dtoColumns = ["id", "name", "description", "image", "classification"]
 

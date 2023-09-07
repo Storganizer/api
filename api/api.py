@@ -2,10 +2,14 @@
 Example of Flask RESTFul integration.
 requires: `pip install flask-restful`
 """
+import sys
+
 from flask import Flask
 from flask_restful import Api, Resource, abort, reqparse
-
 from flasgger import Swagger, swag_from
+
+from app.locations import Locations, Location
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -16,84 +20,18 @@ app.config['SWAGGER'] = {
 swag = Swagger(app)
 
 
+api.add_resource(Locations, '/locations')
+api.add_resource(Location, '/location/<id>')
+#api.add_resource(Todo, '/todos/<todo_id>')
+#api.add_resource(Username, '/username/<username>')
 
-# Todo
-# shows a single todo item and lets you delete a todo item
-class Location(Resource):
-    def get(self, todo_id):
-        """
-        This is an example
-        ---
-        tags:
-          - restful
-        parameters:
-          - in: path
-            name: todo_id
-            required: true
-            description: The ID of the task, try 42!
-            type: string
-        responses:
-          200:
-            description: The task data
-            schema:
-              id: Task
-              properties:
-                task:
-                  type: string
-                  default: My Task
-        """
-        abort_if_todo_doesnt_exist(todo_id)
-        return TODOS[todo_id]
 
-    def delete(self, todo_id):
-        """
-        This is an example
-        ---
-        tags:
-          - restful
-        parameters:
-          - in: path
-            name: todo_id
-            required: true
-            description: The ID of the task, try 42!
-            type: string
-        responses:
-          204:
-            description: Task deleted
-        """
-        abort_if_todo_doesnt_exist(todo_id)
-        del TODOS[todo_id]
-        return '', 204
-
-    def put(self, todo_id):
-        """
-        This is an example
-        ---
-        tags:
-          - restful
-        parameters:
-          - in: body
-            name: body
-            schema:
-              $ref: '#/definitions/Task'
-          - in: path
-            name: todo_id
-            required: true
-            description: The ID of the task, try 42!
-            type: string
-        responses:
-          201:
-            description: The task has been updated
-            schema:
-              $ref: '#/definitions/Task'
-        """
-        args = parser.parse_args()
-        task = {'task': args['task']}
-        TODOS[todo_id] = task
-        return task, 201
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 
+sys.exit(1)
 
 
 
