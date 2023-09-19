@@ -8,7 +8,7 @@ from flask import Flask
 from flask_restful import Api, Resource, abort, reqparse
 from flasgger import Swagger, swag_from
 
-from app.locations import Locations, Location
+from controller.locations import Locations, Location
 
 
 app = Flask(__name__)
