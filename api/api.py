@@ -9,6 +9,8 @@ from flask_restful import Api, Resource, abort, reqparse
 from flasgger import Swagger, swag_from
 
 from controller.locations import Locations, Location
+from controller.boxes import Boxes, Box
+from controller.items import Items, Item
 
 
 app = Flask(__name__)
@@ -22,16 +24,14 @@ swag = Swagger(app)
 
 api.add_resource(Locations, '/locations')
 api.add_resource(Location, '/location/<id>')
-#api.add_resource(Todo, '/todos/<todo_id>')
-#api.add_resource(Username, '/username/<username>')
-
+api.add_resource(Boxes, '/boxes')
+api.add_resource(Items, '/items')
 
 if __name__ == '__main__':
     app.run(debug=True)
 
 
-
-sys.exit(1)
+sys.exit(0)
 
 
 

@@ -10,7 +10,7 @@ class Box(Base):
 
     __tablename__ = "box"
 
-    dtoColumns = ["id", "name", "description", "lastAccess"]
+    dtoColumns = ["id", "name", "description"]
 
 
     id          = Column("id", Integer, primary_key=True)

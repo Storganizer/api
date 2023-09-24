@@ -31,13 +31,18 @@ class ItemStates(enum.Enum):
 
 class Item(Base):
 
+
     __tablename__ = "item"
 
+    dtoColumns = ["id", "name", "description", "amount", ]
+
+
     id          = Column("id", Integer, primary_key=True)
+    amount      = Column("amount", Integer)
     name        = Column("name", String)
     description = Column("description", TEXT)
     image       = Column("image", String)
-    state       = Column("stage", Enum(ItemStates))
+    state       = Column("state", Enum(ItemStates))
     lastUsage   = Column("lastUsage", DateTime)
     boxId  = Column(
                       Integer,

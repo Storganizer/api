@@ -1,11 +1,11 @@
-from model.location import Location as ModelLocation
+from model.item import Item as ModelItem
 from model.connection import engine, session
 
-from sqlalchemy import select, text
+from sqlalchemy import select
 from flask_restful import Resource
 
 
-class Locations(Resource):
+class Items(Resource):
     def get(self):
         """
         Fetch all locations
@@ -23,11 +23,11 @@ class Locations(Resource):
                   schema:
                     $ref: '#/definitions/Location'
         """
-        locations = []
-        for location in session.scalars(select(ModelLocation)):
-          locations.append(location.getDataTransferObject())
+        items = []
+        for item in session.scalars(select(ModelItem)):
+          items.append(item.getDataTransferObject())
 
-        return locations
+        return items
 
     def post(self):
         """
@@ -54,7 +54,7 @@ class Locations(Resource):
 
 # Todo
 # shows a single todo item and lets you delete a todo item
-class Location(Resource):
+class Item(Resource):
     def get(self, id):
         """
         This is an example
