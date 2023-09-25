@@ -48,8 +48,9 @@ if __name__ == "__main__":
       box = boxes['boxes'][box]
       boxNotes = box['notes'] if 'notes' in box.keys() else ''
       boxEntry = Box(name=box['name'], description=boxNotes, lastAccess=func.now())
+      session.add(boxEntry)
+      session.commit()
       
-      items = []
       for item in box['items']:
         itemNotes = item['notes'] if 'notes' in item.keys() else ''
         
@@ -59,16 +60,12 @@ if __name__ == "__main__":
           description=itemNotes,
           image="",
           state='stored',
-          lastUsage=func.now()
+          lastUsage=func.now(),
+          boxId=boxEntry.id
         )
         session.add(itemEntry)
-        print(item['name'])
-        items.append(itemEntry)
-      boxEntry.items = items
-      session.add(boxEntry)
+        session.commit()
 
-
-  session.commit()
 
 
   print("seeding data done")
