@@ -5,7 +5,7 @@ from typing import List
 from typing import Optional
 
 from sqlalchemy import Table, ForeignKey, Column, String, Integer, CHAR, TEXT, DateTime, Enum
-from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy.orm import relationship
 
 association_table = Table(
     "item_tag",
@@ -21,16 +21,13 @@ class Tag(Base):
 
     id          = Column("id", Integer, primary_key=True)
     name        = Column("name", String)
-    # items: Mapped[List[Item]] = relationship(
-    #     secondary=association_table, back_populates="tags"
-    # )
+
 
 class ItemStates(enum.Enum):
     stored = 1
     in_use = 2
 
 class Item(Base):
-
 
     __tablename__ = "item"
 
@@ -50,10 +47,12 @@ class Item(Base):
                       nullable=True,
                       index=True
                   )
-    tags: Mapped[List[Tag]] = relationship(
-        secondary=association_table
-    )
+    box = relationship("Box", back_populates = "items")
+
+    # tags = relationship(
+    #     secondary=association_table
+    # )
 
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r}, image={self.image!r}, state={self.state!r}, lastUse={self.lastUse!r})"
+        return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r}, image={self.image!r}, state={self.state!r}, lastUsage={self.lastUsage!r})"

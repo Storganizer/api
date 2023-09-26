@@ -47,10 +47,16 @@ if __name__ == "__main__":
     for box in boxes['boxes']:
       box = boxes['boxes'][box]
       boxNotes = box['notes'] if 'notes' in box.keys() else ''
-      boxEntry = Box(name=box['name'], description=boxNotes, lastAccess=func.now())
+      boxEntry = Box(
+        name=box['name'],
+        description=boxNotes,
+        lastAccess=func.now(),
+        locationId=airRaidShelter.id
+      )
       session.add(boxEntry)
       session.commit()
       
+      items = []
       for item in box['items']:
         itemNotes = item['notes'] if 'notes' in item.keys() else ''
         
@@ -61,7 +67,7 @@ if __name__ == "__main__":
           image="",
           state='stored',
           lastUsage=func.now(),
-          boxId=boxEntry.id
+          box=boxEntry
         )
         session.add(itemEntry)
         session.commit()

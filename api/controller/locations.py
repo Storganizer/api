@@ -27,6 +27,7 @@ class Locations(Resource):
         for location in session.scalars(select(ModelLocation)):
           locations.append(location.getDataTransferObject())
 
+
         return locations
 
     def post(self):
