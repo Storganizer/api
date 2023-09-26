@@ -8,20 +8,20 @@ from flask_restful import Resource
 class Items(Resource):
     def get(self):
         """
-        Fetch all locations
+        Fetch all items
         ---
         tags:
-          - locations
+          - items
         responses:
           200:
-            description: All storage locations
+            description: All storage items
             schema:
-              id: Locations
+              id: Items
               properties:
                 task_id:
                   type: object
                   schema:
-                    $ref: '#/definitions/Location'
+                    $ref: '#/definitions/Item'
         """
         items = []
         for item in session.scalars(select(ModelItem)):
@@ -31,20 +31,20 @@ class Items(Resource):
 
     def post(self):
         """
-        Add a new location
+        Add a new Item
         ---
         tags:
-          - locations
+          - items
         parameters:
           - in: body
             name: body
             schema:
-              $ref: '#/definitions/Location'
+              $ref: '#/definitions/Item'
         responses:
           201:
-            description: The Location has been created
+            description: The Item has been created
             schema:
-              $ref: '#/definitions/Location'
+              $ref: '#/definitions/Item'
         """
         return [""]
 
