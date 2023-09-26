@@ -56,29 +56,37 @@ class Locations(Resource):
 # Todo
 # shows a single todo item and lets you delete a todo item
 class Location(Resource):
+
     def get(self, id):
         """
-        This is an example
+        Get single location
         ---
         tags:
           - location
         parameters:
           - in: path
-            name: todo_id
+            name: id
             required: true
-            description: The ID of the task, try 42!
+            description: Location ID
             type: string
         responses:
           200:
-            description: The task data
+            description: The location data transfer object
             schema:
-              id: Task
+              id: Location
               properties:
-                task:
+                name:
                   type: string
-                  default: My Task
+                description:
+                  type: string
+                image:
+                  type: string
+                classification:
+                  type: string
+                boxes:
+                  type: list
         """
-        return [""]
+        return session.query(ModelLocation).get(id).getDataTransferObject()
 
     def delete(self, id):
         """
