@@ -2,10 +2,12 @@ from model.location import Location as ModelLocation
 from model.connection import engine, session
 
 from sqlalchemy import select, text
-from flask_restful import Resource
+from flask_restful import Resource, marshal_with
+from dataTransferObject.schemas import Location as LocationSchema
 
 
 class Locations(Resource):
+    #@marshal_with(LocationSchema)
     def get(self):
         """
         Fetch all locations
@@ -18,8 +20,8 @@ class Locations(Resource):
             schema:
               id: Locations
               properties:
-                task_id:
-                  type: object
+                list:
+                  type: list
                   schema:
                     $ref: '#/definitions/Location'
         """
@@ -62,7 +64,7 @@ class Location(Resource):
         Get single location
         ---
         tags:
-          - location
+          - locations
         parameters:
           - in: path
             name: id
@@ -90,42 +92,42 @@ class Location(Resource):
 
     def delete(self, id):
         """
-        This is an example
+        Delete a location
         ---
         tags:
-          - location
+          - locations
         parameters:
           - in: path
-            name: todo_id
+            name: id
             required: true
-            description: The ID of the task, try 42!
+            description: The Location ID to delete
             type: string
         responses:
           204:
-            description: Task deleted
+            description: Location deleted
         """
         return '', 204
 
     def put(self, id):
         """
-        This is an example
+        Update a location
         ---
         tags:
-          - location
+          - locations
         parameters:
           - in: body
             name: body
             schema:
-              $ref: '#/definitions/Task'
+              $ref: '#/definitions/Location'
           - in: path
-            name: todo_id
+            name: id
             required: true
-            description: The ID of the task, try 42!
+            description: The location ID to be updated
             type: string
         responses:
           201:
-            description: The task has been updated
+            description: Updated location data
             schema:
-              $ref: '#/definitions/Task'
+              $ref: '#/definitions/Location'
         """
         return [""]

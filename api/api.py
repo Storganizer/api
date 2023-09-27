@@ -24,8 +24,10 @@ swag = Swagger(app)
 
 api.add_resource(Locations, '/locations')
 api.add_resource(Location, '/location/<id>')
-api.add_resource(Boxes, '/boxes')
-api.add_resource(Items, '/items')
+api.add_resource(Boxes, '/boxes/<location_id>')
+api.add_resource(Box, '/box/<id>')
+api.add_resource(Items, '/items/<box_id>')
+api.add_resource(Item, '/item/<id>')
 
 if __name__ == '__main__':
     app.run(debug=True)

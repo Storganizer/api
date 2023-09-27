@@ -60,7 +60,7 @@ class Item(Resource):
         This is an example
         ---
         tags:
-          - location
+          - items
         parameters:
           - in: path
             name: todo_id
@@ -84,7 +84,7 @@ class Item(Resource):
         This is an example
         ---
         tags:
-          - location
+          - items
         parameters:
           - in: path
             name: todo_id
@@ -102,7 +102,7 @@ class Item(Resource):
         This is an example
         ---
         tags:
-          - location
+          - items
         parameters:
           - in: body
             name: body

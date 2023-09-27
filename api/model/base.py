@@ -1,12 +1,14 @@
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm.collections import InstrumentedList
+from flask_restful import marshal
+from pprint import pprint
 
 class DataTransferObject(object):
     pass
 
 
 class Base(DeclarativeBase):
-
+    schema = None
     dtoColumns = ["id"]
     
     def getDataTransferObject(self) -> object:

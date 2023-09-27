@@ -6,7 +6,7 @@ from flask_restful import Resource
 
 
 class Boxes(Resource):
-    def get(self):
+    def get(self, location_id):
         """
         Fetch all boxes
         ---
@@ -60,7 +60,7 @@ class Box(Resource):
         This is an example
         ---
         tags:
-          - location
+          - boxes
         parameters:
           - in: path
             name: todo_id
@@ -84,7 +84,7 @@ class Box(Resource):
         This is an example
         ---
         tags:
-          - location
+          - boxes
         parameters:
           - in: path
             name: todo_id
@@ -102,7 +102,7 @@ class Box(Resource):
         This is an example
         ---
         tags:
-          - location
+          - boxes
         parameters:
           - in: body
             name: body
