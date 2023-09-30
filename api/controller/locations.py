@@ -3,17 +3,38 @@ from model.connection import engine, session
 
 from sqlalchemy import select, text
 from flask_restful import Resource, marshal_with
-from dataTransferObject.schemas import Location as LocationSchema
+
 
 
 class Locations(Resource):
-    #@marshal_with(LocationSchema)
+    """
+    Location definition to use in this classes
+    ---
+    responses:
+      200:
+        description: Schema
+        schema:
+          id: Location
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            image:
+              type: string
+            classification:
+              type: int
+            boxes:
+              type: list
+    """
+
     def get(self):
         """
         Fetch all locations
         ---
         tags:
           - locations
+
         responses:
           200:
             description: All storage locations
@@ -75,18 +96,7 @@ class Location(Resource):
           200:
             description: The location data transfer object
             schema:
-              id: Location
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                image:
-                  type: string
-                classification:
-                  type: string
-                boxes:
-                  type: list
+              $ref: '#/definitions/Location'
         """
         return session.query(ModelLocation).get(id).getDataTransferObject()
 

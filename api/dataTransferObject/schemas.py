@@ -1,10 +1,12 @@
-from flask_restful import fields
+from flasgger import Schema, fields
 
-Location = {
-    "id": fields.Integer(),
-    "name": fields.String(),
-    "description": fields.String(),
-    "image": fields.String(),
-    "classification": fields.Integer()#,
+
+class LocationSchema(Schema):
+
+    id = fields.Int(required=True)
+    name = fields.Str(required=True)
+    description = fields.Str()
+    image = fields.Str()
+    classification = fields.Int()
+    #boxes = fields.Nested(BoxSchema, many=True)
     #"uri": fields.Url('todo_resource')
-}
