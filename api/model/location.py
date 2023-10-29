@@ -10,7 +10,7 @@ from sqlalchemy.orm import Mapped, relationship
 class Location(Base):
 
     __tablename__ = "location"
-    dtoColumns = ["id", "name", "description", "image", "classification", "len boxes", "boxes"]
+    dtoColumns = ["id", "name", "description", "image", "classification", "len boxes", "url http://localhost:5000/location/{id}"]
 
 
     id              = Column("id", Integer, primary_key=True)

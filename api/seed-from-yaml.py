@@ -32,16 +32,25 @@ if __name__ == "__main__":
 
 
   print("start seeding data")
-  airRaidShelter = Location(name="Luftschutzkeller", description="Luftschutzkeller - ungeheizt - nicht so gut belüftet", classification=1)
-  cellar = Location(name="Naturkeller", description="Naturkeller - ungeheizt - gut belüftet", classification=3)
+  
+# add boxes and items from yaml
+  with open('../../storganizer-data/yaml/locations.yaml', 'r') as file:
+    locations = yaml.safe_load(file)
 
-  session.add(airRaidShelter)
-  session.add(cellar)
-  session.commit()
+    for location in locations['locations']:
+      location = locations['locations'][location]
+      locationDescription = location['description'] if 'description' in location.keys() else ''
+      locationEntry = Location(
+        name=location['name'],
+        description=locationDescription,
+        classification=location['classification']
+      )
+      session.add(locationEntry)
+      session.commit()
 
 
   # add boxes and items from yaml
-  with open('../../storganizer-data/yaml/stuff.yaml', 'r') as file:
+  with open('../../storganizer-data/yaml/boxes.yaml', 'r') as file:
     boxes = yaml.safe_load(file)
 
     for box in boxes['boxes']:
@@ -51,7 +60,7 @@ if __name__ == "__main__":
         name=box['name'],
         description=boxNotes,
         lastAccess=func.now(),
-        locationId=airRaidShelter.id
+        locationId=1
       )
       session.add(boxEntry)
       session.commit()

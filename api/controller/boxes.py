@@ -77,7 +77,11 @@ class Box(Resource):
                   type: string
                   default: My Task
         """
-        return [""]
+        box = session.query(ModelBox).get(id)
+        if box:
+          return box.getDataTransferObject(["items"])
+
+        return ["Box not found"]
 
     def delete(self, id):
         """

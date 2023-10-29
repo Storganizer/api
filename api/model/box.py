@@ -10,7 +10,8 @@ class Box(Base):
 
     __tablename__ = "box"
 
-    dtoColumns = ["id", "name", "description", "len items", "items"]
+    #dtoColumns = ["id", "name", "description", "len items", "items"]
+    dtoColumns = ["id", "name", "len items", "url http://localhost:5000/box/{id}"]
 
 
     id          = Column("id", Integer, primary_key=True)

@@ -98,7 +98,11 @@ class Location(Resource):
             schema:
               $ref: '#/definitions/Location'
         """
-        return session.query(ModelLocation).get(id).getDataTransferObject()
+        location = session.query(ModelLocation).get(id)
+        if location:
+          return location.getDataTransferObject(["boxes"])
+
+        return ["Location not found"]
 
     def delete(self, id):
         """
