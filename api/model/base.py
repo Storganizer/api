@@ -19,7 +19,9 @@ class Base(DeclarativeBase):
             if " " in dtoColumn:
                 parts = dtoColumn.split()
                 func = parts[0]
-                dtoColumn = parts[1]
+                parts.remove(parts[0])
+                dtoColumn = " ".join(parts)
+                #dtoColumn = parts[1]
 
                 match func:
                     case "len":
