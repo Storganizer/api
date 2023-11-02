@@ -1,20 +1,22 @@
 {
-  "name": "ui",
+  "name": "storganizer-ui",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --open --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1"
-
+    "dev": "webpack-dev-server --config webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@material/web": "^1.0.1",
+  "devDependencies": {
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }
