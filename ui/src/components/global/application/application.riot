@@ -9,17 +9,39 @@
 
     let currentLocation = Navigation.exports.currentLocation
 
-    //
+    switch (currentLocation) {
+        case "app":
+          console.log("Application: APP")
+          break
+        case "locations":
+        case "location":
+          console.log("Application: LOCATION")
+          break
 
+        case "boxes":
+        case "box":
+          console.log("Application: BOXES")
+          break
 
+        case "items":
+        case "item":
+          console.log("Application: ITEMS")
+          break
 
+        case "search":
+          console.log("Application: SEARCH")
+          break
+
+        default:
+          console.log('whatever ' + currentLocation)
+          break
+    }
 
     export default {
       state: {
         user: 'Claudio',
         currentLocation: currentLocation
-      },
-
+      }
     }
 
   </script>
