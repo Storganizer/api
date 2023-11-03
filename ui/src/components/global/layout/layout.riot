@@ -1,0 +1,23 @@
+<layout>
+  <main>
+      <login if={ !state.login } data-riot-component></div>
+      <application if={ state.login }></application>
+  </main>
+  <script>
+    import Application from '../application/application.riot'
+    import Login from '../login/login.riot'
+    
+    const isLoggedIn = Login.exports.login()
+
+    export default {
+      components: {
+        Application,
+        Login
+      },
+      state: {
+        login: isLoggedIn
+      }
+    }
+
+  </script>
+</layout>
