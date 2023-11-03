@@ -1,5 +1,4 @@
-import './styles/main.css'
-import './styles/navigation.css'
+import './index.css'
 import '@riotjs/hot-reload'
 import { mount } from 'riot'
 import registerGlobalComponents from './register-global-components'

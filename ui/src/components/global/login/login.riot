@@ -2,17 +2,16 @@
 <login>
 
   <div class="row">
-    
     <div if={ !state.login } class="hello column column-67">
       <h1><img width="35px" src="./storganizer-color-purple.png" /> Storganizer</h1>
-        <p class="row">Hello There</p>
+      <p>Hello There</p>
     </div>
-
 
     <div class="login column column-33">
       <div class="row">
         <h1>Login</h1>
       </div>
+
       <div if={state.showUser} class="row">
         <user name={ state.name }/>
       </div>
@@ -21,6 +20,7 @@
         <label for="username">Username:</label>
         <input type="text" id="username" name="username">
       </div>
+
       <div class="row password">
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
@@ -35,6 +35,7 @@
 
   <script>
     import User from '../../includes/user/user.riot'
+    import  './style.css'
 
     export default {
       components: {
@@ -50,7 +51,7 @@
         })
       },
       login() {
-        return false
+        return true
       }
     }
   </script>

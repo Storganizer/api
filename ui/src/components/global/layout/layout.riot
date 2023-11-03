@@ -6,14 +6,22 @@
   <script>
     import Application from '../application/application.riot'
     import Login from '../login/login.riot'
+    import  './style.css'
     
     const isLoggedIn = Login.exports.login()
+    let components
 
-    export default {
-      components: {
-        Application,
+    if (isLoggedIn) {
+      components = {
+        Application
+      }
+    } else {
+      components = {
         Login
-      },
+      }
+    }
+    export default {
+      components: components,
       state: {
         login: isLoggedIn
       }

@@ -1,13 +1,37 @@
 <navigation>
-  <header class="header">
-    <a href="#app" class="logo"><img width="20px" src="./storganizer-color-purple.png" /> Storganizer</a>
+
+  <header if={ state.login } class="header">
+    <a href="?app" class="logo"><img width="20px" src="./storganizer-color-purple.png" /> Storganizer</a>
     <input class="menu-btn" type="checkbox" id="menu-btn" />
     <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
     <ul class="menu">
-      <li><a href="#locations">Locations</a></li>
-      <li><a href="#boxes">Boxes</a></li>
-      <li><a href="#items">Items</a></li>
-      <li><a href="#search">search</a></li>
+      <li><a href="?locations">Locations</a></li>
+      <li><a href="?boxes">Boxes</a></li>
+      <li><a href="?items">Items</a></li>
+      <li><a href="?search">Search</a></li>
     </ul>
   </header>
+
+  <script>
+    import './style.css'
+    import Login from '../login/login.riot'
+
+    const isLoggedIn = Login.exports.login()
+    let currentLocation = "home"
+    let urlParts = document.URL.split('?')
+
+    if (urlParts.length > 1) {
+      currentLocation = urlParts[1]
+    }
+
+    console.log(currentLocation)
+
+    export default {
+      state: {
+        login: isLoggedIn
+      },
+      currentLocation: currentLocation
+    }
+  </script>
+
 </navigation>

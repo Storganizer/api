@@ -1,20 +1,25 @@
-<application>
-  <navigation data-riot-component></navigation>
-  
-  <div class="container">
-    Hoi { state.user }, weiter gehts</div>
+<application>  
+  <div class="application container">
+    Hoi { state.user }, weiter gehts zu { state.currentLocation }</div>
   </div>
 
   <script>
-    import Navigation from '../navigation/navigation.riot'
-    
+    import  './style.css'
+    import  Navigation from '../navigation/navigation.riot'
+
+    let currentLocation = Navigation.exports.currentLocation
+
+    //
+
+
+
+
     export default {
-      components: {
-        Navigation
-      },
       state: {
-        user: 'Claudio'
-      }
+        user: 'Claudio',
+        currentLocation: currentLocation
+      },
+
     }
 
   </script>
