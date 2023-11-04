@@ -1,4 +1,4 @@
-<locations>
+<location>
 
     <table>
       <thead>
@@ -24,35 +24,15 @@
 
 
   <script>
-
-
-
     import  './style.css'
     export default {
       locations: [
         { name: 'Keller', id: 0, description: "Feucht", boxes: 4, rating: 1},
-        { name: 'Estrich', id: 1, description: "Kalt", boxes: 17, rating: 2 },
-        { name: 'Büro', id: 2, description: "Kein Platz", boxes: 6, rating: 3 }
-      ],
-
-      onMounted() {
-        function reqListener() {
-          console.log(this.responseText);
-        }
-
-        const req = new XMLHttpRequest();
-        req.addEventListener("load", reqListener);
-        req.open("GET", "http://localhost:5000/locations");
-        req.send();
-
-
-
-        this.update()
-      }
+      ]
     }
 
   </script>
 
 
 
-</locations>
+</location>

@@ -2,6 +2,7 @@
   <div id="application" class="container">
     
     <locations if={ state.showLocations }></locations>
+    <location if={ state.showLocation }></location>
     <boxes if={ state.showBoxes }></boxes>
     <items if={ state.showItems }></items>
     <search if={ state.showSearch }></search>
@@ -12,22 +13,28 @@
     import  './style.css'
     import Navigation from '../navigation/navigation.riot'
     import Locations from '../../application/locations/locations.riot'
+    import Location from '../../application/locations/location.riot'
     import Boxes from '../../application/boxes/boxes.riot'
     import Items from '../../application/items/items.riot'
     import Search from '../../application/search/search.riot'
 
     let currentLocation = Navigation.exports.currentLocation
+    let rest = Navigation.exports.rest
+
+    console.log(rest)
 
 
     export default {
       components: {
         Locations,
+        Location,
         Boxes,
         Items,
         Search
       },
       state: {
         showLocations: currentLocation == "locations",
+        showLocation: currentLocation == "location",
         showBoxes: currentLocation == "boxes",
         showItems: currentLocation == "items",
         showSearch: currentLocation == "search"
