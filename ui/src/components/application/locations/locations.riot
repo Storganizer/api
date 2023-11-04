@@ -12,7 +12,7 @@
       <tbody>
 
         <tr each={ location in state.locations } key={ location.id }>
-          <td><a href="?location/{ location.id }">{ location.name }</a></td>
+          <td><a href="#location/{ location.id }">{ location.name }</a></td>
           <td>{ location.description }</td>
           <td>{ location.lenBoxes }</td>
           <td>{ location.classification }</td>
@@ -21,37 +21,34 @@
       </tbody>
     </table>
 
-
-
   <script>
-
-
-
     import  './style.css'
+
     export default {
-      
       state: {
-            locations: [
-            { name: 'Keller', id: 0, description: "Feucht", lenBoxes: 4, classification: 1},
-            { name: 'Estrich', id: 1, description: "Kalt", lenBoxes: 17, classification: 2 },
-            { name: 'Büro', id: 2, description: "Kein Platz", lenBoxes: 6, classification: 3 }
-          ],
+            locations: [],
+      },
+
+      fetchLocations() {
+        if (this.state.locations.length == 0) {
+
+          let target = this
+          function reqListener() {
+            target.update({
+              locations: JSON.parse(this.responseText)
+            })
+          }
+
+          const req = new XMLHttpRequest();
+          req.addEventListener("load", reqListener);
+          req.open("GET", "http://localhost:5000/locations");
+          req.send();
+
+        }
       },
 
       onMounted() {
-        let target = this
-        function reqListener() {
-          
-          target.update({
-            locations: JSON.parse(this.responseText)
-          })
-          console.log(this.responseText);
-        }
-
-        const req = new XMLHttpRequest();
-        req.addEventListener("load", reqListener);
-        req.open("GET", "http://localhost:5000/locations");
-        req.send();
+        this.fetchLocations()
       }
     }
 

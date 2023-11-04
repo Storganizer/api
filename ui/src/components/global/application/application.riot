@@ -1,46 +1,100 @@
-<application>  
-  <div id="application" class="container">
-    
-    <locations if={ state.showLocations }></locations>
-    <location if={ state.showLocation }></location>
-    <boxes if={ state.showBoxes }></boxes>
-    <items if={ state.showItems }></items>
-    <search if={ state.showSearch }></search>
+<application>
+
+  <div if={ state.isLoggedIn }>
+
+    <div class="header">
+      <a href="#app" class="logo"><img width="20px" src="./storganizer-color-outline.png" /> Storganizer</a>
+      <input class="menu-btn" type="checkbox" id="menu-btn" />
+      <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+      <ul class="menu">
+        <li><a onclick={navigationClick} href='#locations'>Locations</a></li>
+        <li><a onclick={navigationClick} href='#boxes'>Boxes</a></li>
+        <li><a onclick={navigationClick} href='#items'>Items</a></li>
+        <li><a onclick={navigationClick} href='#search'>Search</a></li>
+      </ul>
+    </div>
+
+    <div class="clearfix" />
+
+    <div class="application-body container">
+      <locations if=if={ showContainer('locations') }></locations>
+      <location if={ showContainer('location') }></location>
+      <boxes if={ showContainer('boxes') }></boxes>
+      <items if={ showContainer('items') }></items>
+      <search if={ showContainer('search') }></search>
+    </div>
 
   </div>
 
+  <div class="container">
+  <login if={ !state.isLoggedIn } data-riot-component></login>
+  </div>
+
   <script>
-    import  './style.css'
-    import Navigation from '../navigation/navigation.riot'
+    import './style.css'
+    import Login from '../login/login.riot'
+
     import Locations from '../../application/locations/locations.riot'
     import Location from '../../application/locations/location.riot'
     import Boxes from '../../application/boxes/boxes.riot'
     import Items from '../../application/items/items.riot'
     import Search from '../../application/search/search.riot'
 
-    let currentLocation = Navigation.exports.currentLocation
-    let rest = Navigation.exports.rest
 
-    console.log(rest)
 
+    function getController(url = "localhost#home") {
+      let controllerParams = []
+      let controller = 'home'
+
+      let urlParts = url.split('#')
+
+      if (urlParts.length > 1) {
+        controller = urlParts[1]
+      }
+
+      let controllerParts = controller.split('/')
+      if (controllerParts.length > 1) {
+        controller = controllerParts[0]
+        controllerParams = controllerParts.splice(1, controllerParts.length)
+      }
+
+      return {
+        name: controller,
+        params: controllerParams
+      }
+
+    }
+    const isLoggedIn = Login.exports.login()
+    const controller = getController(document.URL)
 
     export default {
       components: {
+        Login,
+
         Locations,
         Location,
         Boxes,
         Items,
         Search
       },
+
       state: {
-        showLocations: currentLocation == "locations",
-        showLocation: currentLocation == "location",
-        showBoxes: currentLocation == "boxes",
-        showItems: currentLocation == "items",
-        showSearch: currentLocation == "search"
+        controller: controller,
+        isLoggedIn: isLoggedIn
+      },
 
-      }
+      showContainer(controller) {
+        return this.state.controller.name == controller
+      },
+
+      navigationClick(e) {
+        let controller = getController(e.target.href)
+
+        this.update({
+          controller: controller
+        })
+      },
     }
-
   </script>
+
 </application>
