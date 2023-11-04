@@ -11,11 +11,11 @@
       </thead>
       <tbody>
 
-        <tr each={ location in locations } key={ location.id }>
+        <tr each={ location in state.locations } key={ location.id }>
           <td><a href="?location/{ location.id }">{ location.name }</a></td>
           <td>{ location.description }</td>
-          <td>{ location.boxes }</td>
-          <td>{ location.rating }</td>
+          <td>{ location.lenBoxes }</td>
+          <td>{ location.classification }</td>
         </tr>
 
       </tbody>
@@ -29,14 +29,22 @@
 
     import  './style.css'
     export default {
-      locations: [
-        { name: 'Keller', id: 0, description: "Feucht", boxes: 4, rating: 1},
-        { name: 'Estrich', id: 1, description: "Kalt", boxes: 17, rating: 2 },
-        { name: 'Büro', id: 2, description: "Kein Platz", boxes: 6, rating: 3 }
-      ],
+      
+      state: {
+            locations: [
+            { name: 'Keller', id: 0, description: "Feucht", lenBoxes: 4, classification: 1},
+            { name: 'Estrich', id: 1, description: "Kalt", lenBoxes: 17, classification: 2 },
+            { name: 'Büro', id: 2, description: "Kein Platz", lenBoxes: 6, classification: 3 }
+          ],
+      },
 
       onMounted() {
+        let target = this
         function reqListener() {
+          
+          target.update({
+            locations: JSON.parse(this.responseText)
+          })
           console.log(this.responseText);
         }
 
@@ -44,10 +52,6 @@
         req.addEventListener("load", reqListener);
         req.open("GET", "http://localhost:5000/locations");
         req.send();
-
-
-
-        this.update()
       }
     }
 
