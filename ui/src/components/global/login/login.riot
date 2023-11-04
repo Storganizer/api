@@ -1,6 +1,4 @@
-
 <login>
-
   <div class="row">
     <div if={ !state.login } class="hello column column-67">
       <h1><img width="35px" src="./storganizer-color-outline.png" /> Storganizer</h1>
@@ -17,20 +15,17 @@
       </div>
 
       <div class="row username">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
+        <input type="text" placeholder="Username" id="username" name="username">
       </div>
 
       <div class="row password">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
+        <input type="password" placeholder="only god and I knows"  id="password" name="password">
       </div>
 
       <div class="row">
         <button onclick={toggleUser}>login</button>
       </div>
     </div>
-
   </div>
 
   <script>
