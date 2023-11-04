@@ -1,0 +1,22 @@
+<locations-list>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <!-- <th>Description</th> -->
+          <th>Boxes</th>
+          <!-- <th>Classification</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr each={ element in props.locations } key={ element.id }>
+          <td>
+            <a href="?location/{ element.id }">{ element.name }</a>
+          </td>
+          <!-- <td>{ element.description }</td> -->
+          <td>{ element.lenBoxes }</td>
+          <!-- <td>{ element.classification }</td> -->
+        </tr>
+      </tbody>
+    </table>
+</locations-list>

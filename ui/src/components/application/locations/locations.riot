@@ -1,32 +1,13 @@
 <locations>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Boxes</th>
-          <th>Rating</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        <tr each={ location in state.locations } key={ location.id }>
-          <td>
-            <a href="?location/{ location.id }">{ location.name }</a>
-          </td>
-          <td>{ location.description }</td>
-          <td>{ location.lenBoxes }</td>
-          <td>{ location.classification }</td>
-        </tr>
-
-      </tbody>
-    </table>
-
+    <locations-list locations={ state.locations }></locations-list>
   <script>
     import  './style.css'
+    import LocationsList from '../../includes/list/locations.riot'
 
     export default {
+      components: {
+        LocationsList
+      },
       state: {
             locations: [],
       },

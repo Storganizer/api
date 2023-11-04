@@ -1,0 +1,18 @@
+<items-list>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr each={ element in props.items } key={ element.id }>
+          <td>
+            <a href="?item/{ element.id }">{ element.name }</a>
+          </td>
+          <td>{ element.amount }</td>
+        </tr>
+      </tbody>
+    </table>
+</items-list>

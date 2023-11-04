@@ -7,29 +7,16 @@
 
 
     <h2>Boxes</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Items</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        <tr each={ box in state.location.boxes } key={ box.id }>
-          <td>
-            <a href="?box/{ box.id }">{ box.name }</a>
-          </td>
-          <td>{ box.lenItems }</td>
-        </tr>
-
-      </tbody>
-    </table>
+    <boxes-list boxes={ state.location.boxes }></boxes-list>
 
   <script>
     import  './style.css'
+    import BoxesList from '../../includes/list/boxes.riot'
 
     export default {
+      components: {
+        BoxesList
+      },
       state: {
             location: false,
       },

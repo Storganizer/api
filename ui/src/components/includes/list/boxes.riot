@@ -1,0 +1,20 @@
+<boxes-list>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <!-- <th>Description</th> -->
+          <th>Items</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr each={ element in props.boxes } key={ element.id }>
+          <td>
+            <a href="?box/{ element.id }">{ element.name }</a>
+          </td>
+          <!-- <td>{ element.description }</td> -->
+          <td>{ element.lenItems }</td>
+        </tr>
+      </tbody>
+    </table>
+</boxes-list>
