@@ -40,7 +40,8 @@ class Base(DeclarativeBase):
 
                     items = []
                     for item in attribute:
-                        items.append(item.getDataTransferObject())
+                        if hasattr(item, 'getDataTransferObject'):
+                            items.append(item.getDataTransferObject())
 
                     attribute = items
 

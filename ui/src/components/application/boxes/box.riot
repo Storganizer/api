@@ -1,6 +1,6 @@
 <box>
     <h2>Box</h2>
-    <p>Name: <b>{ state.box.name }</b></p>
+    <b>{ state.box.name }</b>
     <p>Location: <a if={ state.box.location } href="?location/{ state.box.location.id }">{ state.box.location.name }</a></p>
 
     <h2>Items</h2>
@@ -31,7 +31,7 @@
             box: false,
       },
 
-      fetchLocation() {
+      fetchBox() {
         if (this.state.box == false) {
 
           let target = this
@@ -50,7 +50,7 @@
       },
 
       onMounted() {
-        this.fetchLocation()
+        this.fetchBox()
       }
     }
 

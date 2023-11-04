@@ -1,17 +1,19 @@
 <item>
     <h2>Item</h2>
-    <p>Name: <b>{ state.item.name }</b></p>
-    <p>Box: <a if={ state.item.box } href="?location/{ state.item.box.id }">{ state.item.box.name }</a></p>
+    <b>{ state.item.name }</b>
+    <p>Description: { state.item.description }</p>
+    <p>Amount: { state.item.amount }</p>
+    <p>Box: <a if={ state.item.box } href="?box/{ state.item.box.id }">{ state.item.box.name }</a></p>
   <script>
     import  './style.css'
 
     export default {
       state: {
-            box: false,
+            item: false,
       },
 
-      fetchLocation() {
-        if (this.state.box == false) {
+      fetchItem() {
+        if (this.state.item == false) {
 
           let target = this
           function reqListener() {
@@ -27,7 +29,7 @@
       },
 
       onMounted() {
-        this.fetchLocation()
+        this.fetchItem()
       }
     }
 
