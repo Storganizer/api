@@ -1,46 +1,37 @@
 <application>  
-  <div class="application container">
-    Hoi { state.user }, weiter gehts zu { state.currentLocation }</div>
+  <div id="application" class="container">
+    
+    <locations if={ state.showLocations }></locations>
+    <boxes if={ state.showBoxes }></boxes>
+    <items if={ state.showItems }></items>
+    <search if={ state.showSearch }></search>
+
   </div>
 
   <script>
     import  './style.css'
-    import  Navigation from '../navigation/navigation.riot'
+    import Navigation from '../navigation/navigation.riot'
+    import Locations from '../../application/locations/locations.riot'
+    import Boxes from '../../application/boxes/boxes.riot'
+    import Items from '../../application/items/items.riot'
+    import Search from '../../application/search/search.riot'
 
     let currentLocation = Navigation.exports.currentLocation
 
-    switch (currentLocation) {
-        case "app":
-          console.log("Application: APP")
-          break
-        case "locations":
-        case "location":
-          console.log("Application: LOCATION")
-          break
-
-        case "boxes":
-        case "box":
-          console.log("Application: BOXES")
-          break
-
-        case "items":
-        case "item":
-          console.log("Application: ITEMS")
-          break
-
-        case "search":
-          console.log("Application: SEARCH")
-          break
-
-        default:
-          console.log('whatever ' + currentLocation)
-          break
-    }
 
     export default {
+      components: {
+        Locations,
+        Boxes,
+        Items,
+        Search
+      },
       state: {
-        user: 'Claudio',
-        currentLocation: currentLocation
+        showLocations: currentLocation == "locations",
+        showBoxes: currentLocation == "boxes",
+        showItems: currentLocation == "items",
+        showSearch: currentLocation == "search"
+
       }
     }
 
