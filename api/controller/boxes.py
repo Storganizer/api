@@ -79,7 +79,7 @@ class Box(Resource):
         """
         box = session.query(ModelBox).get(id)
         if box:
-          return box.getDataTransferObject(["items"])
+          return box.getDataTransferObject(['items', 'location'])
 
         return ["Box not found"]
 

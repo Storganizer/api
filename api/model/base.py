@@ -44,10 +44,11 @@ class Base(DeclarativeBase):
 
                     attribute = items
 
-                setattr(dto, dtoColumn, attribute)
+                if isinstance(attribute, object) and hasattr(attribute, 'getDataTransferObject'):
+                    attribute = attribute.getDataTransferObject()
 
-                #print("Get Type of" + dtoColumn)
-                #pprint(type(getattr(self, dtoColumn)))
+
+                setattr(dto, dtoColumn, attribute)
 
 
         return dto.__dict__
