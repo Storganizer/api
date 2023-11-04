@@ -1,38 +1,64 @@
 <location>
+    <h2>Location</h2>
 
+    <p>Name: <b>{ state.location.name }</b></p>
+    <p>Description: <b>{ state.location.description }</b></p>
+    <p>Rating: <b>{ state.location.classification }</b></p>
+
+
+    <h2>Boxes</h2>
     <table>
       <thead>
         <tr>
           <th>Name</th>
-          <th>Description</th>
-          <th>Boxes</th>
-          <th>Rating</th>
+          <th>Items</th>
         </tr>
       </thead>
       <tbody>
 
-        <tr each={ location in locations } key={ location.id }>
-          <td><a href="?location/{ location.id }">{ location.name }</a></td>
-          <td>{ location.description }</td>
-          <td>{ location.boxes }</td>
-          <td>{ location.rating }</td>
+        <tr each={ box in state.location.boxes } key={ box.id }>
+          <td>
+            <a href="?box/{ box.id }">{ box.name }</a>
+          </td>
+          <td>{ box.lenItems }</td>
         </tr>
 
       </tbody>
     </table>
 
-
-
   <script>
     import  './style.css'
+
     export default {
-      locations: [
-        { name: 'Keller', id: 0, description: "Feucht", boxes: 4, rating: 1},
-      ]
+      state: {
+            location: false,
+      },
+
+      fetchLocation() {
+        console.log(this)
+        if (this.state.location == false) {
+
+          let target = this
+          function reqListener() {
+            console.log(JSON.parse(this.responseText))
+            target.update({
+              location: JSON.parse(this.responseText)
+            })
+          }
+
+          const req = new XMLHttpRequest();
+          req.addEventListener("load", reqListener);
+          req.open("GET", "http://localhost:5000/location/" + this.props.params[0]);
+          req.send();
+
+        }
+      },
+
+      onMounted() {
+        this.fetchLocation()
+      }
     }
 
   </script>
-
-
 
 </location>

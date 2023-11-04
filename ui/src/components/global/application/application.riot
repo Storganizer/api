@@ -1,33 +1,31 @@
 <application>
-
   <div if={ state.isLoggedIn }>
-
     <div class="header">
       <a href="#app" class="logo"><img width="20px" src="./storganizer-color-outline.png" /> Storganizer</a>
       <input class="menu-btn" type="checkbox" id="menu-btn" />
       <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
       <ul class="menu">
-        <li><a onclick={navigationClick} href='#locations'>Locations</a></li>
-        <li><a onclick={navigationClick} href='#boxes'>Boxes</a></li>
-        <li><a onclick={navigationClick} href='#items'>Items</a></li>
-        <li><a onclick={navigationClick} href='#search'>Search</a></li>
+        <li><a href='?locations'>Locations</a></li>
+        <li><a href='?boxes'>Boxes</a></li>
+        <li><a href='?items'>Items</a></li>
+        <li><a href='?search'>Search</a></li>
       </ul>
     </div>
 
     <div class="clearfix" />
 
     <div class="application-body container">
-      <locations if=if={ showContainer('locations') }></locations>
-      <location if={ showContainer('location') }></location>
-      <boxes if={ showContainer('boxes') }></boxes>
-      <items if={ showContainer('items') }></items>
-      <search if={ showContainer('search') }></search>
+      <locations params={ state.controller.params } if={ canShowContainer('locations') }></locations>
+      <location params={ state.controller.params } if={ canShowContainer('location') }></location>
+      <boxes params={ state.controller.params } if={ canShowContainer('boxes') }></boxes>
+      <box params={ state.controller.params } if={ canShowContainer('box') }></box>
+      <items params={ state.controller.params } if={ canShowContainer('items') }></items>
+      <search params={ state.controller.params } if={ canShowContainer('search') }></search>
     </div>
-
   </div>
 
-  <div class="container">
-  <login if={ !state.isLoggedIn } data-riot-component></login>
+  <div if={ !state.isLoggedIn } class="container">
+  <login data-riot-component></login>
   </div>
 
   <script>
@@ -37,16 +35,17 @@
     import Locations from '../../application/locations/locations.riot'
     import Location from '../../application/locations/location.riot'
     import Boxes from '../../application/boxes/boxes.riot'
+    import Box from '../../application/boxes/box.riot'
     import Items from '../../application/items/items.riot'
     import Search from '../../application/search/search.riot'
 
 
 
-    function getController(url = "localhost#home") {
+    function getController(url = "localhost?home") {
       let controllerParams = []
       let controller = 'home'
 
-      let urlParts = url.split('#')
+      let urlParts = url.split('?')
 
       if (urlParts.length > 1) {
         controller = urlParts[1]
@@ -62,18 +61,18 @@
         name: controller,
         params: controllerParams
       }
-
     }
+
     const isLoggedIn = Login.exports.login()
     const controller = getController(document.URL)
 
     export default {
       components: {
         Login,
-
         Locations,
         Location,
         Boxes,
+        Box,
         Items,
         Search
       },
@@ -83,17 +82,9 @@
         isLoggedIn: isLoggedIn
       },
 
-      showContainer(controller) {
+      canShowContainer(controller) {
         return this.state.controller.name == controller
-      },
-
-      navigationClick(e) {
-        let controller = getController(e.target.href)
-
-        this.update({
-          controller: controller
-        })
-      },
+      }
     }
   </script>
 

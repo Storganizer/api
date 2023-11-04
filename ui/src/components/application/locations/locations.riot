@@ -12,7 +12,9 @@
       <tbody>
 
         <tr each={ location in state.locations } key={ location.id }>
-          <td><a href="#location/{ location.id }">{ location.name }</a></td>
+          <td>
+            <a href="?location/{ location.id }">{ location.name }</a>
+          </td>
           <td>{ location.description }</td>
           <td>{ location.lenBoxes }</td>
           <td>{ location.classification }</td>
