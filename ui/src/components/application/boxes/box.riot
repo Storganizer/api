@@ -1,0 +1,58 @@
+<box>
+    <h2>Box</h2>
+    <p>Name: <b>{ state.box.name }</b></p>
+
+    <h2>Items</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr each={ item in state.box.items } key={ item.id }>
+          <td><a href="?item/{ item.id }">{ item.name }</a></td>
+          <td>{ item.description }</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  <script>
+    import  './style.css'
+
+    export default {
+      state: {
+            box: false,
+      },
+
+      fetchLocation() {
+        console.log(this)
+        if (this.state.box == false) {
+
+          let target = this
+          function reqListener() {
+            console.log(JSON.parse(this.responseText))
+            target.update({
+              box: JSON.parse(this.responseText)
+            })
+          }
+
+          const req = new XMLHttpRequest();
+          req.addEventListener("load", reqListener);
+          req.open("GET", "http://localhost:5000/box/" + this.props.params[0]);
+          req.send();
+
+        }
+      },
+
+      onMounted() {
+        this.fetchLocation()
+      }
+    }
+
+  </script>
+
+</box>
