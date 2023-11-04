@@ -1,6 +1,7 @@
 <box>
     <h2>Box</h2>
     <p>Name: <b>{ state.box.name }</b></p>
+    <p>Location: <a if={ state.box.location } href="?location/{ state.box.location.id }">{ state.box.location.name }</a></p>
 
     <h2>Items</h2>
     <table>
@@ -8,6 +9,7 @@
         <tr>
           <th>Name</th>
           <th>Description</th>
+          <th>Amount</th>
         </tr>
       </thead>
       <tbody>
@@ -15,6 +17,7 @@
         <tr each={ item in state.box.items } key={ item.id }>
           <td><a href="?item/{ item.id }">{ item.name }</a></td>
           <td>{ item.description }</td>
+          <td>{ item.amount }</td>
         </tr>
 
       </tbody>
@@ -29,12 +32,10 @@
       },
 
       fetchLocation() {
-        console.log(this)
         if (this.state.box == false) {
 
           let target = this
           function reqListener() {
-            console.log(JSON.parse(this.responseText))
             target.update({
               box: JSON.parse(this.responseText)
             })

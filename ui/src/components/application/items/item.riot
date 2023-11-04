@@ -1,0 +1,36 @@
+<item>
+    <h2>Item</h2>
+    <p>Name: <b>{ state.item.name }</b></p>
+    <p>Box: <a if={ state.item.box } href="?location/{ state.item.box.id }">{ state.item.box.name }</a></p>
+  <script>
+    import  './style.css'
+
+    export default {
+      state: {
+            box: false,
+      },
+
+      fetchLocation() {
+        if (this.state.box == false) {
+
+          let target = this
+          function reqListener() {
+            target.update({
+              item: JSON.parse(this.responseText)
+            })
+          }
+          const req = new XMLHttpRequest();
+          req.addEventListener("load", reqListener);
+          req.open("GET", "http://localhost:5000/item/" + this.props.params[0]);
+          req.send();
+        }
+      },
+
+      onMounted() {
+        this.fetchLocation()
+      }
+    }
+
+  </script>
+
+</item>

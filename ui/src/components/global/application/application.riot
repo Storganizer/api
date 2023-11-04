@@ -1,13 +1,13 @@
 <application>
   <div if={ state.isLoggedIn }>
     <div class="header">
-      <a href="#app" class="logo"><img width="20px" src="./storganizer-color-outline.png" /> Storganizer</a>
+      <a href="/" class="logo"><img width="20px" src="./storganizer-color-outline.png" /> Storganizer</a>
       <input class="menu-btn" type="checkbox" id="menu-btn" />
       <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
       <ul class="menu">
-        <li><a href='?locations'>Locations</a></li>
+<!--         <li><a href='?locations'>Locations</a></li>
         <li><a href='?boxes'>Boxes</a></li>
-        <li><a href='?items'>Items</a></li>
+        <li><a href='?items'>Items</a></li> -->
         <li><a href='?search'>Search</a></li>
       </ul>
     </div>
@@ -17,9 +17,8 @@
     <div class="application-body container">
       <locations params={ state.controller.params } if={ canShowContainer('locations') }></locations>
       <location params={ state.controller.params } if={ canShowContainer('location') }></location>
-      <boxes params={ state.controller.params } if={ canShowContainer('boxes') }></boxes>
       <box params={ state.controller.params } if={ canShowContainer('box') }></box>
-      <items params={ state.controller.params } if={ canShowContainer('items') }></items>
+      <item params={ state.controller.params } if={ canShowContainer('item') }></item>
       <search params={ state.controller.params } if={ canShowContainer('search') }></search>
     </div>
   </div>
@@ -34,16 +33,15 @@
 
     import Locations from '../../application/locations/locations.riot'
     import Location from '../../application/locations/location.riot'
-    import Boxes from '../../application/boxes/boxes.riot'
     import Box from '../../application/boxes/box.riot'
-    import Items from '../../application/items/items.riot'
+    import Item from '../../application/items/item.riot'
     import Search from '../../application/search/search.riot'
 
 
 
-    function getController(url = "localhost?home") {
+    function getController(url = "localhost?locations") {
       let controllerParams = []
-      let controller = 'home'
+      let controller = 'locations'
 
       let urlParts = url.split('?')
 
@@ -71,9 +69,8 @@
         Login,
         Locations,
         Location,
-        Boxes,
         Box,
-        Items,
+        Item,
         Search
       },
 

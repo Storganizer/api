@@ -35,12 +35,10 @@
       },
 
       fetchLocation() {
-        console.log(this)
         if (this.state.location == false) {
 
           let target = this
           function reqListener() {
-            console.log(JSON.parse(this.responseText))
             target.update({
               location: JSON.parse(this.responseText)
             })
