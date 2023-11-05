@@ -12,6 +12,7 @@
     import  './style.css'
     import BoxesList from '../../includes/list/boxes.riot'
 
+
     export default {
       components: {
         BoxesList
@@ -21,6 +22,7 @@
       },
 
       fetchLocation() {
+        console.log(this)
         if (this.state.location == false) {
           let target = this
           function reqListener() {
@@ -31,7 +33,7 @@
 
           const req = new XMLHttpRequest();
           req.addEventListener("load", reqListener);
-          req.open("GET", "http://10.1.1.79:5000/location/" + this.props.params[0]);
+          req.open("GET", "http://10.1.1.179:5000/location/" + this.props.params[0]);
           req.send();
 
         }

@@ -5,10 +5,10 @@
       <input class="menu-btn" type="checkbox" id="menu-btn" />
       <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
       <ul class="menu">
-        <li><a href='?locations'>Locations</a></li>
-        <li><a href='?boxes'>Boxes</a></li>
-        <li><a href='?items'>Items</a></li>
-        <li><a href='?search'>Search</a></li>
+        <li><a href="#locations">Locations</a></li>
+        <li><a href="#boxes">Boxes</a></li>
+        <li><a href="#items">Items</a></li>
+        <li><a href="#search">Search</a></li>
       </ul>
     </div>
 
@@ -38,12 +38,11 @@
     import Search from '../../application/search/search.riot'
 
 
-
-    function getController(url = "localhost?locations") {
+    function getController(url = "localhost#locations") {
       let controllerParams = []
       let controller = 'locations'
 
-      let urlParts = url.split('?')
+      let urlParts = url.split('#')
 
       if (urlParts.length > 1) {
         controller = urlParts[1]
@@ -72,6 +71,12 @@
         Box,
         Item,
         Search
+      },
+
+      onMounted() {
+        if (this.dataStore) {
+          console.log(this.dataStore.getLocations())
+        }
       },
 
       state: {
