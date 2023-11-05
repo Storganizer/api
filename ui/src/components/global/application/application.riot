@@ -37,8 +37,8 @@
     import Item from '../../application/items/item.riot'
     import Search from '../../application/search/search.riot'
 
-
-    function getController(url = "localhost#locations") {
+    //this.initApplication = true
+    function parseUrl(url = "localhost#locations") {
       let controllerParams = []
       let controller = 'locations'
 
@@ -61,9 +61,14 @@
     }
 
     const isLoggedIn = Login.exports.login()
-    const controller = getController(document.URL)
+    const controller = parseUrl(document.URL)
 
     export default {
+      state: {
+        controller: controller,
+        isLoggedIn: isLoggedIn
+      },
+
       components: {
         Login,
         Locations,
@@ -73,15 +78,27 @@
         Search
       },
 
+      getController(url) {
+        return parseUrl(url)
+      },
+
+      initialize() {
+        //riot.mount('application', Application)
+        let target = this
+        document.addEventListener("click", function(e){
+          if (e.target.href) {
+            target.update({
+              controller: target.getController(e.target.href)
+            })
+          }
+        })
+      },
+
       onMounted() {
+        this.initialize()
         if (this.dataStore) {
           console.log(this.dataStore.getLocations())
         }
-      },
-
-      state: {
-        controller: controller,
-        isLoggedIn: isLoggedIn
       },
 
       canShowContainer(controller) {
@@ -89,5 +106,4 @@
       }
     }
   </script>
-
 </application>
