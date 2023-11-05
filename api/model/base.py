@@ -11,10 +11,12 @@ class Base(DeclarativeBase):
     schema = None
     dtoColumns = ["id"]
     
-    def getDataTransferObject(self, additionalColumns: list = []) -> object:
+    def getDataTransferObject(self, additionalColumns: list = [], isRecursive: bool = False) -> object:
         dto = DataTransferObject()
         self.dtoColumns =  self.dtoColumns + additionalColumns
+
         for dtoColumn in self.dtoColumns:
+
 
             if " " in dtoColumn:
                 parts = dtoColumn.split()
@@ -27,29 +29,30 @@ class Base(DeclarativeBase):
                     case "len":
                         setattr(dto, func + dtoColumn.capitalize(), len(getattr(self, dtoColumn)))
                     case "url":
-                        #setattr(dto, func, dtoColumn.format(getattr(self, "id")))
-                        id = 2
                         setattr(dto, func, dtoColumn.replace("{id}", str(getattr(self, "id"))))
                     case _:
                         pass
 
             else:
                 attribute = getattr(self, dtoColumn)
-
+                # children elements
                 if type(attribute) is InstrumentedList:
-
                     items = []
                     for item in attribute:
-                        if hasattr(item, 'getDataTransferObject'):
-                            items.append(item.getDataTransferObject())
+                        if not isRecursive and isinstance(item, Base) and hasattr(item, 'getDataTransferObject'):
+                            items.append(item.getDataTransferObject(isRecursive = True))
 
                     attribute = items
 
-                if isinstance(attribute, object) and hasattr(attribute, 'getDataTransferObject'):
-                    attribute = attribute.getDataTransferObject()
+
+                # parent elements
+                if not isRecursive and isinstance(attribute, Base) and hasattr(attribute, 'getDataTransferObject'):
+                     attribute = attribute.getDataTransferObject(isRecursive = True)
 
 
-                setattr(dto, dtoColumn, attribute)
+
+                if not isinstance(attribute, Base) and not hasattr(attribute, 'getDataTransferObject'):
+                    setattr(dto, dtoColumn, attribute)
 
 
         return dto.__dict__
