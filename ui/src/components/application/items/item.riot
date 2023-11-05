@@ -1,7 +1,6 @@
 <item>
-    <h2>Item</h2>
-    <b>{ state.item.name }</b>
-    <p>Description: { state.item.description }</p>
+    <h2>{ state.item.name }</h2>
+    <p>{ state.item.description }</p>
     <p>Amount: { state.item.amount }</p>
     <p>Box: <a if={ state.item.box } href="?box/{ state.item.box.id }">{ state.item.box.name }</a></p>
   <script>
