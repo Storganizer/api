@@ -1,8 +1,7 @@
 <box>
-    <h2>{ state.box.name }</h2>
-    <p if={ state.location }>Location: <a href="#location/{ state.location.id }">{ state.location.name }</a></p>
+    <h2>📦 { state.box.name }</h2>
+    <p if={ state.location }><b>Location: </b><a href="#location/{ state.location.id }">{ state.location.name }</a></p>
 
-    <h2>Items</h2>
     <items-list items={ state.items }></items-list>
 
   <script>

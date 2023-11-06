@@ -1,41 +1,40 @@
 <item>
-    <h2>{ state.item.name }</h2>
+    <h2>🛠️ { state.item.name }</h2>
     <p>{ state.item.description }</p>
-    <p if={ state.item.boxId }>Box: <a href="#box/{ state.box.id }">{ state.box.name }</a></p>
-
-
+    <p if={ state.box.id }><b>Box: </b><a href="#box/{ state.box.id }">{ state.box.name }</a></p>
+    <p if={ state.location.id }><b>Location: </b><a href="#location/{ state.location.id }">{ state.location.name }</a></p>
   <script>
     import  './style.css'
-    import ItemsList from '../../includes/list/items.riot'
 
     export default {
-      components: {
-        ItemsList
-      },
       state: {
         item: false,
         box: false,
+        location: false
       },
 
       loadData() {
         let target = this
         if (window.dataStore) {
-          
+
           // get item by id
           window.dataStore.items.getItemById(this.props.params[0], function(data) {
             let itemData = data
             // get parent box by id
             window.dataStore.boxes.getBoxById(itemData.boxId, function(data) {
-              target.update({
-                item: itemData,
-                box: data
+              let boxData = data
+              // get parent location by id
+              window.dataStore.locations.getLocationById(boxData.locationId, function(data) {
+                target.update({
+                  item: itemData,
+                  box: boxData,
+                  location: data,
+
+                })
               })
+
             })
           })
-
-
-
-
         }
       },
 

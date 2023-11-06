@@ -1,0 +1,10 @@
+.search {
+    position: fixed;
+    top: 20px;
+    width: inherit;
+    z-index: 5;
+}
+
+.results {
+    padding-top: 60px;
+}

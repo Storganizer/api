@@ -1,19 +1,11 @@
 <search>
 
-  <h2>Search</h2>
-  <div class="row search">
-    <input onkeyup={typeahead} type="text" placeholder="search" id="search" name="search">
-  </div>
+  <div class="search"><input onkeyup={typeahead} type="text" placeholder="🔍 search" id="search" name="search"></div>
 
   <div class="results">
-    <h2>Locations</h2>
-    <locations-list locations={ state.locations }></locations-list>
-
-    <h2>Boxes</h2>
-    <boxes-list boxes={ state.boxes }></boxes-list>
-
-    <h2>Items</h2>
-    <items-list items={ state.items }></items-list>
+    <locations-list if={ state.locations.length } locations={ state.locations }></locations-list>
+    <boxes-list if={ state.boxes.length }  boxes={ state.boxes }></boxes-list>
+    <items-list if={ state.items.length }  items={ state.items }></items-list>
   </div>
 
   <script>
