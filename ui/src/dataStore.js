@@ -2,29 +2,29 @@
 export default {
   locations: false,
 
-  getLocations() {
-    /*if (!this.locations) {
-      this.fetchLocations()
+  getLocations(callback) {
+    console.log('go for it')
+    if (!this.locations) {
+      this.fetchLocations(callback)
+      return false
     }
 
-    return this.locations*/
+    callback(this.locations)
+    return true
   },
 
-  async fetchLocations() {
-    /*try {
-      const res = await fetch(`http://10.1.1.79:5000/locations`);
-      this.locations = await res.json();
-    } catch (error) {
-      console.log({ error });
-    }*/
+  fetchLocations(callback) {
+    if (this.locations == false) {
+
+      function reqListener() {
+        callback(JSON.parse(this.responseText))
+      }
+
+      const req = new XMLHttpRequest();
+      req.addEventListener("load", reqListener);
+      req.open("GET", "http://localhost:5000/locations");
+      req.send();
+    }
   },
 
-  loadLocations() {
-/*    this.locations = [{
-      name: 'test',
-      description: 'super',
-      classification: 1
-    }]
-    return true*/
-  }
 }

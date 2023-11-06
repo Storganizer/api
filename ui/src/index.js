@@ -4,6 +4,7 @@ import * as riot from 'riot'
 import registerGlobalComponents from './register-global-components'
 import dataStore from './dataStore'
 
+window.dataStore = dataStore
 // register
 registerGlobalComponents()
 
