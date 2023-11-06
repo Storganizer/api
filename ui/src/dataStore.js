@@ -15,9 +15,11 @@ export default {
 
   fetchLocations(callback) {
     if (this.locations == false) {
-
+      let target = this
       function reqListener() {
-        callback(JSON.parse(this.responseText))
+        let jsonResponse = JSON.parse(this.responseText)
+        target.locations = jsonResponse
+        callback(jsonResponse)
       }
 
       const req = new XMLHttpRequest();
