@@ -1,23 +1,23 @@
-<locations>
-    <locations-list locations={ state.locations }></locations-list>
+<boxes>
+    <boxes-list boxes={ state.boxes }></boxes-list>
   <script>
     import  './style.css'
-    import LocationsList from '../../includes/list/locations.riot'
+    import BoxesList from '../../includes/list/boxes.riot'
 
     export default {
       components: {
-        LocationsList
+        BoxesList
       },
       state: {
-        locations: [],
+        boxes: [],
       },
 
       loadData() {
         let target = this
         if (window.dataStore) {
-          window.dataStore.locations.getLocations(function(data){
+          window.dataStore.boxes.getBoxes(function(data){
             target.update({
-              locations: data
+              boxes: data
             })
           })
         }
@@ -32,4 +32,4 @@
 
 
 
-</locations>
+</boxes>

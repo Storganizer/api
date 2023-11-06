@@ -6,7 +6,7 @@
 
 
     <h2>Boxes</h2>
-    <boxes-list boxes={ state.location.boxes }></boxes-list>
+    <boxes-list boxes={ state.boxes }></boxes-list>
 
   <script>
     import  './style.css'
@@ -18,31 +18,34 @@
         BoxesList
       },
       state: {
-            location: false,
+        location: false,
+        boxes: [],
       },
 
-      fetchLocation() {
-        if (this.state.location == false) {
-          let target = this
-          function reqListener() {
+      loadData() {
+        let target = this
+        if (window.dataStore) {
+          
+          window.dataStore.locations.getLocationById(this.props.params[0], function(data) {
             target.update({
-              location: JSON.parse(this.responseText)
+              location: data
             })
-          }
+          })
 
-          const req = new XMLHttpRequest();
-          req.addEventListener("load", reqListener);
-          req.open("GET", "http://localhost:5000/location/" + this.props.params[0]);
-          req.send();
+          window.dataStore.boxes.getBoxesByLocationId(this.props.params[0], function(data) {
+            console.log(data)
 
+            target.update({
+              boxes: data
+            })
+          })
         }
       },
 
       onMounted() {
-        this.fetchLocation()
+        this.loadData()
       }
     }
-
   </script>
 
 </location>

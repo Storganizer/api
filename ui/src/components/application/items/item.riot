@@ -1,37 +1,48 @@
 <item>
     <h2>{ state.item.name }</h2>
     <p>{ state.item.description }</p>
-    <p>Amount: { state.item.amount }</p>
-    <p>Box: <a if={ state.item.box } href="#box/{ state.item.box.id }">{ state.item.box.name }</a></p>
+    <p if={ state.item.boxId }>Box: <a href="#box/{ state.box.id }">{ state.box.name }</a></p>
+
+
   <script>
     import  './style.css'
+    import ItemsList from '../../includes/list/items.riot'
 
     export default {
+      components: {
+        ItemsList
+      },
       state: {
-            item: false,
+        item: false,
+        box: false,
       },
 
-      fetchItem() {
-        if (this.state.item == false) {
-
-          let target = this
-          function reqListener() {
-            target.update({
-              item: JSON.parse(this.responseText)
+      loadData() {
+        let target = this
+        if (window.dataStore) {
+          
+          // get item by id
+          window.dataStore.items.getItemById(this.props.params[0], function(data) {
+            let itemData = data
+            // get parent box by id
+            window.dataStore.boxes.getBoxById(itemData.boxId, function(data) {
+              target.update({
+                item: itemData,
+                box: data
+              })
             })
-          }
-          const req = new XMLHttpRequest();
-          req.addEventListener("load", reqListener);
-          req.open("GET", "http://localhost:5000/item/" + this.props.params[0]);
-          req.send();
+          })
+
+
+
+
         }
       },
 
       onMounted() {
-        this.fetchItem()
+        this.loadData()
       }
     }
-
   </script>
 
 </item>

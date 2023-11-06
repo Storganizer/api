@@ -1,9 +1,9 @@
 <box>
     <h2>{ state.box.name }</h2>
-    <p>Location: <a if={ state.box.location } href="#location/{ state.box.location.id }">{ state.box.location.name }</a></p>
+    <p if={ state.location }>Location: <a href="#location/{ state.location.id }">{ state.location.name }</a></p>
 
     <h2>Items</h2>
-    <items-list items={ state.box.items }></items-list>
+    <items-list items={ state.items }></items-list>
 
   <script>
     import  './style.css'
@@ -14,32 +14,39 @@
         ItemsList
       },
       state: {
-            box: false,
+        box: false,
+        location: false,
+        items: false,
       },
 
-      fetchBox() {
-        if (this.state.box == false) {
-
-          let target = this
-          function reqListener() {
-            target.update({
-              box: JSON.parse(this.responseText)
+      loadData() {
+        let target = this
+        if (window.dataStore) {
+          
+          window.dataStore.boxes.getBoxById(this.props.params[0], function(data) {
+            let boxData = data
+            // get parent location by id
+            window.dataStore.locations.getLocationById(boxData.locationId, function(data) {
+              target.update({
+                box: boxData,
+                location: data
+              })
             })
-          }
 
-          const req = new XMLHttpRequest();
-          req.addEventListener("load", reqListener);
-          req.open("GET", "http://localhost:5000/box/" + this.props.params[0]);
-          req.send();
+          })
 
+          window.dataStore.items.getItemsByBoxId(this.props.params[0], function(data) {
+            target.update({
+              items: data
+            })
+          })
         }
       },
 
       onMounted() {
-        this.fetchBox()
+        this.loadData()
       }
     }
-
   </script>
 
 </box>

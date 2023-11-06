@@ -17,7 +17,9 @@
     <div class="application-body container">
       <locations params={ state.controller.params } if={ canShowContainer('locations') }></locations>
       <location params={ state.controller.params } if={ canShowContainer('location') }></location>
+      <boxes params={ state.controller.params } if={ canShowContainer('boxes') }></boxes>
       <box params={ state.controller.params } if={ canShowContainer('box') }></box>
+      <items params={ state.controller.params } if={ canShowContainer('items') }></items>
       <item params={ state.controller.params } if={ canShowContainer('item') }></item>
       <search params={ state.controller.params } if={ canShowContainer('search') }></search>
     </div>
@@ -33,7 +35,9 @@
 
     import Locations from '../../application/locations/locations.riot'
     import Location from '../../application/locations/location.riot'
+    import Boxes from '../../application/boxes/boxes.riot'
     import Box from '../../application/boxes/box.riot'
+    import Items from '../../application/items/items.riot'
     import Item from '../../application/items/item.riot'
     import Search from '../../application/search/search.riot'
 
@@ -73,7 +77,9 @@
         Login,
         Locations,
         Location,
+        Boxes,
         Box,
+        Items,
         Item,
         Search
       },
