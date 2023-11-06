@@ -4,6 +4,36 @@ export default {
   locations: {
     locations: false,
 
+    search(string, callback) {
+      string = string.toLowerCase()
+      function filterByString(item) {
+        if (string == '') {
+          return true
+        }
+        let found = false
+
+        if (item.name && item.name.toLowerCase().includes(string)) {
+          found = true
+        }
+
+        if (item.description && item.description.toLowerCase().includes(string)) {
+          found = true
+        }
+
+        return found
+      }
+
+      if (!this.locations) {
+        this.fetchLocations(function(data) {
+          callback(data.filter(filterByString))
+        })
+        return false
+      }
+
+      callback(this.locations.filter(filterByString))
+      return true
+    },
+
     getLocationById(id, callback) {
       function filterByID(item) {
         if (Number.isFinite(item.id) && item.id == id) {
@@ -52,6 +82,37 @@ export default {
 
   boxes: {
     boxes: false,
+
+    search(string, callback) {
+      string = string.toLowerCase()
+      function filterByString(item) {
+        if (string == '') {
+          return true
+        }
+
+        let found = false
+
+        if (item.name && item.name.toLowerCase().includes(string)) {
+          found = true
+        }
+
+        if (item.description && item.description.toLowerCase().includes(string)) {
+          found = true
+        }
+
+        return found
+      }
+
+      if (!this.boxes) {
+        this.fetchBoxes(function(data) {
+          callback(data.filter(filterByString))
+        })
+        return false
+      }
+
+      callback(this.boxes.filter(filterByString))
+      return true
+    },
 
     getBoxById(id, callback) {
       function filterByID(item) {
@@ -121,6 +182,37 @@ export default {
 
   items: {
     items: false,
+
+    search(string, callback) {
+      string = string.toLowerCase()
+      function filterByString(item) {
+        if (string == '') {
+          return true
+        }
+
+        let found = false
+
+        if (item.name && item.name.toLowerCase().includes(string)) {
+          found = true
+        }
+
+        if (item.description && item.description.toLowerCase().includes(string)) {
+          found = true
+        }
+
+        return found
+      }
+
+      if (!this.items) {
+        this.fetchItems(function(data) {
+          callback(data.filter(filterByString))
+        })
+        return false
+      }
+
+      callback(this.items.filter(filterByString))
+      return true
+    },
 
     getItemById(id, callback) {
       function filterByID(item) {

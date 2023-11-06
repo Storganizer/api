@@ -1,10 +1,73 @@
 <search>
-  <p>Search</p>
+
+  <h2>Search</h2>
+  <div class="row search">
+    <input onkeyup={typeahead} type="text" placeholder="search" id="search" name="search">
+  </div>
+
+  <div class="results">
+    <h2>Locations</h2>
+    <locations-list locations={ state.locations }></locations-list>
+
+    <h2>Boxes</h2>
+    <boxes-list boxes={ state.boxes }></boxes-list>
+
+    <h2>Items</h2>
+    <items-list items={ state.items }></items-list>
+  </div>
 
   <script>
     import  './style.css'
-    
-    export default {}
 
+    import LocationsList from '../../includes/list/locations.riot'
+    import BoxesList from '../../includes/list/boxes.riot'
+    import ItemsList from '../../includes/list/items.riot'
+
+    export default {
+      components: {
+        LocationsList,
+        BoxesList,
+        ItemsList,
+      },
+
+      state: {
+        locations: [],
+        boxes: [],
+        items: [],
+      },
+
+      typeahead(e, allowEmpty = false) {
+        let searchString = e.target.value
+        this.search(searchString)
+      },
+
+      search(searchString, allowEmpty = false) {
+        let target = this
+        if (searchString.length >= 3 || allowEmpty) {
+          window.dataStore.locations.search(searchString, function(locations) {
+            target.update({
+              locations: locations
+            })
+          })
+
+          window.dataStore.boxes.search(searchString, function(boxes) {
+            target.update({
+              boxes: boxes
+            })
+          })
+
+          window.dataStore.items.search(searchString, function(items) {
+            target.update({
+              items: items
+            })
+          })
+        }
+      },
+
+      onMounted() {
+        this.search('', true)
+      }
+
+    }
   </script>
 </search>
