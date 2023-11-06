@@ -31,7 +31,7 @@ class Item(Base):
 
     __tablename__ = "item"
 
-    dtoColumns = ["id", "name", "description", "amount", "url /item/{id}"]
+    dtoColumns = ["id", "name", "description", "boxId", "amount", "url /item/{id}"]
 
 
     id          = Column("id", Integer, primary_key=True)

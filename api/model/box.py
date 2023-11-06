@@ -11,7 +11,7 @@ class Box(Base):
     __tablename__ = "box"
 
     #dtoColumns = ["id", "name", "description", "len items", "items"]
-    dtoColumns = ["id", "name", "len items", "url /box/{id}"]
+    dtoColumns = ["id", "name", "locationId", "len items", "url /box/{id}"]
 
 
     id          = Column("id", Integer, primary_key=True)

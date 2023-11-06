@@ -56,11 +56,12 @@ if __name__ == "__main__":
     for box in boxes['boxes']:
       box = boxes['boxes'][box]
       boxNotes = box['notes'] if 'notes' in box.keys() else ''
+      locationId = box['locationId'] if 'locationId' in box.keys() else 1
       boxEntry = Box(
         name=box['name'],
         description=boxNotes,
         lastAccess=func.now(),
-        locationId=1
+        locationId=locationId
       )
       session.add(boxEntry)
       session.commit()

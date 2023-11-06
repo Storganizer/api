@@ -6,7 +6,7 @@ from flask_restful import Resource
 
 
 class Boxes(Resource):
-    def get(self, location_id):
+    def get(self):
         """
         Fetch all boxes
         ---
@@ -47,10 +47,6 @@ class Boxes(Resource):
               $ref: '#/definitions/Box'
         """
         return [""]
-
-
-
-
 
 # Todo
 # shows a single todo item and lets you delete a todo item
