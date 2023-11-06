@@ -1,16 +1,18 @@
 <box>
     <h2>📦 { state.box.name }</h2>
     <p if={ state.location }><b>Location: </b><a href="#location/{ state.location.id }">{ state.location.name }</a></p>
-
+    <qr-code></qr-code>
     <items-list items={ state.items }></items-list>
 
   <script>
     import  './style.css'
+    import QrCode from '../../includes/helper/qr-code.riot'
     import ItemsList from '../../includes/list/items.riot'
 
     export default {
       components: {
-        ItemsList
+        QrCode,
+        ItemsList,
       },
       state: {
         box: false,

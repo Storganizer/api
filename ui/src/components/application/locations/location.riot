@@ -3,21 +3,24 @@
 
     <p>{ state.location.description }</p>
     <p>Classification: <b>{ state.location.classification }</b></p>
-
+    <qr-code></qr-code>
     <boxes-list boxes={ state.boxes }></boxes-list>
 
   <script>
     import  './style.css'
+    import QrCode from '../../includes/helper/qr-code.riot'
     import BoxesList from '../../includes/list/boxes.riot'
 
 
     export default {
       components: {
-        BoxesList
+        QrCode,
+        BoxesList,
       },
       state: {
         location: false,
         boxes: [],
+        showQr: true,
       },
 
       loadData() {
