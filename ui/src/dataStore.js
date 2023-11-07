@@ -1,5 +1,7 @@
+let endpoint = 'http://10.1.1.79:5000'
 
 export default {
+
 
   locations: {
     locations: false,
@@ -74,7 +76,7 @@ export default {
 
         const req = new XMLHttpRequest();
         req.addEventListener("load", reqListener);
-        req.open("GET", "http://localhost:5000/locations");
+        req.open("GET", endpoint + "/locations");
         req.send();
       }
     },
@@ -173,7 +175,7 @@ export default {
 
         const req = new XMLHttpRequest();
         req.addEventListener("load", reqListener);
-        req.open("GET", "http://localhost:5000/boxes");
+        req.open("GET", endpoint + "/boxes");
         req.send();
       }
     },
@@ -273,7 +275,7 @@ export default {
 
         const req = new XMLHttpRequest();
         req.addEventListener("load", reqListener);
-        req.open("GET", "http://localhost:5000/items");
+        req.open("GET", endpoint + "/items");
         req.send();
       }
     },

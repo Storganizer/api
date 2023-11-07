@@ -1,5 +1,5 @@
 <qr-code>
-  <p><button onclick={ toggleQr }>Show qr code</button></p>
+  <p><button onclick={ toggleQr }>Show QR code</button></p>
   <p><div id="location-qr"></div></p>
 
   <script>
@@ -7,12 +7,21 @@
     export default {
       toggleQr(e) {
         let element = document.getElementById("location-qr")
-        element.innerHTML = ''        
+        let codeUrl = document.URL
+        let urlParts = codeUrl.split('#')
+
+        element.innerHTML = ''
+        if (urlParts.length <= 1) {
+          e.target.innerHTML == 'QR code not available!'
+          return
+        }
+
+        codeUrl = `#${urlParts[1]}`
         
-        if (e.target.innerHTML == 'Show qr code') {
-          e.target.innerHTML = 'Hide qr code'
+        if (e.target.innerHTML == 'Show QR code') {
+          e.target.innerHTML = 'Hide QR code'
           var qrcode = new QRCode(element, {
-            text: document.URL,
+            text: codeUrl,
             width: 256,
             height: 256,
             colorDark : "#9b4dca",

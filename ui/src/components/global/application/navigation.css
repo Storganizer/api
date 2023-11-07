@@ -1,0 +1,101 @@
+/* navigation */
+.navigation ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.navigation ul li {
+  margin: 0;
+  padding: 0;
+  display: block;
+  padding: 5px;
+}
+
+/*
+.navigation li a {
+  display: block;
+  padding: 20px 20px;
+  border-right: 1px solid #f4f4f4;
+  text-decoration: none;
+}
+
+.navigation li a:hover,
+.navigation li a:active,
+.navigation .menu-btn:hover {
+  background-color: #f4f4f4;
+}
+
+.navigation .menu {
+  clear: both;
+  max-height: 0;
+  transition: max-height .2s ease-out;
+}
+
+/* menu icon * /
+
+.navigation .menu-icon {
+  cursor: pointer;
+  display: inline-block;
+  float: right;
+  padding: 28px 20px;
+  position: relative;
+  user-select: none;
+}
+
+.navigation .menu-icon .navicon {
+  background: #333;
+  display: block;
+  height: 2px;
+  position: relative;
+  transition: background .2s ease-out;
+  width: 18px;
+}
+
+.navigation .menu-icon .navicon:before,
+.navigation .menu-icon .navicon:after {
+  background: #333;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  transition: all .2s ease-out;
+  width: 100%;
+}
+
+.navigation .menu-icon .navicon:before {
+  top: 5px;
+}
+
+.navigation .menu-icon .navicon:after {
+  top: -5px;
+}
+
+/* navigation btn * /
+
+.navigation .menu-btn {
+  display: none;
+}
+
+.navigation .menu-btn:checked ~ .menu {
+  max-height: 240px;
+}
+
+.navigation .menu-btn:checked ~ .menu-icon .navicon {
+  background: transparent;
+}
+
+.navigation .menu-btn:checked ~ .menu-icon .navicon:before {
+  transform: rotate(-45deg);
+}
+
+.navigation .menu-btn:checked ~ .menu-icon .navicon:after {
+  transform: rotate(45deg);
+}
+
+.navigation .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
+.navigation .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
+  top: 0;
+}*/

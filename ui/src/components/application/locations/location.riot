@@ -34,8 +34,6 @@
           })
 
           window.dataStore.boxes.getBoxesByLocationId(this.props.params[0], function(data) {
-            console.log(data)
-
             target.update({
               boxes: data
             })

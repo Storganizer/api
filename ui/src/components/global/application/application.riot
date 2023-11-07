@@ -1,27 +1,64 @@
 <application>
   <div if={ state.isLoggedIn }>
+    
+
     <div class="header">
       <a href="/" class="logo"><img width="20px" src="./storganizer-logo.png" /> Storganizer</a>
-      <input class="menu-btn" type="checkbox" id="menu-btn" />
-      <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
-      <ul class="menu">
-        <li><a href="#locations">Locations</a></li>
-        <li><a href="#boxes">Boxes</a></li>
-        <li><a href="#items">Items</a></li>
-        <li><a href="#search">Search</a></li>
-      </ul>
     </div>
 
-    <div class="clearfix" />
 
-    <div class="application-body container">
-      <locations params={ state.controller.params } if={ canShowContainer('locations') }></locations>
-      <location params={ state.controller.params } if={ canShowContainer('location') }></location>
-      <boxes params={ state.controller.params } if={ canShowContainer('boxes') }></boxes>
-      <box params={ state.controller.params } if={ canShowContainer('box') }></box>
-      <items params={ state.controller.params } if={ canShowContainer('items') }></items>
-      <item params={ state.controller.params } if={ canShowContainer('item') }></item>
-      <search params={ state.controller.params } if={ canShowContainer('search') }></search>
+
+
+
+
+
+<!--     <div class="text-sm breadcrumbs">
+      <ul>
+        <li>
+          <a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 mr-2 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+            Home
+          </a>
+        </li> 
+        <li>
+          <a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 mr-2 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+            Documents
+          </a>
+        </li> 
+        <li>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 mr-2 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          Add Document
+        </li>
+      </ul>
+    </div> -->
+
+
+
+
+
+
+    <div class="row application-body">
+      <div class="column column-10 navigation">
+        <ul class="menu">
+          <li><a href="#locations">Locations</a></li>
+          <li><a href="#boxes">Boxes</a></li>
+          <li><a href="#items">Items</a></li>
+          <li><a href="#search">Search</a></li>
+        </ul>
+      </div>
+
+      <div class="column column-90">
+        <div class="application-body container">
+          <locations params={ state.controller.params } if={ canShowContainer('locations') }></locations>
+          <location params={ state.controller.params } if={ canShowContainer('location') }></location>
+          <boxes params={ state.controller.params } if={ canShowContainer('boxes') }></boxes>
+          <box params={ state.controller.params } if={ canShowContainer('box') }></box>
+          <items params={ state.controller.params } if={ canShowContainer('items') }></items>
+          <item params={ state.controller.params } if={ canShowContainer('item') }></item>
+          <search params={ state.controller.params } if={ canShowContainer('search') }></search>
+        </div>      
+      </div>
     </div>
   </div>
 
@@ -31,6 +68,7 @@
 
   <script>
     import './style.css'
+    import './navigation.css'
     import Login from '../login/login.riot'
 
     import Locations from '../../application/locations/locations.riot'
@@ -92,9 +130,13 @@
         //riot.mount('application', Application)
         let target = this
         document.addEventListener("click", function(e){
-          if (e.target.href) {
+          if (e.target.dataset) {
+            console.log(e.target.dataset)
+          }
+          let href = e.target.href ? e.target.href : e.target.dataset.href
+          if (href) {
             target.update({
-              controller: target.getController(e.target.href)
+              controller: target.getController(href)
             })
           }
         })
