@@ -1,6 +1,6 @@
 <box>
     <h2>📦 { state.box.name }</h2>
-    <p if={ state.location }><b>Location: </b><a onclick={ window.application.clickHandler } href="#location/{ state.location.id }">{ state.location.name }</a></p>
+    <p if={ state.location }><b>Location: </b><a onclick={ props.application.clickHandler } href="#location/{ state.location.id }">{ state.location.name }</a></p>
     <qr-code></qr-code>
     <items-list items={ state.items }></items-list>
 
