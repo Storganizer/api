@@ -1,45 +1,14 @@
-import './index.css'
-import '@riotjs/hot-reload'
-
-
-//import * as riot from 'riot'
-
 import * as riot from 'riot'
-import App from './components/application.riot'
+import Application from './components/application/application.riot'
+import DataStore from './components/application/dataStore'
 
-const mountApp = riot.component(App)
+window.dataStore = DataStore
+
+const mountApp = riot.component(Application)
 
 const app = mountApp(
-  document.getElementById('root')
+  document.getElementById('root'),
+  {}
 )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*import registerGlobalComponents from './register-global-components'
-import dataStore from './dataStore'
-
-window.dataStore = dataStore
-// register
-registerGlobalComponents()
-
-// mount all the global components found in this page
-riot.mount('[data-riot-component]')
-*/
-/*riot.install(function(component) {
-  // all components will pass through here
-  component.dataStore = dataStore
-  return component
-})*/
+window.application = app

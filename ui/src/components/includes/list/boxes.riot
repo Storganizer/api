@@ -11,7 +11,7 @@
       <tbody>
         <tr each={ element in props.boxes } key={ element.id }>
           <td>
-            <a href="#box/{ element.id }">{ element.name }</a>
+            <a onclick={ window.application.clickHandler } href="#box/{ element.id }">{ element.name }</a>
           </td>
           <!-- <td>{ element.description }</td> -->
           <td>{ element.lenItems }</td>

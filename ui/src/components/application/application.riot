@@ -5,10 +5,10 @@
       <input class="menu-btn" type="checkbox" id="menu-btn" />
       <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
       <ul class="menu">
-        <li><a href="#locations">Locations</a></li>
-        <li><a href="#boxes">Boxes</a></li>
-        <li><a href="#items">Items</a></li>
-        <li><a href="#search">Search</a></li>
+        <li><a onclick={ clickHandler } href="#locations">Locations</a></li>
+        <li><a onclick={ clickHandler } href="#boxes">Boxes</a></li>
+        <li><a onclick={ clickHandler } href="#items">Items</a></li>
+        <li><a onclick={ clickHandler } href="#search">Search</a></li>
       </ul>
     </div>
 
@@ -30,16 +30,14 @@
   </div>
 
   <script>
-    //import './style.css'
-    //import Login from '../login/login.riot'
-
-    import Locations from './application/locations/locations.riot'
-    import Location from './application/locations/location.riot'
-    import Boxes from './application/boxes/boxes.riot'
-    import Box from './application/boxes/box.riot'
-    import Items from './application/items/items.riot'
-    import Item from './application/items/item.riot'
-    import Search from './application/search/search.riot'
+    import './application.css'
+    import Locations from '../controller/locations/locations.riot'
+    import Location from '../controller/locations/location.riot'
+    import Boxes from '../controller/boxes/boxes.riot'
+    import Box from '../controller/boxes/box.riot'
+    import Items from '../controller/items/items.riot'
+    import Item from '../controller/items/item.riot'
+    import Search from '../controller/search/search.riot'
 
     //this.initApplication = true
     function parseUrl(url = "localhost#locations") {
@@ -65,17 +63,15 @@
     }
 
     //const isLoggedIn = Login.exports.login()
-    const isLoggedIn = false
-    const controller = parseUrl(document.URL)
+    const isLoggedIn = true
 
     export default {
       state: {
-        controller: controller,
+        controller: false,
         isLoggedIn: isLoggedIn
       },
 
       components: {
-        //Login,
         Locations,
         Location,
         Boxes,
@@ -85,26 +81,24 @@
         Search
       },
 
-      getController(url) {
-        return parseUrl(url)
+      clickHandler(e) {
+        if (e.target.href) {
+          this.render(e.target.href)
+        }
       },
 
-      initialize() {
-        //riot.mount('application', Application)
-        let target = this
-        document.addEventListener("click", function(e){
-          let href = e.target.href ? e.target.href : e.target.dataset.href
-          
-          if (href) {
-            target.update({
-              controller: target.getController(href)
-            })
-          }
+      render(url) {
+        this.update({
+          controller: this.getController(url)
         })
       },
 
       onMounted() {
-        this.initialize()
+        this.render(document.URL)
+      },
+
+      getController(url) {
+        return parseUrl(url)
       },
 
       canShowContainer(controller) {
