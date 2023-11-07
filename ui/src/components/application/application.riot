@@ -1,36 +1,27 @@
 <application>
   <div if={ state.isLoggedIn }>
-    <div class="header">
-      <a href="/" class="logo"><img width="20px" src="./storganizer-logo.png" /> Storganizer</a>
-      <input class="menu-btn" type="checkbox" id="menu-btn" />
-      <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
-      <ul class="menu">
-        <li><a onclick={ clickHandler } href="#locations">Locations</a></li>
-        <li><a onclick={ clickHandler } href="#boxes">Boxes</a></li>
-        <li><a onclick={ clickHandler } href="#items">Items</a></li>
-        <li><a onclick={ clickHandler } href="#search">Search</a></li>
-      </ul>
-    </div>
+    <navigation application={ this }></navigation>
 
     <div class="clearfix" />
 
     <div class="application-body container">
-      <locations params={ state.controller.params } if={ canShowContainer('locations') }></locations>
-      <location params={ state.controller.params } if={ canShowContainer('location') }></location>
-      <boxes params={ state.controller.params } if={ canShowContainer('boxes') }></boxes>
-      <box params={ state.controller.params } if={ canShowContainer('box') }></box>
-      <items params={ state.controller.params } if={ canShowContainer('items') }></items>
-      <item params={ state.controller.params } if={ canShowContainer('item') }></item>
-      <search params={ state.controller.params } if={ canShowContainer('search') }></search>
+      <locations application={ this } params={ state.controller.params } if={ isController('locations') }></locations>
+      <location application={ this } params={ state.controller.params } if={ isController('location') }></location>
+      <boxes application={ this } params={ state.controller.params } if={ isController('boxes') }></boxes>
+      <box application={ this } params={ state.controller.params } if={ isController('box') }></box>
+      <items application={ this } params={ state.controller.params } if={ isController('items') }></items>
+      <item application={ this } params={ state.controller.params } if={ isController('item') }></item>
+      <search application={ this } params={ state.controller.params } if={ isController('search') }></search>
     </div>
   </div>
 
   <div if={ !state.isLoggedIn } class="container">
-    <login data-riot-component></login>
+    <login></login>
   </div>
 
   <script>
     import './application.css'
+    import Navigation from './navigation.riot'
     import Locations from '../controller/locations/locations.riot'
     import Location from '../controller/locations/location.riot'
     import Boxes from '../controller/boxes/boxes.riot'
@@ -38,8 +29,8 @@
     import Items from '../controller/items/items.riot'
     import Item from '../controller/items/item.riot'
     import Search from '../controller/search/search.riot'
+    import QrCode from '../includes/helper/qr-code.riot'
 
-    //this.initApplication = true
     function parseUrl(url = "localhost#locations") {
       let controllerParams = []
       let controller = 'locations'
@@ -66,19 +57,21 @@
     const isLoggedIn = true
 
     export default {
+      application: this,
       state: {
         controller: false,
         isLoggedIn: isLoggedIn
       },
 
       components: {
+        Navigation,
         Locations,
         Location,
         Boxes,
         Box,
         Items,
         Item,
-        Search
+        Search,
       },
 
       clickHandler(e) {
@@ -101,7 +94,7 @@
         return parseUrl(url)
       },
 
-      canShowContainer(controller) {
+      isController(controller) {
         return this.state.controller.name == controller
       }
     }

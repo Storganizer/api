@@ -34,8 +34,6 @@
           })
 
           window.dataStore.boxes.getBoxesByLocationId(this.props.params[0], function(data) {
-            console.log(data)
-
             target.update({
               boxes: data
             })
@@ -44,9 +42,6 @@
       },
 
       onMounted() {
-        console.log('now or never')
-        console.log(this)
-        console.log(window)
         this.loadData()
       }
     }
