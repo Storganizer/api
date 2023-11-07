@@ -1,14 +1,20 @@
 <scan-qr-code>
   <button onclick={ scan }>Scan qr code</button>
+  <div id="scan-results"></div>
   <div id="reader" width="600px"></div>
   <script>
 
+
+    import * as riot from 'riot'
 
 
 
 
     export default {
       scan(e) {
+
+        console.log(riot)
+
         let element = document.getElementById("reader")
         element.innerHTML = ''        
         
@@ -22,9 +28,12 @@
           
           function onScanSuccess(decodedText, decodedResult) {
             // handle the scanned code as you like, for example:
-            console.log(`Code matched = ${decodedText}`, decodedResult);
-            html5QrcodeScanner.pause()
+
+            document.getElementById('scan-results').innerHTML = `<button data-href="${decodedText}" id="open-object">Open object</button>`
+
+            html5QrcodeScanner.clear()
             window.location.replace(decodedText)
+            document.getElementById('open-object').click();
           }
 
           function onScanFailure(error) {
