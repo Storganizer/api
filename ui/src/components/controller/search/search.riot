@@ -1,15 +1,15 @@
 <search>
 
 
-  <scan-qr-code></scan-qr-code>
+  <scan-qr-code application={ props.application }></scan-qr-code>
 
 
   <div class="search"><input onkeyup={typeahead} type="text" placeholder="🔍 search" id="search" name="search"></div>
 
   <div class="results">
-    <locations-list if={ state.locations.length } locations={ state.locations }></locations-list>
-    <boxes-list if={ state.boxes.length }  boxes={ state.boxes }></boxes-list>
-    <items-list if={ state.items.length }  items={ state.items }></items-list>
+    <locations-list application={ props.application } if={ state.locations.length } locations={ state.locations }></locations-list>
+    <boxes-list application={ props.application } if={ state.boxes.length }  boxes={ state.boxes }></boxes-list>
+    <items-list application={ props.application } if={ state.items.length }  items={ state.items }></items-list>
   </div>
 
   <script>
