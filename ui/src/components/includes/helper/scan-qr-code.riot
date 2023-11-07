@@ -1,0 +1,47 @@
+<scan-qr-code>
+  <button onclick={ scan }>Scan qr code</button>
+  <div id="reader" width="600px"></div>
+  <script>
+
+
+
+
+
+    export default {
+      scan(e) {
+        let element = document.getElementById("reader")
+        element.innerHTML = ''        
+        
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+          "reader",
+          { fps: 10, qrbox: {width: 400, height: 400} },
+          /* verbose= */ false);
+
+        if (e.target.innerHTML == 'Scan qr code') {
+          e.target.innerHTML = 'Close camera'
+          
+          function onScanSuccess(decodedText, decodedResult) {
+            // handle the scanned code as you like, for example:
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+            html5QrcodeScanner.pause()
+            window.location.replace(decodedText)
+          }
+
+          function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning.
+            // for example:
+            //console.warn(`Code scan error = ${error}`);
+          }
+          html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        } else {
+          e.target.innerHTML = 'Scan qr code'
+          html5QrcodeScanner.clear()
+        }
+      },
+    }
+  </script>
+
+</location>
+
+
+</scan-qr-code>

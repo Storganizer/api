@@ -1,5 +1,9 @@
 <search>
 
+
+  <scan-qr-code></scan-qr-code>
+
+
   <div class="search"><input onkeyup={typeahead} type="text" placeholder="🔍 search" id="search" name="search"></div>
 
   <div class="results">
@@ -11,12 +15,14 @@
   <script>
     import  './style.css'
 
+    import ScanQrCode from '../../includes/helper/scan-qr-code.riot'
     import LocationsList from '../../includes/list/locations.riot'
     import BoxesList from '../../includes/list/boxes.riot'
     import ItemsList from '../../includes/list/items.riot'
 
     export default {
       components: {
+        ScanQrCode,
         LocationsList,
         BoxesList,
         ItemsList,
