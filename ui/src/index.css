@@ -1,9 +1,0 @@
-body {
-  min-height: 100vh;
-}
-
-label, legend {
-    font-weight: normal;
-    padding-right: 10px;
-    padding-top: 5px;
-}

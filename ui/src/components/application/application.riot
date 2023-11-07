@@ -1,0 +1,102 @@
+<application>
+  <div if={ state.isLoggedIn }>
+    <navigation application={ this }></navigation>
+
+    <div class="clearfix" />
+
+    <div class="application-body container">
+      <locations application={ this } params={ state.controller.params } if={ isController('locations') }></locations>
+      <location application={ this } params={ state.controller.params } if={ isController('location') }></location>
+      <boxes application={ this } params={ state.controller.params } if={ isController('boxes') }></boxes>
+      <box application={ this } params={ state.controller.params } if={ isController('box') }></box>
+      <items application={ this } params={ state.controller.params } if={ isController('items') }></items>
+      <item application={ this } params={ state.controller.params } if={ isController('item') }></item>
+      <search application={ this } params={ state.controller.params } if={ isController('search') }></search>
+    </div>
+  </div>
+
+  <div if={ !state.isLoggedIn } class="container">
+    <login></login>
+  </div>
+
+  <script>
+    import './application.css'
+    import Navigation from './navigation.riot'
+    import Locations from '../controller/locations/locations.riot'
+    import Location from '../controller/locations/location.riot'
+    import Boxes from '../controller/boxes/boxes.riot'
+    import Box from '../controller/boxes/box.riot'
+    import Items from '../controller/items/items.riot'
+    import Item from '../controller/items/item.riot'
+    import Search from '../controller/search/search.riot'
+    import QrCode from '../includes/helper/qr-code.riot'
+
+    function parseUrl(url = "localhost#locations") {
+      let controllerParams = []
+      let controller = 'locations'
+
+      let urlParts = url.split('#')
+
+      if (urlParts.length > 1) {
+        controller = urlParts[1]
+      }
+
+      let controllerParts = controller.split('/')
+      if (controllerParts.length > 1) {
+        controller = controllerParts[0]
+        controllerParams = controllerParts.splice(1, controllerParts.length)
+      }
+
+      return {
+        name: controller,
+        params: controllerParams
+      }
+    }
+
+    //const isLoggedIn = Login.exports.login()
+    const isLoggedIn = true
+
+    export default {
+      application: this,
+      state: {
+        controller: false,
+        isLoggedIn: isLoggedIn
+      },
+
+      components: {
+        Navigation,
+        Locations,
+        Location,
+        Boxes,
+        Box,
+        Items,
+        Item,
+        Search,
+      },
+
+      clickHandler(e) {
+        if (e.target.href) {
+          this.render(e.target.href)
+        }
+      },
+
+      render(url) {
+        this.update({
+          controller: this.getController(url)
+        })
+      },
+
+      onMounted() {
+        this.render(document.URL)
+      },
+
+      getController(url) {
+        return parseUrl(url)
+      },
+
+      isController(controller) {
+        return this.state.controller.name == controller
+      }
+    }
+  </script>
+</application>

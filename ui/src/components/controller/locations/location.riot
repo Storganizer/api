@@ -3,8 +3,8 @@
 
     <p>{ state.location.description }</p>
     <p>Classification: <b>{ state.location.classification }</b></p>
-    <qr-code></qr-code>
-    <boxes-list boxes={ state.boxes }></boxes-list>
+    <qr-code application={ props.application }></qr-code>
+    <boxes-list application={ props.application } boxes={ state.boxes }></boxes-list>
 
   <script>
     import  './style.css'
@@ -34,8 +34,6 @@
           })
 
           window.dataStore.boxes.getBoxesByLocationId(this.props.params[0], function(data) {
-            console.log(data)
-
             target.update({
               boxes: data
             })

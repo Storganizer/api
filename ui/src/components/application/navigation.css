@@ -1,5 +1,4 @@
 /* header */
-
 .header {
   background-color: #fff;
   box-shadow: 1px 1px 4px 0 rgba(0,0,0,.1);
@@ -116,7 +115,6 @@
 }
 
 /* 48em = 768px */
-
 @media (min-width: 48em) {
   .header li {
     float: left;
@@ -132,9 +130,4 @@
   .header .menu-icon {
     display: none;
   }
-}
-
-
-.application-body {
-  margin-top: 90px;
 }

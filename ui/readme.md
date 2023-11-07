@@ -1,4 +1,4 @@
-# storanizer-ui
+# storganizer-ui
 
 ## Todo
 - Add proper OpenSource license
