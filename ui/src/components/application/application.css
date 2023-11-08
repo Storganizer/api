@@ -2,6 +2,19 @@
   margin-top: 90px;
 }
 
+.edit-entry, .add-entry {
+  cursor: pointer;
+  margin-right: 5px;
+  float: right;
+  font-size: .5em;
+}
+
+.button-delete {
+    background-color: #a31b41;
+    border-color: #a31b41;
+}
+
+
 @media print
 {    
 

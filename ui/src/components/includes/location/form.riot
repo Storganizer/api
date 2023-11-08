@@ -1,0 +1,61 @@
+<location-form class="no-print">
+  <p>
+    <input placeholder="Location" name="location-name" id="location-name" type="text" value="{ props.location.name }"></input>
+    <textarea placeholder="Description" name="location-description" id="location-description">{ props.location.description }</textarea>
+    <select placeholder="Choose Accessability" name="location-classification" id="location-classification">
+      <option value="0">Location Type</option>
+      <option selected={ props.location.classification == 5 } value="5">Outside</option>
+      <option selected={ props.location.classification == 4 } value="4">Basement</option>
+      <option selected={ props.location.classification == 3 } value="3">Attic</option>
+      <option selected={ props.location.classification == 2 } value="2">Living Area</option>
+      <option selected={ props.location.classification == 1 } value="1">My Room</option>
+    </select>
+  </p>
+
+  <p>
+    <button onclick={ saveEntry }>Save</button>
+    <button class="button-outline" onclick={ props.onCancel }>Cancel</button>
+    <button if={ props.location.id } class="button-delete" onclick={ deleteEntry }>Delete</button>
+  </p>
+
+  <script>
+
+
+    export default {
+
+      saveEntry(e) {
+        let location = {
+          id: this.props.location.id || 0,
+          name: document.getElementById("location-name").value,
+          description: document.getElementById("location-description").value,
+          classification: parseInt(document.getElementById("location-classification").value),
+        }
+
+        if (location.id > 0) {
+          console.log('Update location.id=' + location.id)
+          this.registry.dataStore.locations.update(location)
+        } else {
+          console.log('Add location')
+          this.registry.dataStore.locations.add(location)
+        }
+
+        console.log('orig')
+        console.log(this.props.location)
+        console.log('updated to send')
+        console.log(location)
+        alert('save')
+      },
+
+      deleteEntry(e) {
+        alert('delete')
+      },
+    }
+  </script>
+
+  <style>
+    button {
+      margin-right: 5px;
+    }
+  </style>
+
+</location-form>

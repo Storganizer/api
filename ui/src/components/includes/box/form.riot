@@ -1,0 +1,65 @@
+<box-form class="no-print">
+  <p>
+    <input name="box-name" id="box-name" type="text" value="{ props.box.name }"></input>
+    <textarea name="box-description" id="box-description">{ props.box.description }</textarea>
+
+    <select>
+      
+      <option selected={ props.box.locationId == element.id } each={ element in state.locations } value={ element.id }>{ element.name }</option>
+
+
+    </select>
+
+  </p>
+
+  <p>
+    <button onclick={ saveEntry }>Save</button>
+    <button class="button-outline" onclick={ props.onCancel }>Cancel</button>
+    <button class="button-delete" onclick={ deleteEntry }>Delete</button>
+  </p>
+
+  <script>
+
+    export default {
+      state: {
+        locations: false
+      },
+
+      onMounted() {
+
+        let target = this
+        this.registry.dataStore.locations.getLocations(function(locations) {
+          target.update({
+            locations: locations
+          })
+        })
+      },
+
+      saveEntry(e) {
+
+        let box = {
+          id: this.props.box.id || 0,
+          name: document.getElementById("box-name").value,
+          description: document.getElementById("box-description").value,
+        }
+        
+        console.log('orig')
+        console.log(this.props.box)
+        console.log('updated to send')
+        console.log(box)
+        alert('save')
+      },
+
+      deleteEntry(e) {
+        alert('delete')
+      },
+    }
+  </script>
+
+  <style>
+    button {
+      margin-right: 5px;
+    }
+  </style>
+
+</box-form>

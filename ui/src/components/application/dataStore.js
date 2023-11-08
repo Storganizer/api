@@ -74,10 +74,20 @@ export default {
 
         const req = new XMLHttpRequest();
         req.addEventListener("load", reqListener);
-        req.open("GET", "http://localhost:5000/locations");
+        req.open("GET", "http://10.1.1.79:5000/locations");
         req.send();
       }
     },
+
+    update(location) {
+      console.log('Make an put API Call')
+      console.log(location)
+    },
+
+    add(location) {
+      console.log('Make an post API Call')
+      console.log(location)
+    }
   },
 
   boxes: {
@@ -173,7 +183,7 @@ export default {
 
         const req = new XMLHttpRequest();
         req.addEventListener("load", reqListener);
-        req.open("GET", "http://localhost:5000/boxes");
+        req.open("GET", "http://10.1.1.79:5000/boxes");
         req.send();
       }
     },
@@ -273,7 +283,7 @@ export default {
 
         const req = new XMLHttpRequest();
         req.addEventListener("load", reqListener);
-        req.open("GET", "http://localhost:5000/items");
+        req.open("GET", "http://10.1.1.79:5000/items");
         req.send();
       }
     },

@@ -1,5 +1,5 @@
 <boxes-list class="no-print">
-    <h2 if={ props.boxes.length } >📦 Boxes</h2>
+    <h2 if={ props.boxes.length } >📦 Boxes <a class="add-entry" onclick={ edit }>➕</a></h2>
     <table>
 <!--       <thead>
         <tr>
@@ -13,7 +13,7 @@
           <td>
             <a onclick={ registry.application.clickHandler } href="#box/{ element.id }">{ element.name }</a>
           </td>
-          <!-- <td>{ element.description }</td> -->
+          <td>{ element.description }</td>
           <td>{ element.lenItems }</td>
         </tr>
       </tbody>

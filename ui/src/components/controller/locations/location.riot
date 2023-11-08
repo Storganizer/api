@@ -1,19 +1,27 @@
 <location>
-    <h2>🏠 { state.location.name }</h2>
+    
+    <div if={ ! state.edit }>
+      <h2>🏠 { state.location.name } <a class="edit-entry" onclick={ edit }>✏️</a></h2>
 
-    <p>{ state.location.description }</p>
-    <p>Classification: <b>{ state.location.classification }</b></p>
-    <qr-code></qr-code>
+      <p>{ state.location.description }</p>
+      <p>Classification: <b>{ state.location.classification }</b></p>
+      <qr-code></qr-code>
+    </div>
+    <div if={ state.edit }>
+      <location-form location={ state.location } onCancel={ edit }></location-form>
+    </div>
     <boxes-list boxes={ state.boxes }></boxes-list>
 
   <script>
     import  './style.css'
+    import LocationForm from '../../includes/location/form.riot'
     import QrCode from '../../includes/helper/qr-code.riot'
     import BoxesList from '../../includes/list/boxes.riot'
 
 
     export default {
       components: {
+        LocationForm,
         QrCode,
         BoxesList,
       },
@@ -21,6 +29,13 @@
         location: false,
         boxes: [],
         showQr: true,
+        edit: false,
+      },
+
+      edit() {
+        this.update({
+          edit: !this.state.edit
+        })
       },
 
       loadData() {

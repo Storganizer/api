@@ -2,7 +2,7 @@
     <h2 if={ props.locations.length }>🏠 Locations <a class="add-entry" onclick={ add }>➕</a></h2>
 
     <div if={ state.add }>
-      <location-form location={ state.emptyLocation } onCancel={ add }>fuuuck</location-form>
+      <location-form location={ state.emptyLocation } onCancel={ add }></location-form>
     </div>
 
     <table>
@@ -12,7 +12,7 @@
           <td>
             <a onclick={ registry.application.clickHandler } href="#location/{ element.id }">{ element.name }</a>
           </td>
-          <td>{ element.description }</td>s
+          <td>{ element.description }</td>
           <td>{ element.lenBoxes }</td>
           <!-- <td>{ element.classification }</td> -->
         </tr>
@@ -24,15 +24,16 @@
     import LocationForm from './form.riot'
 
     export default {
-      compontents: {
+      components: {
         LocationForm,
       },
       state: {
         add: false,
         emptyLocation: {
           id: 0,
-          name: 'Biber',
-          description: 'Schwanz',
+          name: '',
+          description: '',
+          classification: 0,
         }
       },
       add() {

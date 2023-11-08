@@ -1,0 +1,62 @@
+<item-form class="no-print">
+  <p>
+    <input name="item-name" id="item-name" type="text" value="{ props.item.name }"></input>
+    <textarea name="item-description" id="item-description">{ props.item.description }</textarea>
+
+    <select>
+      <option selected={ props.item.boxId == element.id } each={ element in state.boxes } value={ element.id }>{ element.name }</option>
+    </select>
+
+  </p>
+
+  <p>
+    <button onclick={ saveEntry }>Save</button>
+    <button class="button-outline" onclick={ props.onCancel }>Cancel</button>
+    <button if={ props.item.id } class="button-delete" onclick={ deleteEntry }>Delete</button>
+  </p>
+
+  <script>
+
+    export default {
+      state: {
+        boxes: false
+      },
+
+      onMounted() {
+
+        let target = this
+        this.registry.dataStore.boxes.getBoxes(function(boxes) {
+          target.update({
+            boxes: boxes
+          })
+        })
+      },
+
+      saveEntry(e) {
+
+        let item = {
+          id: this.props.item.id || 0,
+          name: document.getElementById("item-name").value,
+          description: document.getElementById("item-description").value,
+        }
+        
+        console.log('orig')
+        console.log(this.props.item)
+        console.log('updated to send')
+        console.log(item)
+        alert('save')
+      },
+
+      deleteEntry(e) {
+        alert('delete')
+      },
+    }
+  </script>
+
+  <style>
+    button {
+      margin-right: 5px;
+    }
+  </style>
+
+</item-form>
