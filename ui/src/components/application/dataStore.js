@@ -1,4 +1,6 @@
 
+let apiHost = "http://localhost:5000"
+
 export default {
 
   locations: {
@@ -72,21 +74,55 @@ export default {
           callback(jsonResponse)
         }
 
-        const req = new XMLHttpRequest();
-        req.addEventListener("load", reqListener);
-        req.open("GET", "http://10.1.1.79:5000/locations");
+        const req = new XMLHttpRequest()
+        req.addEventListener("load", reqListener)
+        req.open("GET", apiHost + "/locations")
         req.send();
       }
     },
 
-    update(location) {
-      console.log('Make an put API Call')
-      console.log(location)
+    reload(callback) {
+      this.locations = false
+      this.fetchLocations(callback)
     },
 
-    add(location) {
-      console.log('Make an post API Call')
-      console.log(location)
+    updateEntry(location, callback) {
+      let target = this
+      function reqListener() {
+        let jsonResponse = JSON.parse(this.responseText)
+        target.reload(callback)
+      }
+
+      const req = new XMLHttpRequest()
+      req.addEventListener("load", reqListener)
+      req.open("PUT", apiHost + "/location/" + location.id)
+      req.send(JSON.stringify(location))
+    },
+
+    addEntry(location, callback) {
+      let target = this
+      function reqListener() {
+        let jsonResponse = JSON.parse(this.responseText)
+        target.reload(callback)
+      }
+
+      const req = new XMLHttpRequest()
+      req.addEventListener("load", reqListener)
+      req.open("POST", apiHost + "/locations")
+      req.send(JSON.stringify(location))
+    },
+
+    deleteEntry(location, callback) {
+      let target = this
+      function reqListener() {
+        let jsonResponse = JSON.parse(this.responseText)
+        target.reload(callback)
+      }
+
+      const req = new XMLHttpRequest()
+      req.addEventListener("load", reqListener)
+      req.open("DELETE", apiHost + "/location/" + location.id)
+      req.send()
     }
   },
 

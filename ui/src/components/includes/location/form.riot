@@ -20,8 +20,12 @@
 
   <script>
 
-
     export default {
+      onMounted() {
+        if (!this.props.onSuccess || typeof this.props.onSuccess != 'function') {
+          this.props.onSuccess = this.props.onCancel
+        }
+      },
 
       saveEntry(e) {
         let location = {
@@ -33,23 +37,27 @@
 
         if (location.id > 0) {
           console.log('Update location.id=' + location.id)
-          this.registry.dataStore.locations.update(location)
+          this.registry.dataStore.locations.updateEntry(location, this.props.onSuccess)
+          this.props.onCancel()
         } else {
-          console.log('Add location')
-          this.registry.dataStore.locations.add(location)
+          let target = this
+          this.registry.dataStore.locations.addEntry(location, function() {
+            window.location.replace('#locations')
+            target.registry.application.render('#locations')
+            target.props.onSuccess()
+          })
         }
-
-        console.log('orig')
-        console.log(this.props.location)
-        console.log('updated to send')
-        console.log(location)
-        alert('save')
       },
 
       deleteEntry(e) {
-        alert('delete')
+        let target = this
+        this.registry.dataStore.locations.deleteEntry(this.props.location, function() {
+          window.location.replace('#locations')
+          target.registry.application.render('#locations')
+        })
       },
     }
+
   </script>
 
   <style>

@@ -13,8 +13,6 @@ class Locations(Resource):
         locations = []
         for location in session.scalars(select(ModelLocation)):
           locations.append(location.getDataTransferObject())
-
-
         return locations, 200 # OK
 
     def post(self):

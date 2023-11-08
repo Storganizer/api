@@ -2,7 +2,7 @@
     <h2 if={ props.locations.length }>🏠 Locations <a class="add-entry" onclick={ add }>➕</a></h2>
 
     <div if={ state.add }>
-      <location-form location={ state.emptyLocation } onCancel={ add }></location-form>
+      <location-form location={ state.emptyLocation } onCancel={ add } onSuccess={ onSuccess }></location-form>
     </div>
 
     <table>
@@ -41,6 +41,11 @@
           add: !this.state.add
         })
       },
+
+      onSuccess() {
+        this.add()
+        this.registry.application.render(document.URL)
+      }
     }
   </script>
 </locations-list>

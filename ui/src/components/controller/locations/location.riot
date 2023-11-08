@@ -8,7 +8,7 @@
       <qr-code></qr-code>
     </div>
     <div if={ state.edit }>
-      <location-form location={ state.location } onCancel={ edit }></location-form>
+      <location-form location={ state.location } onCancel={ edit } onSuccess={ loadData }></location-form>
     </div>
     <boxes-list boxes={ state.boxes }></boxes-list>
 
@@ -39,6 +39,7 @@
       },
 
       loadData() {
+        console.log('loading data')
         let target = this
         if (window.dataStore) {
           
