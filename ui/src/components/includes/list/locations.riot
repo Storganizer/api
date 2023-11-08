@@ -12,7 +12,7 @@
       <tbody>
         <tr each={ element in props.locations } key={ element.id }>
           <td>
-            <a onclick={ props.application.clickHandler } href="#location/{ element.id }">{ element.name }</a>
+            <a onclick={ registry.application.clickHandler } href="#location/{ element.id }">{ element.name }</a>
           </td>
           <!-- <td>{ element.description }</td> -->
           <td>{ element.lenBoxes }</td>

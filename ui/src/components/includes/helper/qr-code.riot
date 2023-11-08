@@ -5,6 +5,10 @@
   <script>
 
     export default {
+      onMounted() {
+        console.log(this.registry)
+
+      },
       toggleQr(e) {
         let element = document.getElementById("location-qr")
         element.innerHTML = ''        

@@ -86,6 +86,10 @@
         })
       },
 
+      onBeforeMount() {
+        this.registry.application = this
+      },
+
       onMounted() {
         this.render(document.URL)
       },

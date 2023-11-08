@@ -9,7 +9,6 @@
     export default {
       scan(e) {
         let element = document.getElementById("reader")
-        element.innerHTML = ''
         
         let html5QrcodeScanner = new Html5QrcodeScanner(
           "reader",
@@ -25,7 +24,6 @@
             html5QrcodeScanner.clear()
             window.location.replace(decodedText)
             window.application.render(decodedText)
-            document.getElementById('open-object').click();
           }
 
           function onScanFailure(error) {

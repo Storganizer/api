@@ -1,9 +1,9 @@
 <item>
     <h2>🛠️ { state.item.name }</h2>
     <p>{ state.item.description }</p>
-    <p if={ state.box.id }><b>Box: </b><a onclick={ props.application.clickHandler } href="#box/{ state.box.id }">{ state.box.name }</a></p>
-    <p if={ state.location.id }><b>Location: </b><a onclick={ props.application.clickHandler } href="#location/{ state.location.id }">{ state.location.name }</a></p>
-    <qr-code application={ props.application }></qr-code>
+    <p if={ state.box.id }><b>Box: </b><a onclick={ registry.application.clickHandler } href="#box/{ state.box.id }">{ state.box.name }</a></p>
+    <p if={ state.location.id }><b>Location: </b><a onclick={ registry.application.clickHandler } href="#location/{ state.location.id }">{ state.location.name }</a></p>
+    <qr-code></qr-code>
   <script>
     import  './style.css'
     import QrCode from '../../includes/helper/qr-code.riot'
