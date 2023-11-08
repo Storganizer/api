@@ -55,11 +55,11 @@ if __name__ == "__main__":
 
     for box in boxes['boxes']:
       box = boxes['boxes'][box]
-      boxNotes = box['notes'] if 'notes' in box.keys() else ''
+      boxDescription = box['description'] if 'description' in box.keys() else ''
       locationId = box['locationId'] if 'locationId' in box.keys() else 1
       boxEntry = Box(
         name=box['name'],
-        description=boxNotes,
+        description=boxDescription,
         lastAccess=func.now(),
         locationId=locationId
       )
@@ -68,12 +68,12 @@ if __name__ == "__main__":
       
       items = []
       for item in box['items']:
-        itemNotes = item['notes'] if 'notes' in item.keys() else ''
+        itemDescription = item['description'] if 'description' in item.keys() else ''
         
         itemEntry = Item(
           name=item['name'],
           amount=item['amount'],
-          description=itemNotes,
+          description=itemDescription,
           image="",
           state='stored',
           lastUsage=func.now(),

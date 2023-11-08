@@ -9,7 +9,7 @@
     export default {
       scan(e) {
         let element = document.getElementById("reader")
-        
+        let registry = this.registry
         let html5QrcodeScanner = new Html5QrcodeScanner(
           "reader",
           { fps: 10, qrbox: {width: 400, height: 400} },
@@ -23,7 +23,7 @@
 
             html5QrcodeScanner.clear()
             window.location.replace(decodedText)
-            window.application.render(decodedText)
+            registry.application.render(decodedText)
           }
 
           function onScanFailure(error) {
