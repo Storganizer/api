@@ -2,7 +2,7 @@
   <p if={ props.location }>
     <input placeholder="Location" name="location-name" id="location-name" type="text" value="{ props.location.name }"></input>
     <textarea placeholder="Description" name="location-description" id="location-description">{ props.location.description }</textarea>
-    <select placeholder="Choose Accessability" name="location-classification" id="location-classification">
+    <select name="location-classification" id="location-classification">
       <option value="0">Location Type</option>
       <option selected={ props.location.classification == 5 } value="5">Outside</option>
       <option selected={ props.location.classification == 4 } value="4">Basement</option>

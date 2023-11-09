@@ -1,13 +1,11 @@
 <boxes-list class="no-print">
-    <h2 if={ props.boxes.length } >📦 { props.boxes.length } Boxes <a class="add-entry" onclick={ edit }>➕</a></h2>
+    <h2 if={ props.boxes.length || props.locationId } >📦 { props.boxes.length } Boxes <a class="add-entry" onclick={ toggleAdd }>➕</a></h2>
+
+    <div if={ state.add }>
+      <box-form box={ state.emptyBox } onCancel={ toggleAdd }></box-form>
+    </div>
+
     <table>
-<!--       <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Items</th>
-        </tr>
-      </thead> -->
       <tbody>
         <tr each={ element in props.boxes } key={ element.id }>
           <td>
@@ -18,4 +16,31 @@
         </tr>
       </tbody>
     </table>
+
+  <script>
+    import BoxForm from './form.riot'
+
+    export default {
+      components: {
+        BoxForm,
+      },
+      state: {
+        add: false,
+        emptyBox: {
+          id: 0,
+          name: '',
+          description: '',
+          locationId: 0,
+        }
+      },
+      toggleAdd() {
+        this.update({
+          add: !this.state.add,
+          emptyBox: {
+            locationId: this.props.locationId
+          }
+        })
+      },
+    }
+  </script>
 </boxes-list>
