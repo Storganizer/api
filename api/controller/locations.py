@@ -60,7 +60,11 @@ class Location(Resource):
       if location:
         return location.getDataTransferObject(["boxes"]), 200 # OK
 
-      return ["Location not found"]
+      return {
+        'error': True,
+        'message': f'Location {id} not found'
+      }, 404 # not found
+
 
     def delete(self, id):
       location = session.query(ModelLocation).get(id)

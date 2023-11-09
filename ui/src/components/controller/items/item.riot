@@ -8,7 +8,7 @@
       <p if={ state.location }><b>Location: </b><a onclick={ registry.application.clickHandler } href="#location/{ state.location.id }">{ state.location.name }</a></p>
       <qr-code></qr-code>
     </div>
-    <div if={ state.edit }>
+    <div if={ state.edit && state.item }>
       <item-form item={ state.item } onCancel={ toggleEdit }></box-form>
     </div>
 

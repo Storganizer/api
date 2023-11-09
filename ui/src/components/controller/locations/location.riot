@@ -9,7 +9,7 @@
     <div if={ state.edit && state.location }>
       <location-form location={ state.location } onCancel={ toggleEdit }></location-form>
     </div>
-    <boxes-list  if={ state.location } boxes={ state.boxes } locationId={ state.location.id } ></boxes-list>
+    <boxes-list if={ state.location } boxes={ state.boxes } locationId={ state.location.id } ></boxes-list>
 
   <script>
     import  './style.css'

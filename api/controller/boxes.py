@@ -60,11 +60,13 @@ class Boxes(Resource):
 
 class Box(Resource):
     def get(self, id):
-        box = session.query(ModelBox).get(id)
-        if box:
-          return box.getDataTransferObject(['items', 'location'])
-
-        return ["Box not found"]
+      box = session.query(ModelBox).get(id)
+      if box:
+        return box.getDataTransferObject(['items', 'location'])
+      return {
+        'error': True,
+        'message': f'Box {id} not found'
+      }, 404 # not found
 
 
     def delete(self, id):

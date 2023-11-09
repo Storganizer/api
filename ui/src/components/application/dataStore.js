@@ -357,7 +357,7 @@ export default {
       this.fetchItems()
     },
 
-    updateEntry(location) {
+    updateEntry(item) {
       let target = this
       function reqListener() {
         let jsonResponse = JSON.parse(this.responseText)
