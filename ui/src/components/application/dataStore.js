@@ -214,6 +214,52 @@ export default {
         req.send();
       }
     },
+
+    reload() {
+      this.boxes = false
+      this.fetchBoxes()
+    },
+
+    updateEntry(box) {
+      let target = this
+      function reqListener() {
+        let jsonResponse = JSON.parse(this.responseText)
+        target.reload()
+      }
+
+      const req = new XMLHttpRequest()
+      req.addEventListener("load", reqListener)
+      req.open("PUT", apiHost + "/box/" + box.id)
+      req.send(JSON.stringify(box))
+    },
+
+    addEntry(box) {
+      let target = this
+      function reqListener() {
+        let jsonResponse = JSON.parse(this.responseText)
+        target.reload()
+      }
+
+      const req = new XMLHttpRequest()
+      req.addEventListener("load", reqListener)
+      req.open("POST", apiHost + "/boxes")
+      req.send(JSON.stringify(box))
+    },
+
+    deleteEntry(box) {
+      let target = this
+      function reqListener() {
+        let jsonResponse = JSON.parse(this.responseText)
+        target.reload()
+      }
+
+      const req = new XMLHttpRequest()
+      req.addEventListener("load", reqListener)
+      req.open("DELETE", apiHost + "/box/" + box.id)
+      req.send()
+    }
+
+
   },
 
 
@@ -304,6 +350,54 @@ export default {
       }
 
     },
+
+
+    reload() {
+      this.items = false
+      this.fetchItems()
+    },
+
+    updateEntry(location) {
+      let target = this
+      function reqListener() {
+        let jsonResponse = JSON.parse(this.responseText)
+        target.reload()
+      }
+
+      const req = new XMLHttpRequest()
+      req.addEventListener("load", reqListener)
+      req.open("PUT", apiHost + "/item/" + item.id)
+      req.send(JSON.stringify(item))
+    },
+
+    addEntry(item) {
+      let target = this
+      function reqListener() {
+        let jsonResponse = JSON.parse(this.responseText)
+        target.reload()
+      }
+
+      const req = new XMLHttpRequest()
+      req.addEventListener("load", reqListener)
+      req.open("POST", apiHost + "/items")
+      req.send(JSON.stringify(item))
+    },
+
+    deleteEntry(item) {
+      let target = this
+      function reqListener() {
+        let jsonResponse = JSON.parse(this.responseText)
+        target.reload()
+      }
+
+      const req = new XMLHttpRequest()
+      req.addEventListener("load", reqListener)
+      req.open("DELETE", apiHost + "/item/" + item.id)
+      req.send()
+    }
+
+
+
   },
 
 }
