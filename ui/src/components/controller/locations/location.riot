@@ -1,5 +1,5 @@
 <location>
-    <div if={ ! state.edit }>
+    <div if={ ! state.edit && state.location }>
       <h2>🏠 { state.location.name } <a class="edit-entry" onclick={ toggleEdit }>✏️</a></h2>
 
       <p>{ state.location.description }</p>
@@ -47,7 +47,6 @@
         this.registry.eventBus.on('dataBoxLoadSuccess', function(locations) {
           target.loadBoxData()
         })
-
       },
 
       loadLocationData() {

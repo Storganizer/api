@@ -38,27 +38,31 @@
 
       setupListenter() {
         let target = this
-        this.registry.eventBus.on('dataLocationLoadSuccess', function(locations) {
-          target.loadLocationData()
-        })
 
         this.registry.eventBus.on('dataBoxLoadSuccess', function(locations) {
           target.loadBoxData()
         })
 
         this.registry.eventBus.on('dataItemLoadSuccess', function(locations) {
-          target.loadBoxData()
+          target.loadItemData()
         })
+
+        this.registry.eventBus.on('dataLocationLoadSuccess', function(locations) {
+          target.loadLocationData()
+        })
+
       },
 
       // needs to have the box loaded in order to get its location, fortunately, locations are usually loaded first
       loadLocationData() {
-/*        while (!this.box) {
-          console.log('box not loaded yet')
+        let safe = 1000
+        while (!this.state.box) {
+          safe--
+          if (safe <= 0) break
         }
         this.update({
-          location: this.registry.dataStore.locations.getLocationById(this.box.locationId)
-        })*/
+          location: this.registry.dataStore.locations.getLocationById(this.state.box.locationId)
+        })
       },
 
       loadBoxData() {
@@ -71,13 +75,14 @@
         this.update({
           items: this.registry.dataStore.items.getItemsByBoxId(this.props.params[0])
         })
+
       },
 
       onMounted() {
         this.setupListenter()
-        this.loadLocationData()
         this.loadBoxData()
         this.loadItemData()
+        this.loadLocationData()
       }
     }
   </script>

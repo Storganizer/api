@@ -39,7 +39,7 @@ export default {
     getLocationById(id) {
       if (!this.locations) {
         this.fetchLocations()
-        return []
+        return false
       }
 
       function filterByID(item) {
@@ -160,7 +160,7 @@ export default {
     getBoxById(id) {
       if (!this.boxes) {
         this.fetchBoxes()
-        return []
+        return false
       }
 
       function filterByID(item) {
@@ -220,13 +220,17 @@ export default {
   items: {
     items: false,
 
-    search(string, callback) {
+    search(string) {
+      if (!this.items) {
+        this.fetchItems()
+        return []
+      }
+
       string = string.toLowerCase()
       function filterByString(item) {
         if (string == '') {
           return true
         }
-
         let found = false
 
         if (item.name && item.name.toLowerCase().includes(string)) {
@@ -240,18 +244,15 @@ export default {
         return found
       }
 
-      if (!this.items) {
-        this.fetchItems(function(data) {
-          callback(data.filter(filterByString))
-        })
-        return false
-      }
-
-      callback(this.items.filter(filterByString))
-      return true
+      return this.items.filter(filterByString)
     },
 
-    getItemById(id, callback) {
+    getItemById(id) {
+      if (!this.items) {
+        this.fetchItems()
+        return []
+      }
+
       function filterByID(item) {
         if (Number.isFinite(item.id) && item.id == id) {
           return true
@@ -259,18 +260,15 @@ export default {
         return false
       }
 
-      if (!this.items) {
-        this.fetchItems(function(data) {
-          callback(data.filter(filterByID)[0])
-        })
-        return false
-      }
-
-      callback(this.items.filter(filterByID)[0])
-      return true
+      return this.items.filter(filterByID)[0]
     },
 
-    getItemsByBoxId(boxId, ) {
+    getItemsByBoxId(boxId) {
+      if (!this.items) {
+        this.fetchItems()
+        return []
+      }
+
       function filterByBoxID(item) {
         if (Number.isFinite(item.boxId) && item.boxId == boxId) {
           return true
@@ -278,25 +276,16 @@ export default {
         return false
       }
 
-      if (!this.items) {
-       /* this.fetchItems(function(data) {
-          callback(data.filter(filterByBoxID))
-        })*/
-        return false
-      }
-
-      callback(this.items.filter(filterByBoxID))
-      return true
+      return this.items.filter(filterByBoxID)
     },
 
     getItems() {
       if (!this.items) {
         this.fetchItems()
-        return false
+        return []
       }
 
-      callback(this.items)
-      return true
+      return this.items
     },
 
     fetchItems() {
@@ -305,21 +294,16 @@ export default {
         function reqListener() {
           let jsonResponse = JSON.parse(this.responseText)
           target.items = jsonResponse
-          callback(jsonResponse)
+          Registry.eventBus.trigger('dataItemLoadSuccess', target.items)
         }
 
         const req = new XMLHttpRequest();
         req.addEventListener("load", reqListener);
-        req.open("GET", "http://10.1.1.79:5000/items");
+        req.open("GET", apiHost + "/items");
         req.send();
       }
+
     },
   },
-
-
-
-
-
-
 
 }
