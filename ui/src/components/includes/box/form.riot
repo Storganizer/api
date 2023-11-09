@@ -8,12 +8,12 @@
 
   </p>
 
-  <p if={ props.box }>
+  <div class="form-buttons" if={ props.box }>
     <button onclick={ saveEntry }>Save</button>
     <button class="button-outline" onclick={ props.onCancel }>Cancel</button>
     <button if={ props.box.id } class="button-delete" onclick={ deleteEntry }>Delete</button>
-  </p>
-
+  </div>
+  
   <script>
 
     export default {

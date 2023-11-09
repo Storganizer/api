@@ -12,11 +12,11 @@
     </select>
   </p>
 
-  <p if={ props.location }>
+  <div class="form-buttons" if={ props.location }>
     <button onclick={ saveEntry }>Save</button>
     <button class="button-outline" onclick={ props.onCancel }>Cancel</button>
     <button if={ props.location.id } class="button-delete" onclick={ deleteEntry }>Delete</button>
-  </p>
+  </div>
 
   <script>
 

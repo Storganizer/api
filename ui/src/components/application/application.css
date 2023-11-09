@@ -9,6 +9,11 @@
   font-size: .5em;
 }
 
+.form-buttons {
+  float: right;
+}
+
+
 .button-delete {
     background-color: #a31b41;
     border-color: #a31b41;
