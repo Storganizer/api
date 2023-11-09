@@ -9,7 +9,7 @@ export default {
   locations: {
     locations: false,
 
-    search(string,) {
+    search(string) {
       if (!this.locations) {
         this.fetchLocations()
         return []
@@ -129,7 +129,12 @@ export default {
   boxes: {
     boxes: false,
 
-    search(string, callback) {
+    search(string) {
+      if (!this.boxes) {
+        this.fetchBoxes()
+        return []
+      }
+
       string = string.toLowerCase()
       function filterByString(item) {
         if (string == '') {
@@ -149,18 +154,15 @@ export default {
         return found
       }
 
-      if (!this.boxes) {
-        this.fetchBoxes(function(data) {
-          callback(data.filter(filterByString))
-        })
-        return false
-      }
-
-      callback(this.boxes.filter(filterByString))
-      return true
+      return this.boxes.filter(filterByString)
     },
 
-    getBoxById(id, callback) {
+    getBoxById(id) {
+      if (!this.boxes) {
+        this.fetchBoxes()
+        return []
+      }
+
       function filterByID(item) {
         if (Number.isFinite(item.id) && item.id == id) {
           return true
@@ -168,18 +170,15 @@ export default {
         return false
       }
 
-      if (!this.boxes) {
-        this.fetchBoxes(function(data) {
-          callback(data.filter(filterByID)[0])
-        })
-        return false
-      }
-
-      callback(this.boxes.filter(filterByID)[0])
-      return true
+      return this.boxes.filter(filterByID)[0]
     },
 
-    getBoxesByLocationId(locationId, callback) {
+    getBoxesByLocationId(locationId) {
+      if (!this.boxes) {
+        this.fetchBoxes()
+        return []
+      }
+
       function filterByLocationID(item) {
         if (Number.isFinite(item.locationId) && item.locationId == locationId) {
           return true
@@ -187,39 +186,31 @@ export default {
         return false
       }
 
+      return this.boxes.filter(filterByLocationID)
+    },
+
+    getBoxes() {
       if (!this.boxes) {
-        this.fetchBoxes(function(data) {
-          callback(data.filter(filterByLocationID))
-        })
-        return false
+        this.fetchBoxes()
+        return []
       }
 
-      callback(this.boxes.filter(filterByLocationID))
+      return this.boxes
       return true
     },
 
-    getBoxes(callback) {
-      if (!this.boxes) {
-        this.fetchBoxes(callback)
-        return false
-      }
-
-      callback(this.boxes)
-      return true
-    },
-
-    fetchBoxes(callback) {
+    fetchBoxes() {
       if (this.boxes == false) {
         let target = this
         function reqListener() {
           let jsonResponse = JSON.parse(this.responseText)
           target.boxes = jsonResponse
-          callback(jsonResponse)
+          Registry.eventBus.trigger('dataBoxLoadSuccess', target.boxes)
         }
 
         const req = new XMLHttpRequest();
         req.addEventListener("load", reqListener);
-        req.open("GET", "http://10.1.1.79:5000/boxes");
+        req.open("GET", apiHost + "/boxes");
         req.send();
       }
     },
@@ -279,7 +270,7 @@ export default {
       return true
     },
 
-    getItemsByBoxId(boxId, callback) {
+    getItemsByBoxId(boxId, ) {
       function filterByBoxID(item) {
         if (Number.isFinite(item.boxId) && item.boxId == boxId) {
           return true
@@ -288,9 +279,9 @@ export default {
       }
 
       if (!this.items) {
-        this.fetchItems(function(data) {
+       /* this.fetchItems(function(data) {
           callback(data.filter(filterByBoxID))
-        })
+        })*/
         return false
       }
 
@@ -298,9 +289,9 @@ export default {
       return true
     },
 
-    getItems(callback) {
+    getItems() {
       if (!this.items) {
-        this.fetchItems(callback)
+        this.fetchItems()
         return false
       }
 
@@ -308,7 +299,7 @@ export default {
       return true
     },
 
-    fetchItems(callback) {
+    fetchItems() {
       if (this.items == false) {
         let target = this
         function reqListener() {

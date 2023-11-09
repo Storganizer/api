@@ -14,7 +14,7 @@
 
       setupListenter() {
         let target = this
-        this.registry.eventBus.on('dataLocationLoadSuccess', function(locations) {
+        this.registry.eventBus.on('dataLocationLoadSuccess', function() {
           target.loadData()
         })
       },

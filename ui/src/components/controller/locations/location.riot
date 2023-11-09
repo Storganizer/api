@@ -1,5 +1,4 @@
 <location>
-    
     <div if={ ! state.edit }>
       <h2>🏠 { state.location.name } <a class="edit-entry" onclick={ toggleEdit }>✏️</a></h2>
 
@@ -44,6 +43,11 @@
         this.registry.eventBus.on('dataLocationLoadSuccess', function(locations) {
           target.loadLocationData()
         })
+
+        this.registry.eventBus.on('dataBoxLoadSuccess', function(locations) {
+          target.loadBoxData()
+        })
+
       },
 
       loadLocationData() {
@@ -52,9 +56,16 @@
         })
       },
 
+      loadBoxData() {
+        this.update({
+            boxes: this.registry.dataStore.boxes.getBoxesByLocationId(this.props.params[0])
+        })
+      },
+
       onMounted() {
         this.setupListenter()
         this.loadLocationData()
+        this.loadBoxData()
       }
     }
   </script>

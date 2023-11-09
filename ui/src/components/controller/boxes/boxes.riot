@@ -12,18 +12,21 @@
         boxes: [],
       },
 
-      loadData() {
+      setupListenter() {
         let target = this
-        if (this.registry.dataStore) {
-          this.registry.dataStore.boxes.getBoxes(function(data){
-            target.update({
-              boxes: data
-            })
-          })
-        }
+        this.registry.eventBus.on('dataBoxLoadSuccess', function() {
+          target.loadData()
+        })
+      },
+
+      loadData() {
+        this.update({
+            boxes: this.registry.dataStore.boxes.getBoxes()
+        })
       },
 
       onMounted() {
+        this.setupListenter()
         this.loadData()
       }
     }

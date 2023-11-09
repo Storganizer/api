@@ -1,12 +1,12 @@
 <box>
     <div if={ ! state.edit }>
-      <h2>📦 { state.box.name } <a class="edit-entry" onclick={ edit }>✏️</a></h2> 
+      <h2>📦 { state.box.name } <a class="edit-entry" onclick={ toggleEdit }>✏️</a></h2> 
       <p>{ state.box.description }</p>
       <p if={ state.location }><b>Location: </b><a onclick={ registry.application.clickHandler } href="#location/{ state.location.id }">{ state.location.name }</a></p>
       <qr-code></qr-code>
     </div>
     <div if={ state.edit }>
-      <box-form box={ state.box } onCancel={ edit }></box-form>
+      <box-form box={ state.box } onCancel={ toggleEdit }></box-form>
     </div>
     <items-list items={ state.items }></items-list>
 
@@ -30,39 +30,54 @@
         edit: false,
       },
 
-      edit() {
+      toggleEdit() {
         this.update({
           edit: !this.state.edit
         })
       },
 
-      loadData() {
+      setupListenter() {
         let target = this
-        let registry = this.registry
-        if (registry.dataStore) {
-          
-          registry.dataStore.boxes.getBoxById(this.props.params[0], function(data) {
-            let boxData = data
-            // get parent location by id
-            registry.dataStore.locations.getLocationById(boxData.locationId, function(data) {
-              target.update({
-                box: boxData,
-                location: data
-              })
-            })
+        this.registry.eventBus.on('dataLocationLoadSuccess', function(locations) {
+          target.loadLocationData()
+        })
 
-          })
+        this.registry.eventBus.on('dataBoxLoadSuccess', function(locations) {
+          target.loadBoxData()
+        })
 
-          registry.dataStore.items.getItemsByBoxId(this.props.params[0], function(data) {
-            target.update({
-              items: data
-            })
-          })
+        this.registry.eventBus.on('dataItemLoadSuccess', function(locations) {
+          target.loadBoxData()
+        })
+      },
+
+      // needs to have the box loaded in order to get its location, fortunately, locations are usually loaded first
+      loadLocationData() {
+/*        while (!this.box) {
+          console.log('box not loaded yet')
         }
+        this.update({
+          location: this.registry.dataStore.locations.getLocationById(this.box.locationId)
+        })*/
+      },
+
+      loadBoxData() {
+        this.update({
+          box: this.registry.dataStore.boxes.getBoxById(this.props.params[0])
+        })
+      },
+
+      loadItemData() {
+        this.update({
+          items: this.registry.dataStore.items.getItemsByBoxId(this.props.params[0])
+        })
       },
 
       onMounted() {
-        this.loadData()
+        this.setupListenter()
+        this.loadLocationData()
+        this.loadBoxData()
+        this.loadItemData()
       }
     }
   </script>
