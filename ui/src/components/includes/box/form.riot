@@ -1,11 +1,11 @@
 <box-form class="no-print">
   <p if={ props.box }>
-    <input name="box-name" id="box-name" type="text" value="{ props.box.name }"></input>
-    <textarea name="box-description" id="box-description">{ props.box.description }</textarea>
-    <select name="box-location-id" id="box-location-id">
+    <input placeholder="Box" name="box-name" id="box-name" type="text" value="{ props.box.name }"></input>
+    <textarea placeholder="Description" name="box-description" id="box-description">{ props.box.description }</textarea>
+    <label for="box-location-id">Location</label><select name="box-location-id" id="box-location-id">
+      <option selected={ !props.box.locationId || props.box.locationId <= 0 } value="0" >unlocated</option>
       <option selected={ props.box.locationId == element.id } each={ element in state.locations } value={ element.id }>{ element.name }</option>
     </select>
-
   </p>
 
   <p if={ props.box }>
