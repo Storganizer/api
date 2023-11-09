@@ -1,15 +1,16 @@
 <item-form class="no-print">
-  <p>
+  <p if={ props.item }>
     <input name="item-name" id="item-name" type="text" value="{ props.item.name }"></input>
     <textarea name="item-description" id="item-description">{ props.item.description }</textarea>
+    <input name="item-amount" id="item-amount" value={ props.item.amount }></input>
 
-    <select>
+    <select name="item-box-id" id="item-box-id">
       <option selected={ props.item.boxId == element.id } each={ element in state.boxes } value={ element.id }>{ element.name }</option>
     </select>
 
   </p>
 
-  <p>
+  <p if={ props.item }>
     <button onclick={ saveEntry }>Save</button>
     <button class="button-outline" onclick={ props.onCancel }>Cancel</button>
     <button if={ props.item.id } class="button-delete" onclick={ deleteEntry }>Delete</button>
@@ -22,27 +23,47 @@
         boxes: false
       },
 
-      onMounted() {
-
+      setupListenter() {
         let target = this
-        this.registry.dataStore.boxes.getBoxes(function(boxes) {
-          target.update({
-            boxes: boxes
-          })
+        this.registry.eventBus.on('dataBoxLoadSuccess', function(locations) {
+          target.loadBoxData()
         })
       },
 
-      saveEntry(e) {
+      loadBoxData() {
+        this.update({
+            boxes: this.registry.dataStore.boxes.getBoxes()
+        })
+      },
 
+      onMounted() {
+        this.setupListenter()
+        this.loadBoxData()
+      },
+
+      saveEntry(e) {
         let item = {
           id: this.props.item.id || 0,
           name: document.getElementById("item-name").value,
           description: document.getElementById("item-description").value,
+          amount: document.getElementById("item-amount").value,
+          boxId: parseInt(document.getElementById("item-box-id").value),
+        }
+
+        if (item.id > 0) {
+          this.registry.dataStore.items.updateEntry(item)
+          this.props.onCancel()
+        } else {
+          this.registry.dataStore.items.addEntry(item)
+          this.props.onCancel()
         }
       },
 
       deleteEntry(e) {
-        alert('delete')
+        let redirectUrl  = '#box/' + document.getElementById("item-box-id").value
+        this.registry.dataStore.items.deleteEntry(this.props.item)
+        window.location.replace(redirectUrl)
+        this.registry.application.render(redirectUrl)
       },
     }
   </script>

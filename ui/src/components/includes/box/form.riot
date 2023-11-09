@@ -2,7 +2,6 @@
   <p if={ props.box }>
     <input name="box-name" id="box-name" type="text" value="{ props.box.name }"></input>
     <textarea name="box-description" id="box-description">{ props.box.description }</textarea>
-
     <select name="box-location-id" id="box-location-id">
       <option selected={ props.box.locationId == element.id } each={ element in state.locations } value={ element.id }>{ element.name }</option>
     </select>
@@ -12,7 +11,7 @@
   <p if={ props.box }>
     <button onclick={ saveEntry }>Save</button>
     <button class="button-outline" onclick={ props.onCancel }>Cancel</button>
-    <button class="button-delete" onclick={ deleteEntry }>Delete</button>
+    <button if={ props.box.id } class="button-delete" onclick={ deleteEntry }>Delete</button>
   </p>
 
   <script>

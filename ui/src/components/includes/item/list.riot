@@ -1,13 +1,11 @@
 <items-list class="no-print">
-    <h2 if={ props.items.length }>🛠️ { props.items.length } Items <a class="add-entry" onclick={ edit }>➕</a></h2>
+    <h2 if={ props.items.length || props.boxId }>🛠️ { props.items.length } Items <a class="add-entry" onclick={ toggleAdd }>➕</a></h2>
+
+    <div if={ state.add }>
+      <item-form item={ state.emptyItem } onCancel={ toggleAdd }>haaa</item-form>
+    </div>
+
     <table>
-<!--       <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Amount</th>
-        </tr>
-      </thead> -->
       <tbody>
         <tr each={ element in props.items } key={ element.id }>
           <td>
@@ -18,4 +16,33 @@
         </tr>
       </tbody>
     </table>
+
+
+  <script>
+    import ItemForm from './form.riot'
+
+    export default {
+      components: {
+        ItemForm,
+      },
+      state: {
+        add: false,
+        emptyItem: {
+          id: 0,
+          name: '',
+          description: '',
+          boxId: 0,
+        }
+      },
+      toggleAdd() {
+        this.update({
+          add: !this.state.add,
+          emptyItem: {
+            boxId: this.props.boxId
+          }
+        })
+      },
+    }
+  </script>
+
 </items-list>

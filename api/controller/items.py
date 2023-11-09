@@ -3,6 +3,7 @@ from model.connection import engine, session
 
 from sqlalchemy import select
 from flask_restful import Resource
+from flask import request
 import time
 
 
@@ -16,7 +17,41 @@ class Items(Resource):
         return items
 
     def post(self):
-        return [""]
+      try:
+        item = json.loads(request.data)
+
+        # Fail if name not set or name Empty
+        if not 'name' in item.keys() or item['name'] == '':
+          return {
+            'error': True,
+            'message': 'Name might not be empty'
+          }, 400 # Bad Request
+
+        if 'id' in item.keys() and item['id'] > 0:
+          return {
+            'error': True,
+            'message': f'You cannot update item.id {item["id"]} by post, use put instead'
+          }, 405 # Method not Allowed
+
+        # {'classification': 1, 'description': 'Schlafzimmer', 'id': 0, 'name': 'Lorina'}
+        itemDescription = item['description'] if 'description' in item.keys() else ''
+        itemEntry = ModelItem(
+          name=item['name'],
+          description=itemDescription,
+          boxId=item['boxId']
+        )
+        session.add(itemEntry)
+        session.commit()
+
+        return {
+          'error': False,
+          'message': 'Item successfully stored'
+        }, 201 # Created
+      except Exception as e:
+        return {
+          'error': True,
+          'message': f'Exception: {str(e)}'
+        }, 400 # Bad Request
 
 
 class Item(Resource):

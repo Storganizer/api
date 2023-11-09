@@ -8,7 +8,7 @@
     <div if={ state.edit }>
       <box-form box={ state.box } onCancel={ toggleEdit }></box-form>
     </div>
-    <items-list items={ state.items }></items-list>
+    <items-list items={ state.items } boxId={ state.box.id } ></items-list>
 
   <script>
     import  './style.css'

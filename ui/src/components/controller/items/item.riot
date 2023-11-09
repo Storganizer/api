@@ -2,6 +2,7 @@
     <div if={ ! state.edit && state.item  }>
       <h2>🛠️ { state.item.name } <a class="edit-entry" onclick={ toggleEdit }>✏️</a></h2> 
       <p>{ state.item.description }</p>
+      <p><b>Amount: </b>{ state.item.amount }</p>
       
       <p if={ state.box }><b>Box: </b><a onclick={ registry.application.clickHandler } href="#box/{ state.box.id }">{ state.box.name }</a></p>
       <p if={ state.location }><b>Location: </b><a onclick={ registry.application.clickHandler } href="#location/{ state.location.id }">{ state.location.name }</a></p>
@@ -38,53 +39,36 @@
         let target = this
 
         this.registry.eventBus.on('dataItemLoadSuccess', function(locations) {
-          target.loadItemData()
+          target.loadData()
         })
 
         this.registry.eventBus.on('dataBoxLoadSuccess', function(locations) {
-          target.loadBoxData()
+          target.loadData()
         })
 
         this.registry.eventBus.on('dataLocationLoadSuccess', function(locations) {
-          target.loadLocationData()
+          target.loadData()
         })
 
       },
 
-      loadLocationData() {
-        let safe = 1000
-        while (!this.state.box) {
-          safe--
-          if (safe <= 0) break
-        }
+      loadData() {
+        let item = this.registry.dataStore.items.getItemById(this.props.params[0])
+        let boxId = item && item.boxId ? item.boxId : 0
+        let box = this.registry.dataStore.boxes.getBoxById(boxId)
+        let locationId = box && box.locationId ? box.locationId : 0
+        let location = this.registry.dataStore.locations.getLocationById(locationId)
         this.update({
-          location: this.registry.dataStore.locations.getLocationById(this.state.box.locationId)
-        })
-      },
-
-      loadBoxData() {
-        let safe = 1000
-        while (!this.state.item) {
-          safe--
-          if (safe <= 0) break
-        }
-        this.update({
-          box: this.registry.dataStore.boxes.getBoxById(this.state.item.boxId)
-        })
-      },
-
-      loadItemData() {
-        this.update({
-          item: this.registry.dataStore.items.getItemById(this.props.params[0])
+          location: location,
+          box: box,
+          item: item,
         })
 
       },
 
       onMounted() {
         this.setupListenter()
-        this.loadItemData()
-        this.loadBoxData()
-        this.loadLocationData()
+        this.loadData()
       }
     }
   </script>
