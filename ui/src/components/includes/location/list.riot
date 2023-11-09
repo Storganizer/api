@@ -1,5 +1,5 @@
 <locations-list class="no-print">
-    <h2 if={ props.locations.length }>🏠 Locations <a class="add-entry" onclick={ toggleAdd }>➕</a></h2>
+    <h2 if={ props.locations.length }>🏠 { props.locations.length }  Locations <a class="add-entry" onclick={ toggleAdd }>➕</a></h2>
 
     <div if={ state.add }>
       <location-form location={ state.emptyLocation } onCancel={ toggleAdd }></location-form>
