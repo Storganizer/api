@@ -15,10 +15,10 @@
   <script>
     import  './style.css'
 
-    import ScanQrCode from '../../includes/helper/scan-qr-code.riot'
+    import ScanQrCode from '../../includes/_helper/scan-qr-code.riot'
     import LocationsList from '../../includes/location/list.riot'
-    import BoxesList from '../../includes/list/boxes.riot'
-    import ItemsList from '../../includes/list/items.riot'
+    import BoxesList from '../../includes/box/list.riot'
+    import ItemsList from '../../includes/item/list.riot'
 
     export default {
       components: {
@@ -40,30 +40,54 @@
       },
 
       search(searchString, allowEmpty = false) {
+        this.update({
+          locations: this.registry.dataStore.locations.search(searchString),
+          boxes: this.registry.dataStore.boxes.search(searchString),
+          items: this.registry.dataStore.items.search(searchString),
+        })
+      },
+
+      setupListenter() {
         let target = this
-        if (searchString.length >= 3 || allowEmpty) {
-          this.registry.dataStore.locations.search(searchString, function(locations) {
-            target.update({
-              locations: locations
-            })
-          })
 
-          this.registry.dataStore.boxes.search(searchString, function(boxes) {
-            target.update({
-              boxes: boxes
-            })
-          })
+        this.registry.eventBus.on('dataItemLoadSuccess', function(locations) {
+          target.loadItemData()
+        })
 
-          this.registry.dataStore.items.search(searchString, function(items) {
-            target.update({
-              items: items
-            })
-          })
-        }
+        this.registry.eventBus.on('dataBoxLoadSuccess', function(locations) {
+          target.loadBoxData()
+        })
+
+        this.registry.eventBus.on('dataLocationLoadSuccess', function(locations) {
+          target.loadLocationData()
+        })
+
+      },
+
+      loadLocationData() {
+        this.update({
+          locations: this.registry.dataStore.locations.getLocations()
+        })
+      },
+
+      loadBoxData() {
+        this.update({
+          boxes: this.registry.dataStore.boxes.getBoxes()
+        })
+      },
+
+      loadItemData() {
+        this.update({
+          items: this.registry.dataStore.items.getItems()
+        })
+
       },
 
       onMounted() {
-        this.search('', true)
+        this.setupListenter()
+        this.loadItemData()
+        this.loadBoxData()
+        this.loadLocationData()
       }
 
     }

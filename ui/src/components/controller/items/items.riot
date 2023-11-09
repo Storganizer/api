@@ -2,7 +2,7 @@
     <items-list items={ state.items }></items-list>
   <script>
     import  './style.css'
-    import ItemsList from '../../includes/list/items.riot'
+    import ItemsList from '../../includes/item/list.riot'
 
     export default {
       components: {
@@ -12,18 +12,21 @@
         items: [],
       },
 
-      loadData() {
+      setupListenter() {
         let target = this
-        if (this.registry.dataStore) {
-          this.registry.dataStore.items.getItems(function(data){
-            target.update({
-              items: data
-            })
-          })
-        }
+        this.registry.eventBus.on('dataItemLoadSuccess', function() {
+          target.loadData()
+        })
+      },
+
+      loadData() {
+        this.update({
+            items: this.registry.dataStore.items.getItems()
+        })
       },
 
       onMounted() {
+        this.setupListenter()
         this.loadData()
       }
     }

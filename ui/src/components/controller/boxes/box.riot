@@ -1,5 +1,5 @@
 <box>
-    <div if={ ! state.edit }>
+    <div if={ ! state.edit && state.box  }>
       <h2>📦 { state.box.name } <a class="edit-entry" onclick={ toggleEdit }>✏️</a></h2> 
       <p>{ state.box.description }</p>
       <p if={ state.location }><b>Location: </b><a onclick={ registry.application.clickHandler } href="#location/{ state.location.id }">{ state.location.name }</a></p>
@@ -13,8 +13,8 @@
   <script>
     import  './style.css'
     import BoxForm from '../../includes/box/form.riot'
-    import QrCode from '../../includes/helper/qr-code.riot'
-    import ItemsList from '../../includes/list/items.riot'
+    import QrCode from '../../includes/_helper/qr-code.riot'
+    import ItemsList from '../../includes/item/list.riot'
 
     export default {
       components: {
@@ -53,7 +53,6 @@
 
       },
 
-      // needs to have the box loaded in order to get its location, fortunately, locations are usually loaded first
       loadLocationData() {
         let safe = 1000
         while (!this.state.box) {
