@@ -36,7 +36,6 @@
         }
 
         if (location.id > 0) {
-          console.log('Update location.id=' + location.id)
           this.registry.dataStore.locations.updateEntry(location, this.props.onSuccess)
           this.props.onCancel()
         } else {

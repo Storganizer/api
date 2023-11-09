@@ -1,9 +1,12 @@
 import * as riot from 'riot'
+import observable from 'riot-observable'
 import Application from './components/application/application.riot'
 import DataStore from './components/application/dataStore'
 
+const eventBus = observable()
 const registry = {
-  dataStore: DataStore
+  dataStore: DataStore,
+  eventBus: eventBus,
 }
 riot.install(function(component) {
   // all components will pass through here

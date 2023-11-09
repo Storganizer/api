@@ -3,6 +3,11 @@ let apiHost = "http://localhost:5000"
 
 export default {
 
+  onMounted() {
+      console.log('Datastore')
+      console.log(this)
+  },
+
   locations: {
     locations: false,
 
@@ -71,6 +76,8 @@ export default {
         function reqListener() {
           let jsonResponse = JSON.parse(this.responseText)
           target.locations = jsonResponse
+          console.log('EventBus')
+          console.log(target)
           callback(jsonResponse)
         }
 
