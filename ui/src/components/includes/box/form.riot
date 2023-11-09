@@ -22,15 +22,12 @@
         locations: false
       },
 
-
-
       setupListenter() {
         let target = this
         this.registry.eventBus.on('dataLocationLoadSuccess', function(locations) {
           target.loadLocationData()
         })
       },
-
 
       loadLocationData() {
         this.update({

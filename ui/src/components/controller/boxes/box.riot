@@ -39,38 +39,35 @@
       setupListenter() {
         let target = this
 
-        this.registry.eventBus.on('dataBoxLoadSuccess', function(locations) {
-          target.loadBoxData()
+
+        this.registry.eventBus.on('dataBoxLoadSuccess', function(boxes) {
+          target.loadBoxAndLocationData()
         })
 
-        this.registry.eventBus.on('dataItemLoadSuccess', function(locations) {
+
+        this.registry.eventBus.on('dataLocationLoadSuccess', function(boxes) {
+          target.loadBoxAndLocationData()
+        })
+
+
+        this.registry.eventBus.on('dataItemLoadSuccess', function(items) {
           target.loadItemData()
         })
 
-        this.registry.eventBus.on('dataLocationLoadSuccess', function(locations) {
-          target.loadLocationData()
-        })
-
       },
 
-      loadLocationData() {
-        let safe = 1000
-        while (!this.state.box) {
-          safe--
-          if (safe <= 0) break
-        }
+      loadBoxAndLocationData() {
+        console.log('loading box data now')
+        let box = this.registry.dataStore.boxes.getBoxById(this.props.params[0])
+        let locationId = box && box.locationId ? box.locationId : 0
         this.update({
-          location: this.registry.dataStore.locations.getLocationById(this.state.box.locationId)
-        })
-      },
-
-      loadBoxData() {
-        this.update({
-          box: this.registry.dataStore.boxes.getBoxById(this.props.params[0])
+          box: box,
+          location: this.registry.dataStore.locations.getLocationById(locationId)
         })
       },
 
       loadItemData() {
+        console.log('loading item data now')
         this.update({
           items: this.registry.dataStore.items.getItemsByBoxId(this.props.params[0])
         })
@@ -79,9 +76,8 @@
 
       onMounted() {
         this.setupListenter()
-        this.loadBoxData()
+        this.loadBoxAndLocationData()
         this.loadItemData()
-        this.loadLocationData()
       }
     }
   </script>

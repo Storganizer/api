@@ -10,7 +10,7 @@ import time
 
 class Locations(Resource):
     def get(self):
-      time.sleep(2)
+      #time.sleep(2)
       locations = []
       for location in session.scalars(select(ModelLocation)):
         locations.append(location.getDataTransferObject())

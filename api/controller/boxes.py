@@ -12,7 +12,7 @@ import time
 
 class Boxes(Resource):
     def get(self):
-      time.sleep(4)
+      #time.sleep(8)
 
       boxes = []
       for box in session.scalars(select(ModelBox)):

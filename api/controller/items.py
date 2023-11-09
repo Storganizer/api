@@ -8,7 +8,7 @@ import time
 
 class Items(Resource):
     def get(self):
-        time.sleep(6)
+        #time.sleep(6)
         items = []
         for item in session.scalars(select(ModelItem)):
           items.append(item.getDataTransferObject())
