@@ -1,5 +1,18 @@
 # storganizer
 
+## Early sneak peak
+```
+git clone git@github.com:claudio-walser/storganizer.git
+cd storganizer/api
+python api.py # sorry no requirements.txt right now, flask and stuff is needed - sorry again
+
+# in a second terminal
+cd storganizer/ui
+npm install
+npm run start
+```
+A webbrowser should open and you should hopefully be greeted with with the application
+
 ## Description
 Application to manage your storage at home. It is really not much more than an idea.
 I did not find anything simple to digitally manage my mess at home. Everything I own is of unimaginable value of course.
