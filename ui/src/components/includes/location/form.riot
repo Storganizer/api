@@ -1,5 +1,5 @@
 <location-form class="no-print">
-  <p>
+  <p if={ props.location }>
     <input placeholder="Location" name="location-name" id="location-name" type="text" value="{ props.location.name }"></input>
     <textarea placeholder="Description" name="location-description" id="location-description">{ props.location.description }</textarea>
     <select placeholder="Choose Accessability" name="location-classification" id="location-classification">
@@ -12,7 +12,7 @@
     </select>
   </p>
 
-  <p>
+  <p if={ props.location }>
     <button onclick={ saveEntry }>Save</button>
     <button class="button-outline" onclick={ props.onCancel }>Cancel</button>
     <button if={ props.location.id } class="button-delete" onclick={ deleteEntry }>Delete</button>
@@ -21,12 +21,6 @@
   <script>
 
     export default {
-      onMounted() {
-        if (!this.props.onSuccess || typeof this.props.onSuccess != 'function') {
-          this.props.onSuccess = this.props.onCancel
-        }
-      },
-
       saveEntry(e) {
         let location = {
           id: this.props.location.id || 0,
@@ -36,24 +30,18 @@
         }
 
         if (location.id > 0) {
-          this.registry.dataStore.locations.updateEntry(location, this.props.onSuccess)
+          this.registry.dataStore.locations.updateEntry(location)
           this.props.onCancel()
         } else {
-          let target = this
-          this.registry.dataStore.locations.addEntry(location, function() {
-            window.location.replace('#locations')
-            target.registry.application.render('#locations')
-            target.props.onSuccess()
-          })
+          this.registry.dataStore.locations.addEntry(location)
+          this.props.onCancel()
         }
       },
 
       deleteEntry(e) {
-        let target = this
-        this.registry.dataStore.locations.deleteEntry(this.props.location, function() {
-          window.location.replace('#locations')
-          target.registry.application.render('#locations')
-        })
+        this.registry.dataStore.locations.deleteEntry(this.props.location)
+        window.location.replace('#locations')
+        this.registry.application.render('#locations')
       },
     }
 

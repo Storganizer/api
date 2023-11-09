@@ -1,8 +1,8 @@
 <locations-list class="no-print">
-    <h2 if={ props.locations.length }>🏠 Locations <a class="add-entry" onclick={ add }>➕</a></h2>
+    <h2 if={ props.locations.length }>🏠 Locations <a class="add-entry" onclick={ toggleAdd }>➕</a></h2>
 
     <div if={ state.add }>
-      <location-form location={ state.emptyLocation } onCancel={ add } onSuccess={ onSuccess }></location-form>
+      <location-form location={ state.emptyLocation } onCancel={ toggleAdd }></location-form>
     </div>
 
     <table>
@@ -36,16 +36,11 @@
           classification: 0,
         }
       },
-      add() {
+      toggleAdd() {
         this.update({
           add: !this.state.add
         })
       },
-
-      onSuccess() {
-        this.add()
-        this.registry.application.render(document.URL)
-      }
     }
   </script>
 </locations-list>

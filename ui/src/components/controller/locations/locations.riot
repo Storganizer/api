@@ -12,19 +12,21 @@
         locations: [],
       },
 
-      loadData() {
-        console.log('Yehaa')
+      setupListenter() {
         let target = this
-        if (this.registry.dataStore) {
-          this.registry.dataStore.locations.getLocations(function(data){
-            target.update({
-              locations: data
-            })
-          })
-        }
+        this.registry.eventBus.on('dataLocationLoadSuccess', function(locations) {
+          target.loadData()
+        })
+      },
+
+      loadData() {
+        this.update({
+            locations: this.registry.dataStore.locations.getLocations()
+        })
       },
 
       onMounted() {
+        this.setupListenter()
         this.loadData()
       }
     }

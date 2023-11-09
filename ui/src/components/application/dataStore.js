@@ -9,7 +9,12 @@ export default {
   locations: {
     locations: false,
 
-    search(string, callback) {
+    search(string,) {
+      if (!this.locations) {
+        this.fetchLocations()
+        return []
+      }
+
       string = string.toLowerCase()
       function filterByString(item) {
         if (string == '') {
@@ -28,18 +33,15 @@ export default {
         return found
       }
 
-      if (!this.locations) {
-        this.fetchLocations(function(data) {
-          callback(data.filter(filterByString))
-        })
-        return false
-      }
-
-      callback(this.locations.filter(filterByString))
-      return true
+      return this.locations.filter(filterByString)
     },
 
-    getLocationById(id, callback) {
+    getLocationById(id) {
+      if (!this.locations) {
+        this.fetchLocations()
+        return []
+      }
+
       function filterByID(item) {
         if (Number.isFinite(item.id) && item.id == id) {
           return true
@@ -47,55 +49,48 @@ export default {
         return false
       }
 
-      if (!this.locations) {
-        this.fetchLocations(function(data) {
-          callback(data.filter(filterByID)[0])
-        })
-        return false
-      }
-
-      callback(this.locations.filter(filterByID)[0])
-      return true
+      return this.locations.filter(filterByID)[0]
     },
 
-    getLocations(callback) {
+    getLocations() {
       if (!this.locations) {
-        this.fetchLocations(callback)
-        return false
+        this.fetchLocations()
+        return []
       }
 
-      callback(this.locations)
-      return true
+      return this.locations
     },
 
-    fetchLocations(callback) {
+    fetchLocations() {
       if (this.locations == false) {
         let target = this
         function reqListener() {
           let jsonResponse = JSON.parse(this.responseText)
           target.locations = jsonResponse
-          console.log('EventBus')
-          console.log(Registry.eventBus)
-          callback(jsonResponse)
+          Registry.eventBus.trigger('dataLocationLoadSuccess', target.locations)
         }
 
         const req = new XMLHttpRequest()
         req.addEventListener("load", reqListener)
         req.open("GET", apiHost + "/locations")
-        req.send();
+        req.send()
+
+        return false
+      } else {
+        return true
       }
     },
 
-    reload(callback) {
+    reload() {
       this.locations = false
-      this.fetchLocations(callback)
+      this.fetchLocations()
     },
 
-    updateEntry(location, callback) {
+    updateEntry(location) {
       let target = this
       function reqListener() {
         let jsonResponse = JSON.parse(this.responseText)
-        target.reload(callback)
+        target.reload()
       }
 
       const req = new XMLHttpRequest()
@@ -104,11 +99,11 @@ export default {
       req.send(JSON.stringify(location))
     },
 
-    addEntry(location, callback) {
+    addEntry(location) {
       let target = this
       function reqListener() {
         let jsonResponse = JSON.parse(this.responseText)
-        target.reload(callback)
+        target.reload()
       }
 
       const req = new XMLHttpRequest()
@@ -117,11 +112,11 @@ export default {
       req.send(JSON.stringify(location))
     },
 
-    deleteEntry(location, callback) {
+    deleteEntry(location) {
       let target = this
       function reqListener() {
         let jsonResponse = JSON.parse(this.responseText)
-        target.reload(callback)
+        target.reload()
       }
 
       const req = new XMLHttpRequest()
