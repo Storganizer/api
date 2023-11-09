@@ -40,15 +40,15 @@
 
       loadData() {
         let target = this
-        if (window.dataStore) {
+        if (this.registry.dataStore) {
           
-          window.dataStore.locations.getLocationById(this.props.params[0], function(data) {
+          this.registry.dataStore.locations.getLocationById(this.props.params[0], function(data) {
             target.update({
               location: data
             })
           })
 
-          window.dataStore.boxes.getBoxesByLocationId(this.props.params[0], function(data) {
+          this.registry.dataStore.boxes.getBoxesByLocationId(this.props.params[0], function(data) {
             target.update({
               boxes: data
             })

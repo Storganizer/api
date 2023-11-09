@@ -13,9 +13,10 @@
       },
 
       loadData() {
+        console.log('Yehaa')
         let target = this
-        if (window.dataStore) {
-          window.dataStore.locations.getLocations(function(data){
+        if (this.registry.dataStore) {
+          this.registry.dataStore.locations.getLocations(function(data){
             target.update({
               locations: data
             })

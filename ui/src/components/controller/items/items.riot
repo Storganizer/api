@@ -14,8 +14,8 @@
 
       loadData() {
         let target = this
-        if (window.dataStore) {
-          window.dataStore.items.getItems(function(data){
+        if (this.registry.dataStore) {
+          this.registry.dataStore.items.getItems(function(data){
             target.update({
               items: data
             })

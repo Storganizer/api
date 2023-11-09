@@ -42,19 +42,19 @@
       search(searchString, allowEmpty = false) {
         let target = this
         if (searchString.length >= 3 || allowEmpty) {
-          window.dataStore.locations.search(searchString, function(locations) {
+          this.registry.dataStore.locations.search(searchString, function(locations) {
             target.update({
               locations: locations
             })
           })
 
-          window.dataStore.boxes.search(searchString, function(boxes) {
+          this.registry.dataStore.boxes.search(searchString, function(boxes) {
             target.update({
               boxes: boxes
             })
           })
 
-          window.dataStore.items.search(searchString, function(items) {
+          this.registry.dataStore.items.search(searchString, function(items) {
             target.update({
               items: items
             })

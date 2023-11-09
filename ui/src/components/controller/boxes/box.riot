@@ -38,12 +38,13 @@
 
       loadData() {
         let target = this
-        if (window.dataStore) {
+        let registry = this.registry
+        if (registry.dataStore) {
           
-          window.dataStore.boxes.getBoxById(this.props.params[0], function(data) {
+          registry.dataStore.boxes.getBoxById(this.props.params[0], function(data) {
             let boxData = data
             // get parent location by id
-            window.dataStore.locations.getLocationById(boxData.locationId, function(data) {
+            registry.dataStore.locations.getLocationById(boxData.locationId, function(data) {
               target.update({
                 box: boxData,
                 location: data
@@ -52,7 +53,7 @@
 
           })
 
-          window.dataStore.items.getItemsByBoxId(this.props.params[0], function(data) {
+          registry.dataStore.items.getItemsByBoxId(this.props.params[0], function(data) {
             target.update({
               items: data
             })
