@@ -1,5 +1,5 @@
 <boxes-list class="no-print">
-    <h2 if={ props.boxes.length || props.locationId } >📦 { props.boxes.length } Boxes <a class="add-entry" onclick={ toggleAdd }>➕</a></h2>
+    <h2>📦 { props.boxes.length } Boxes <a class="add-entry" onclick={ toggleAdd }>➕</a></h2>
 
     <div if={ state.add }>
       <box-form box={ state.emptyBox } onCancel={ toggleAdd }></box-form>
@@ -38,7 +38,7 @@
         this.update({
           add: !this.state.add,
           emptyBox: {
-            locationId: this.props.locationId
+            locationId: this.props.locationId || 0
           }
         })
       },

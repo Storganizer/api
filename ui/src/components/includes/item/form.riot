@@ -1,10 +1,11 @@
 <item-form class="no-print">
   <p if={ props.item }>
-    <input name="item-name" id="item-name" type="text" value="{ props.item.name }"></input>
-    <textarea name="item-description" id="item-description">{ props.item.description }</textarea>
-    <input name="item-amount" id="item-amount" value={ props.item.amount }></input>
+    <input placeholder="Item" name="item-name" id="item-name" type="text" value="{ props.item.name }"></input>
+    <textarea placeholder="Description" name="item-description" id="item-description">{ props.item.description }</textarea>
+    <input placeholder="Amount" name="item-amount" id="item-amount" value={ props.item.amount }></input>
 
-    <select name="item-box-id" id="item-box-id">
+    <label for="item-box-id">Box</label><select name="item-box-id" id="item-box-id">
+      <option selected={ !props.item.boxId || props.item.boxId <= 0 } value="0" >unboxed</option>
       <option selected={ props.item.boxId == element.id } each={ element in state.boxes } value={ element.id }>{ element.name }</option>
     </select>
 

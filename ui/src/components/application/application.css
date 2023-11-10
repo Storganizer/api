@@ -23,7 +23,7 @@
 @media print
 {    
 
-    .no-print, .no-print *
+    .no-print, .no-print, .button-delete, .edit-entry, .add-entry *
     {
         display: none !important;
     }
