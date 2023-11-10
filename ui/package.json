@@ -9,11 +9,13 @@
 		"cov-html": "nyc report --reporter=html",
 		"build": "npx webpack --mode production",
 		"prepublishOnly": "npm test",
-		"start": "npx webpack serve --mode development --hot --port 3000"
+		"start": "npx webpack serve --mode development --hot --port 3000",
+		"vite-start": "vite"
 	},
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
+		"@capacitor/cli": "^5.5.1",
 		"@riotjs/compiler": "^6.3.2",
 		"@riotjs/register": "^6.0.1",
 		"@riotjs/webpack-loader": "^6.0.0",
@@ -31,6 +33,10 @@
 		"webpack-dev-server": "^4.10.0"
 	},
 	"dependencies": {
+		"@capacitor/android": "^5.5.1",
+		"@capacitor/core": "^5.5.1",
+		"@capacitor/electron": "^2.5.0",
+		"@capacitor/ios": "^5.5.1",
 		"@riotjs/custom-elements": "^6.0.1",
 		"@riotjs/hot-reload": "^6.0.1",
 		"@riotjs/lazy": "^2.0.2",
