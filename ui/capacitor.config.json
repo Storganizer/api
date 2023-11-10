@@ -1,0 +1,11 @@
+{
+  "appId": "io.storganizer.app",
+  "appName": "Storganizer",
+  "bundledWebRuntime": false,
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}
