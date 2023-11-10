@@ -8,4 +8,9 @@
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <platform name="electron">
+        <preference name="ElectronSettingsFilePath" value="cordova/electron/settings.json" />
+    </platform>
 </widget>
+
+

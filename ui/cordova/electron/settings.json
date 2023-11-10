@@ -1,0 +1,16 @@
+{
+  "electron": {
+    "mac": {
+      "package": [ "dmg" ],
+      "arch": [ "x64" ]
+    },
+    "linux": {
+      "package": [ "AppImage" ],
+      "arch": [ "x64" ]
+    },
+    "windows": {
+      "package": [ "msi" ],
+      "arch": [ "x64" ]
+    }
+  }
+}
