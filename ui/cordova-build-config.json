@@ -1,0 +1,16 @@
+{
+  "electron": {
+    "linux": {
+      "package": [
+        "tar.bz2",
+        {
+          "appImage": {},
+          "flatpak": {}
+        }
+      ],
+      "arch": [
+        "x64"
+      ]
+    }
+  }
+}
