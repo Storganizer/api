@@ -1,16 +1,29 @@
 {
   "electron": {
     "linux": {
+      "category": "Utility",
       "package": [
         "tar.bz2",
         {
-          "appImage": {},
-          "flatpak": {}
+          "appImage": {}
         }
       ],
       "arch": [
         "x64"
       ]
     }
+  },
+
+  "windows": {
+      "package": [
+        "msi"
+      ],
+      "arch": [
+        "x64"
+      ]
   }
+
+
+
+
 }

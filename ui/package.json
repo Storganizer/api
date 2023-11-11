@@ -7,7 +7,7 @@
 	"scripts": {
 		"build": "npx webpack --mode production",
 		"start-dev": "npx webpack serve --mode development --hot --port 3000",
-		"cordova-build": ". ./cordova-prepare.sh && cordova build --buildConfig=/home/claudio/Development/storganizer/ui/cordova-build-config.json $1"
+		"cordova-build": ". ./cordova-prepare.sh && cordova build --prod --buildConfig=/home/claudio/Development/storganizer/ui/cordova-build-config.json $1"
 	},
 	"author": "",
 	"license": "ISC",
