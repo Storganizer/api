@@ -11,18 +11,18 @@
       "arch": [
         "x64"
       ]
+    },
+
+    "windows": {
+        "package": [
+          "msi"
+        ],
+        "arch": [
+          "x64"
+        ]
     }
+
   },
-
-  "windows": {
-      "package": [
-        "msi"
-      ],
-      "arch": [
-        "x64"
-      ]
-  }
-
 
 
 
