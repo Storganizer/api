@@ -65,11 +65,11 @@ if __name__ == "__main__":
       )
       session.add(boxEntry)
       session.commit()
-      
+
       items = []
       for item in box['items']:
         itemDescription = item['description'] if 'description' in item.keys() else ''
-        
+
         itemEntry = Item(
           name=item['name'],
           amount=item['amount'],
