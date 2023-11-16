@@ -5,6 +5,7 @@ from sqlalchemy import select
 from flask_restful import Resource
 from flask import request
 import json
+import base64
 
 import time
 
@@ -39,14 +40,24 @@ class Boxes(Resource):
 
         # {'classification': 1, 'description': 'Schlafzimmer', 'id': 0, 'name': 'Lorina'}
         boxDescription = box['description'] if 'description' in box.keys() else ''
+
+
+
+
         boxEntry = ModelBox(
           name=box['name'],
           description=boxDescription,
+#          image=boxImage,
           locationId=box['locationId']
         )
         session.add(boxEntry)
         session.commit()
 
+        boxImage = box['image'] if 'image' in box.keys() else ''
+        if boxImage and boxImage != '':
+          with open(f'static/boxes/box-{ boxEntry["id"] }.png', 'w') as image_file:
+            image_file.write(base64.decodebytes( b"{boxImage}"))
+            
         return {
           'error': False,
           'message': 'Box successfully stored'
@@ -117,8 +128,16 @@ class Box(Resource):
             'message': f'You cannot add box by put, use post instead'
           }, 405 # Method not Allowed
 
+
+        boxImage = box['image'] if 'image' in box.keys() else ''
+        if boxImage and boxImage != '':
+          with open(f'static/boxes/box-{ box["id"] }.png', 'w') as image_file:
+            image_file.write(base64.decodebytes(boxImage))
+           
+
         boxEntry = session.query(ModelBox).get(id)
         boxEntry.name = box['name']
+        #boxEntry.image = box['image']
         boxEntry.description = box['description']
         boxEntry.locationId = box['locationId']
         session.commit()
