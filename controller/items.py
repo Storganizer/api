@@ -5,6 +5,7 @@ from sqlalchemy import select
 from flask_restful import Resource
 from flask import request
 import json
+import base64
 import time
 
 
@@ -44,6 +45,15 @@ class Items(Resource):
         )
         session.add(itemEntry)
         session.commit()
+
+        # write picture after we know the database id
+        itemImage = item['image'] if 'image' in item.keys() else ''
+        if itemImage and itemImage != '':
+          with open(f'static/images/item-{ itemEntry.id }.png', 'wb') as image_file:
+            image_file.write(base64.b64decode(itemImage))
+            itemEntry.image = f'/static/images/item-{ itemEntry.id }.png'
+            session.commit()
+
 
         return {
           'error': False,
@@ -116,11 +126,20 @@ class Item(Resource):
             'message': f'You cannot add item by put, use post instead'
           }, 405 # Method not Allowed
 
-        boxEntry = session.query(ModelItem).get(id)
-        boxEntry.name = item['name']
-        boxEntry.description = item['description']
-        boxEntry.amount = item['amount']
-        boxEntry.boxId = item['boxId']
+        imageLink = False
+        itemImage = item['image'] if 'image' in item.keys() else ''
+        if itemImage and itemImage != '':
+          with open(f'static/images/item-{ item["id"] }.png', 'wb') as image_file:
+            image_file.write(base64.b64decode(itemImage))
+            imageLink = f'/static/images/item-{ item["id"] }.png'
+
+        itemEntry = session.query(ModelItem).get(id)
+        itemEntry.name = item['name']
+        if imageLink:
+          itemEntry.image = imageLink
+        itemEntry.description = item['description']
+        itemEntry.amount = item['amount']
+        itemEntry.boxId = item['boxId']
         session.commit()
 
         return {

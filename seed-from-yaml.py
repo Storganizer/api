@@ -16,8 +16,6 @@ import yaml
 # main loop
 if __name__ == "__main__":
   
-
-
   print("start db setup")
   Base.metadata.create_all(bind=engine)
   print("db setup done")

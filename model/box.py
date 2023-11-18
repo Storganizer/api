@@ -17,7 +17,7 @@ class Box(Base):
     id          = Column("id", Integer, primary_key=True)
     name        = Column("name", String)
     description = Column("description", TEXT)
-    image = Column("image", TEXT)
+    image       = Column("image", String)
     lastAccess  = Column("lastAccess", DateTime)
     locationId  = Column(
                       Integer,
