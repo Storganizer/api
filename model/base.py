@@ -2,6 +2,8 @@ from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm.collections import InstrumentedList
 from flask_restful import marshal
 from pprint import pprint
+import socket
+
 
 class DataTransferObject(object):
     pass
@@ -12,6 +14,9 @@ class Base(DeclarativeBase):
     dtoColumns = ["id"]
     
     def getDataTransferObject(self, additionalColumns: list = [], isRecursive: bool = False) -> object:
+        
+        hostname = socket.gethostname()
+
         dto = DataTransferObject()
         self.dtoColumns =  self.dtoColumns + additionalColumns
 
@@ -29,7 +34,9 @@ class Base(DeclarativeBase):
                     case "len":
                         setattr(dto, func + dtoColumn.capitalize(), len(getattr(self, dtoColumn)))
                     case "url":
-                        setattr(dto, func, dtoColumn.replace("{id}", str(getattr(self, "id"))))
+                        dtoColumn = dtoColumn.replace("{id}", str(getattr(self, "id")))
+                        dtoColumn = dtoColumn.replace("{host}", socket.gethostname())
+                        setattr(dto, func, dtoColumn)
                     case _:
                         pass
 
@@ -53,6 +60,11 @@ class Base(DeclarativeBase):
 
                 if not isinstance(attribute, Base) and not hasattr(attribute, 'getDataTransferObject'):
                     setattr(dto, dtoColumn, attribute)
+
+
+        dictionary = dto.__dict__
+        if dictionary['image']:
+            dictionary['image'] = f'http://10.1.1.79:5000{dictionary["image"]}'
 
 
         return dto.__dict__
