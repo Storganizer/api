@@ -65,6 +65,6 @@ class Base(DeclarativeBase):
         dictionary = dto.__dict__
         if dictionary['image']:
             dictionary['image'] = f'http://10.1.1.79:5000{dictionary["image"]}'
-
-
+        else:
+            dictionary['image'] = f'http://10.1.1.79:5000/static/images/_default-{self.__tablename__}.jpg'
         return dto.__dict__
