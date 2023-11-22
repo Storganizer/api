@@ -1,6 +1,7 @@
 from model.box import Box as ModelBox
 from model.connection import engine, session
 
+import os
 from sqlalchemy import select
 from flask_restful import Resource
 from flask import request
@@ -85,6 +86,10 @@ class Box(Resource):
       if box:
         session.delete(box)
         session.commit()
+
+        if os.path.exists(f'static/images/box-{ id }.png'):
+          os.remove(f'static/images/box-{ id }.png')
+
         return {
           'error': False,
           'message': 'Box successfully deleted'

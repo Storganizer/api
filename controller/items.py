@@ -1,6 +1,7 @@
 from model.item import Item as ModelItem
 from model.connection import engine, session
 
+import os
 from sqlalchemy import select
 from flask_restful import Resource
 from flask import request
@@ -83,6 +84,10 @@ class Item(Resource):
       if item:
         session.delete(item)
         session.commit()
+
+        if os.path.exists(f'static/images/item-{ id }.png'):
+          os.remove(f'static/images/item-{ id }.png')
+
         return {
           'error': False,
           'message': 'Item successfully deleted'

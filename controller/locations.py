@@ -1,6 +1,7 @@
 from model.location import Location as ModelLocation
 from model.connection import engine, session
 
+import os
 from sqlalchemy import select, text
 from flask_restful import Resource, marshal_with
 from flask import request
@@ -46,7 +47,7 @@ class Locations(Resource):
         session.commit()
 
         # write picture after we know the database id
-        image = box['image'] if 'image' in location.keys() else ''
+        image = location['image'] if 'image' in location.keys() else ''
         if image and image != '':
           with open(f'static/images/location-{ locationEntry.id }.png', 'wb') as image_file:
             image_file.write(base64.b64decode(image))
@@ -81,6 +82,11 @@ class Location(Resource):
       if location:
         session.delete(location)
         session.commit()
+
+        if os.path.exists(f'static/images/location-{ id }.png'):
+          os.remove(f'static/images/location-{ id }.png')
+
+
         return {
           'error': False,
           'message': 'Location successfully deleted'
