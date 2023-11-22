@@ -11,12 +11,13 @@ class Box(Base):
     __tablename__ = "box"
 
     #dtoColumns = ["id", "name", "description", "len items", "items"]
-    dtoColumns = ["id", "name", "description", "locationId", "len items", "url /box/{id}"]
+    dtoColumns = ["id", "name", "description", "image", "locationId", "len items", "url /box/{id}"]
 
 
     id          = Column("id", Integer, primary_key=True)
     name        = Column("name", String)
     description = Column("description", TEXT)
+    image       = Column("image", String)
     lastAccess  = Column("lastAccess", DateTime)
     locationId  = Column(
                       Integer,
@@ -30,4 +31,4 @@ class Box(Base):
 
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r}, lastAccess={self.lastAccess!r})"
+        return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r}, image={self.image!r}, lastAccess={self.lastAccess!r})"

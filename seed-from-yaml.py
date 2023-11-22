@@ -16,8 +16,6 @@ import yaml
 # main loop
 if __name__ == "__main__":
   
-
-
   print("start db setup")
   Base.metadata.create_all(bind=engine)
   print("db setup done")
@@ -34,7 +32,7 @@ if __name__ == "__main__":
   print("start seeding data")
   
 # add boxes and items from yaml
-  with open('../storganizer-data/yaml/locations.yaml', 'r') as file:
+  with open('../data/yaml/locations.yaml', 'r') as file:
     locations = yaml.safe_load(file)
 
     for location in locations['locations']:
@@ -50,7 +48,7 @@ if __name__ == "__main__":
 
 
   # add boxes and items from yaml
-  with open('../storganizer-data/yaml/boxes.yaml', 'r') as file:
+  with open('../data/yaml/boxes.yaml', 'r') as file:
     boxes = yaml.safe_load(file)
 
     for box in boxes['boxes']:
