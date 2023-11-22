@@ -6,7 +6,6 @@ from flask_restful import Resource
 from flask import request
 import json
 import base64
-
 import time
 
 from pprint import pprint

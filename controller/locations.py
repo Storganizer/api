@@ -5,6 +5,7 @@ from sqlalchemy import select, text
 from flask_restful import Resource, marshal_with
 from flask import request
 import json
+import base64
 import time
 
 
@@ -43,6 +44,14 @@ class Locations(Resource):
         )
         session.add(locationEntry)
         session.commit()
+
+        # write picture after we know the database id
+        image = box['image'] if 'image' in location.keys() else ''
+        if image and image != '':
+          with open(f'static/images/location-{ locationEntry.id }.png', 'wb') as image_file:
+            image_file.write(base64.b64decode(image))
+            locationEntry.image = f'/static/images/location-{ locationEntry.id }.png'
+            session.commit()
 
         return {
           'error': False,
@@ -115,8 +124,17 @@ class Location(Resource):
             'message': f'You cannot add location by put, use post instead'
           }, 405 # Method not Allowed
 
+        imageLink = False
+        image = location['image'] if 'image' in location.keys() else ''
+        if image and image != '':
+          with open(f'static/images/location-{ location["id"] }.png', 'wb') as image_file:
+            image_file.write(base64.b64decode(image))
+            imageLink = f'/static/images/location-{ location["id"] }.png'
+
         locationEntry = session.query(ModelLocation).get(id)
         locationEntry.name = location['name']
+        if imageLink:
+          locationEntry.image = imageLink
         locationEntry.description = location['description']
         locationEntry.classification = location['classification']
         session.commit()
