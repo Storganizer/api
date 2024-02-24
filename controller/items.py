@@ -14,7 +14,7 @@ class Items(Resource):
     def get(self):
         #time.sleep(6)
         items = []
-        for item in session.scalars(select(ModelItem)):
+        for item in session.scalars(select(ModelItem).order_by(ModelItem.name)):
           items.append(item.getDataTransferObject())
 
         return items

@@ -16,7 +16,7 @@ class Boxes(Resource):
       #time.sleep(8)
 
       boxes = []
-      for box in session.scalars(select(ModelBox)):
+      for box in session.scalars(select(ModelBox).order_by(ModelBox.name)):
         boxes.append(box.getDataTransferObject())
 
       return boxes

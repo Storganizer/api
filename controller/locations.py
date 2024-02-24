@@ -15,7 +15,7 @@ class Locations(Resource):
       print(request.remote_addr)
       #time.sleep(2)
       locations = []
-      for location in session.scalars(select(ModelLocation)):
+      for location in session.scalars(select(ModelLocation).order_by(ModelLocation.name)):
         locations.append(location.getDataTransferObject())
       return locations, 200 # OK
 
