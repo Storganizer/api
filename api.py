@@ -42,7 +42,7 @@ api.add_resource(Items, '/items')
 api.add_resource(Item, '/item/<id>')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=False)
 
 
 sys.exit(0)
