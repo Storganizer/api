@@ -12,9 +12,9 @@ class DataTransferObject(object):
 class Base(DeclarativeBase):
     schema = None
     dtoColumns = ["id"]
-    
+
     def getDataTransferObject(self, additionalColumns: list = [], isRecursive: bool = False) -> object:
-        
+
         hostname = socket.gethostname()
 
         dto = DataTransferObject()
