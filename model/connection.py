@@ -5,7 +5,8 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 
 
-engine = create_engine("sqlite+pysqlite:///storganizer.db", echo=True)
+#engine = create_engine("sqlite+pysqlite:///storganizer.db", echo=True)
+engine = create_engine('postgresql+psycopg2://storganizer@localhost/storganizer', echo=True)
 
 session_factory = sessionmaker(bind=engine)
 session = scoped_session(session_factory)
