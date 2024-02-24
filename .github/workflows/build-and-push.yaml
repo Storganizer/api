@@ -1,0 +1,46 @@
+name: build and push
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and push Image
+    runs-on: [ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set output
+      id: refs
+      run: |
+        if [[ ${GITHUB_REF#refs/heads/} == main ]]; then
+          IMAGE_TAG=latest
+        elif [[ ${GITHUB_REF#refs/tags/} == v* ]]; then
+          IMAGE_TAG=${GITHUB_REF#refs/tags/}
+        fi
+
+        echo ::set-output name=IMAGE_TAG::${IMAGE_TAG}
+
+    - name: Build Image
+      id: build-image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: storganizer-api
+        tags: current-build
+        dockerfiles: |
+          ./Dockerfile
+
+    - name: Push Image
+      id: push-image
+      run: |
+        buildah push \
+          --creds=${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_TOKEN }} \
+          ${{ steps.build-image.outputs.image }}:current-build \
+          docker://index.docker.io/${{ vars.DOCKERHUB_ORG }}/${{ steps.build-image.outputs.image }}:${{ steps.refs.outputs.IMAGE_TAG }}
