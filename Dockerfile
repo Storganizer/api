@@ -1,5 +1,7 @@
 from docker.io/python:3.12-slim
 
+ENV SQLALCHEMY_CONNECTION_STRING 'sqlite+pysqlite:///storganizer.db'
+
 RUN apt update -y && apt purge gcc && apt install -y libpq-dev rustc g++; \
 	mkdir /app
 
