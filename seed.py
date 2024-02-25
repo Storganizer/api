@@ -14,11 +14,11 @@ if __name__ == "__main__":
   Base.metadata.create_all(bind=engine)
   print("db setup done")
 
-  print("Truncate everything first / very sqlite specific")
-  session.execute(text('''DELETE FROM location;'''))
-  session.commit()
-  session.execute(text('''VACUUM;'''))
-  session.commit()
+  # print("Truncate everything first / very sqlite specific")
+  # session.execute(text('''DELETE FROM location;'''))
+  # session.commit()
+  # session.execute(text('''VACUUM;'''))
+  # session.commit()
 
   print("start seeding data")
   airRaidShelter = Location(name="Luftschutzkeller", description="Luftschutzkeller - ungeheizt - nicht so gut belüftet", classification=1)
