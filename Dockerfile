@@ -17,4 +17,4 @@ RUN python -m pip install --upgrade pip \
 
 EXPOSE 5000
 
-ENTRYPOINT ["/app/api.py"]
+ENTRYPOINT ["python", "/app/api.py"]
