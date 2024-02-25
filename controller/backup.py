@@ -55,16 +55,16 @@ class Restore(Resource):
 
 
       if 'locations' in keys:
-      for location in allElements['locations']:
-        locationObject = ModelLocation(
-          id = location['id'],
-          name = location['name'],
-          description = location['description'],
-          image = location['image'],
-          classification = location['classification']
-        )
-        session.add(locationObject)
-        session.commit()
+        for location in allElements['locations']:
+          locationObject = ModelLocation(
+            id = location['id'],
+            name = location['name'],
+            description = location['description'],
+            image = location['image'],
+            classification = location['classification']
+          )
+          session.add(locationObject)
+          session.commit()
 
 
       if 'boxes' in keys:
