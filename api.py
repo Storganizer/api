@@ -20,6 +20,7 @@ from flask_restful import Resource, abort, reqparse
 from controller.locations import Locations, Location
 from controller.boxes import Boxes, Box
 from controller.items import Items, Item
+from controller.backup import Backup, Restore
 
 
 
@@ -40,9 +41,11 @@ api.add_resource(Boxes, '/boxes')
 api.add_resource(Box, '/box/<id>')
 api.add_resource(Items, '/items')
 api.add_resource(Item, '/item/<id>')
+api.add_resource(Backup, '/backup')
+api.add_resource(Restore, '/restore')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=True)
 
 
 sys.exit(0)
