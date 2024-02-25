@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import sys
+
 from model.base import Base
 from model.location import Location
 from model.box import Box
@@ -14,6 +16,7 @@ if __name__ == "__main__":
   Base.metadata.create_all(bind=engine)
   print("db setup done")
 
+  sys.exit(0)
   # print("Truncate everything first / very sqlite specific")
   # session.execute(text('''DELETE FROM location;'''))
   # session.commit()

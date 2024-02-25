@@ -45,5 +45,56 @@ class Backup(Resource):
 
 class Restore(Resource):
 
-    def get(self):
+    def post(self):
+      if 'backup' not in request.files:
+          return 'No backup sent'
+      uploadFile = request.files['backup']
+
+      allElements = json.loads(uploadFile.read())
+      keys = allElements.keys()
+
+
+      if 'locations' in keys:
+      for location in allElements['locations']:
+        locationObject = ModelLocation(
+          id = location['id'],
+          name = location['name'],
+          description = location['description'],
+          image = location['image'],
+          classification = location['classification']
+        )
+        session.add(locationObject)
+        session.commit()
+
+
+      if 'boxes' in keys:
+       for box in allElements['boxes']:
+         boxObject = ModelBox(
+           id = box['id'],
+           name = box['name'],
+           description = box['description'],
+           image = box['image'],
+           #lastAccess = box['lastAccess'],
+           locationId = box['locationId']
+         )
+         session.add(boxObject)
+         session.commit()
+
+      if 'items' in keys:
+        for item in allElements['items']:
+          itemObject = ModelItem(
+            id = item['id'],
+            amount = item['amount'],
+            name = item['name'],
+            description = item['description'],
+            image = item['image'],
+            #lastUsage = item['lastUsage'],
+            #state = item['state'],
+            boxId = item['boxId']
+          )
+          session.add(itemObject)
+          session.commit()
+
+
+
       return "restore"
