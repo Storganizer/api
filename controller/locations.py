@@ -17,6 +17,7 @@ class Locations(Resource):
       locations = []
       for location in session.scalars(select(ModelLocation).order_by(ModelLocation.name)):
         locations.append(location.getDataTransferObject())
+      session.commit()
       return locations, 200 # OK
 
     def post(self):
@@ -68,6 +69,7 @@ class Location(Resource):
 
     def get(self, id):
       location = session.query(ModelLocation).get(id)
+      session.commit()
       if location:
         return location.getDataTransferObject(["boxes"]), 200 # OK
 

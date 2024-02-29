@@ -18,7 +18,7 @@ class Boxes(Resource):
       boxes = []
       for box in session.scalars(select(ModelBox).order_by(ModelBox.name)):
         boxes.append(box.getDataTransferObject())
-
+      session.commit()
       return boxes
 
     def post(self):
@@ -74,6 +74,7 @@ class Boxes(Resource):
 class Box(Resource):
     def get(self, id):
       box = session.query(ModelBox).get(id)
+      session.commit()
       if box:
         return box.getDataTransferObject(['items', 'location'])
       return {

@@ -16,6 +16,7 @@ class Items(Resource):
         items = []
         for item in session.scalars(select(ModelItem).order_by(ModelItem.name)):
           items.append(item.getDataTransferObject())
+        session.commit()
 
         return items
 
@@ -70,6 +71,7 @@ class Items(Resource):
 class Item(Resource):
     def get(self, id):
       item = session.query(ModelItem).get(id)
+      session.commit()
       if item:
         return item.getDataTransferObject(['box'])
 
