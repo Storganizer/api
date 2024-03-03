@@ -19,7 +19,7 @@ class Tag(Base):
 
     __tablename__ = "tag"
 
-    id          = Column("id", Integer, primary_key=True)
+    id          = Column("id", Integer, primary_key=True, autoincrement=True)
     name        = Column("name", String)
 
 
@@ -34,7 +34,7 @@ class Item(Base):
     dtoColumns = ["id", "name", "image", "description", "boxId", "amount", "url /item/{id}"]
 
 
-    id          = Column("id", Integer, primary_key=True)
+    id          = Column("id", Integer, primary_key=True, autoincrement=True)
     amount      = Column("amount", Integer)
     name        = Column("name", String)
     description = Column("description", TEXT)

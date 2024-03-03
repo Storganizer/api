@@ -13,7 +13,7 @@ class Location(Base):
     dtoColumns = ["id", "name", "description", "image", "classification", "len boxes", "url /location/{id}"]
 
 
-    id              = Column("id", Integer, primary_key=True)
+    id              = Column("id", Integer, primary_key=True, autoincrement=True)
     name            = Column("name", String)
     description     = Column("description", TEXT)
     image           = Column("image", String)

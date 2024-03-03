@@ -14,7 +14,7 @@ class Box(Base):
     dtoColumns = ["id", "name", "description", "image", "locationId", "len items", "url /box/{id}"]
 
 
-    id          = Column("id", Integer, primary_key=True)
+    id          = Column("id", Integer, primary_key=True, autoincrement=True)
     name        = Column("name", String)
     description = Column("description", TEXT)
     image       = Column("image", String)
