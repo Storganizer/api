@@ -8,6 +8,7 @@ RUN apt update -y && apt purge gcc && apt install -y libpq-dev rustc g++; \
 COPY /controller /app/controller
 COPY /model /app/model
 COPY /api.py /app/api.py
+COPY /seed.py /app/seed.py
 COPY /requirements.txt /app/requirements.txt
 
 WORKDIR  /app
