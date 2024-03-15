@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -F 'backup=@/var/home/claudio/Downloads/backup.json' http://10.1.1.21:5000/restore
+curl -F 'backup=@/var/home/claudio/Downloads/backup.json' http://localhost:5000/restore
 
 
 

@@ -11,7 +11,7 @@ class Box(Base):
     __tablename__ = "box"
 
     #dtoColumns = ["id", "name", "description", "len items", "items"]
-    dtoColumns = ["id", "name", "description", "image", "locationId", "len items", "url /box/{id}"]
+    dtoColumns = ["id", "name", "description", "image", "locationId", "personId", "len items", "url /box/{id}"]
 
 
     id          = Column("id", Integer, primary_key=True, autoincrement=True)
@@ -25,6 +25,13 @@ class Box(Base):
                       nullable=True,
                       index=True
                   )
+    personId  = Column(
+                      Integer,
+                      ForeignKey('person.id', ondelete='CASCADE'),
+                      nullable=True,
+                      index=True
+                  )
+
     items = relationship("Item", back_populates = "box")
     location = relationship("Location", back_populates = "boxes")
 
