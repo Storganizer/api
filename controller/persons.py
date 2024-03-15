@@ -37,12 +37,22 @@ class Persons(Resource):
             'message': f'You cannot update person.id {person["id"]} by post, use put instead'
           }, 405 # Method not Allowed
 
+        personDescription = person['description'] if 'description' in person.keys() else ''
+
         personEntry = ModelPerson(
           name=person['name'],
+          description=personDescription,
         )
         session.add(personEntry)
         session.commit()
 
+        # write picture after we know the database id
+        personImage = person['image'] if 'image' in person.keys() else ''
+        if personImage and personImage != '':
+          with open(f'static/images/person-{ personEntry.id }.png', 'wb') as image_file:
+            image_file.write(base64.b64decode(personImage))
+            personEntry.image = f'/static/images/person-{ personEntry.id }.png'
+            session.commit()
 
         return {
           'error': False,
@@ -72,6 +82,9 @@ class Person(Resource):
       if person:
         session.delete(person)
         session.commit()
+
+        if os.path.exists(f'static/images/person-{ id }.png'):
+          os.remove(f'static/images/person-{ id }.png')
 
         return {
           'error': False,
@@ -116,8 +129,20 @@ class Person(Resource):
             'message': f'You cannot add person by put, use post instead'
           }, 405 # Method not Allowed
 
+
+        imageLink = False
+        personImage = person['image'] if 'image' in person.keys() else ''
+        if boxImage and boxImage != '':
+          with open(f'static/images/person-{ person["id"] }.png', 'wb') as image_file:
+            image_file.write(base64.b64decode(personImage))
+            imageLink = f'/static/images/person-{ person["id"] }.png'
+
+
         personEntry = session.query(ModelPerson).get(id)
         personEntry.name = person['name']
+        personEntry.description = person['description']
+        if imageLink:
+          personEntry.image = imageLink
         session.commit()
 
         return {
