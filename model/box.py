@@ -34,6 +34,7 @@ class Box(Base):
 
     items = relationship("Item", back_populates = "box")
     location = relationship("Location", back_populates = "boxes")
+    person = relationship("Person", back_populates = "boxes")
 
 
 

@@ -12,7 +12,6 @@ class Location(Base):
     __tablename__ = "location"
     dtoColumns = ["id", "name", "description", "image", "classification", "len boxes", "url /location/{id}"]
 
-
     id              = Column("id", Integer, primary_key=True, autoincrement=True)
     name            = Column("name", String)
     description     = Column("description", TEXT)
