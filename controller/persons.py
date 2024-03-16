@@ -132,15 +132,17 @@ class Person(Resource):
 
         imageLink = False
         personImage = person['image'] if 'image' in person.keys() else ''
-        if boxImage and boxImage != '':
+        if personImage and personImage != '':
           with open(f'static/images/person-{ person["id"] }.png', 'wb') as image_file:
             image_file.write(base64.b64decode(personImage))
             imageLink = f'/static/images/person-{ person["id"] }.png'
 
 
         personEntry = session.query(ModelPerson).get(id)
+        personDescription = person['description'] if 'description' in person.keys() else ''
+
         personEntry.name = person['name']
-        personEntry.description = person['description']
+        personEntry.description = personDescription
         if imageLink:
           personEntry.image = imageLink
         session.commit()
