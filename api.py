@@ -15,25 +15,17 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 api = Api(app)
 
 from flask_restful import Resource, abort, reqparse
-#from flasgger import Swagger, swag_from
 
 from controller.locations import Locations, Location
 from controller.boxes import Boxes, Box
 from controller.items import Items, Item
+from controller.persons import Persons, Person
 from controller.backup import Backup, Restore
-
-
-
-
-
-#from flasgger import Schema, fields
 
 app.config['SWAGGER'] = {
     'title': 'Storganizer RESTful',
     'uiversion': 3
 }
-#swag = Swagger(app)
-
 
 api.add_resource(Locations, '/locations')
 api.add_resource(Location, '/location/<id>')
@@ -41,11 +33,12 @@ api.add_resource(Boxes, '/boxes')
 api.add_resource(Box, '/box/<id>')
 api.add_resource(Items, '/items')
 api.add_resource(Item, '/item/<id>')
+api.add_resource(Persons, '/persons')
+api.add_resource(Person, '/person/<id>')
 api.add_resource(Backup, '/backup')
 api.add_resource(Restore, '/restore')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-
 
 sys.exit(0)

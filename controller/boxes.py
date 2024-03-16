@@ -44,8 +44,14 @@ class Boxes(Resource):
         boxEntry = ModelBox(
           name=box['name'],
           description=boxDescription,
-          locationId=box['locationId']
         )
+
+        if 'locationId' in box.keys():
+          boxEntry.locationId=box['locationId']
+
+        if 'personId' in box.keys():
+          boxEntry.personId=box['personId']
+
         session.add(boxEntry)
         session.commit()
 
@@ -148,7 +154,12 @@ class Box(Resource):
         if imageLink:
           boxEntry.image = imageLink
         boxEntry.description = box['description']
-        boxEntry.locationId = box['locationId']
+        if 'locationId' in box.keys():
+          boxEntry.locationId=box['locationId']
+
+        if 'personId' in box.keys():
+          boxEntry.personId=box['personId']
+
         session.commit()
 
         return {
