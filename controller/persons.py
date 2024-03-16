@@ -25,7 +25,7 @@ class Persons(Resource):
         person = json.loads(request.data)
 
         # Fail if name not set or name Empty
-        if not 'name' in person.keys() or person['name'] == '':
+        if 'name' not in person.keys() or person['name'] == '':
           return {
             'error': True,
             'message': 'Name might not be empty'
@@ -100,7 +100,7 @@ class Person(Resource):
       try:
         person = json.loads(request.data)
 
-        if not 'id' in person.keys():
+        if 'id' not in person.keys():
           return {
             'error': True,
             'message': 'person.id not sent, not updating'
@@ -117,7 +117,7 @@ class Person(Resource):
           }, 400 # Bad Request
 
         # Fail if name not set or name Empty
-        if not 'name' in person.keys() or person['name'] == '':
+        if 'name' not in person.keys() or person['name'] == '':
           return {
             'error': True,
             'message': 'Name might not be empty'
