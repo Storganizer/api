@@ -1,6 +1,7 @@
 from model.location import Location as ModelLocation
 from model.box import Box as ModelBox
 from model.item import Item as ModelItem
+from model.person import Person as ModelPerson
 from model.connection import engine, session
 
 import os
@@ -27,6 +28,11 @@ class Backup(Resource):
       items = []
       for item in session.scalars(select(ModelItem).order_by(ModelItem.name)):
         items.append(item.getDataTransferObject())
+
+      persons = []
+      for person in session.scalars(select(ModelPerson).order_by(ModelPerson.name)):
+        persons.append(person.getDataTransferObject())
+
 
       allData = {
         "locations": locations,
