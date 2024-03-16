@@ -10,7 +10,6 @@ class Box(Base):
 
     __tablename__ = "box"
 
-    #dtoColumns = ["id", "name", "description", "len items", "items"]
     dtoColumns = ["id", "name", "description", "image", "locationId", "personId", "len items", "url /box/{id}"]
 
 

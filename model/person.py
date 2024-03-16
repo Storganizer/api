@@ -10,9 +10,7 @@ class Person(Base):
 
     __tablename__ = "person"
 
-    #dtoColumns = ["id", "name", "description", "len items", "items"]
     dtoColumns = ["id", "name", "description", "image", "len boxes", "url /person/{id}"]
-
 
     id          = Column("id", Integer, primary_key=True, autoincrement=True)
     name        = Column("name", String)
