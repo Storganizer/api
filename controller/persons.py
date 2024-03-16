@@ -126,16 +126,16 @@ class Person(Resource):
         if 'id' in person.keys() and person['id'] == 0:
           return {
             'error': True,
-            'message': f'You cannot add person by put, use post instead'
+            'message': 'You cannot add person by put, use post instead'
           }, 405 # Method not Allowed
 
 
-        imageLink = False
+        image_link = False
         image = person['image'] if 'image' in person.keys() else ''
         if image and image != '':
           with open(f'static/images/person-{ person["id"] }.png', 'wb') as image_file:
             image_file.write(base64.b64decode(image))
-            imageLink = f'/static/images/person-{ person["id"] }.png'
+            image_link = f'/static/images/person-{ person["id"] }.png'
 
 
         entry = session.query(ModelPerson).get(id)
@@ -143,8 +143,8 @@ class Person(Resource):
 
         entry.name = person['name']
         entry.description = description
-        if imageLink:
-          entry.image = imageLink
+        if image_link:
+          entry.image = image_link
         session.commit()
 
         return {
