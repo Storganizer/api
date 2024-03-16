@@ -37,21 +37,21 @@ class Persons(Resource):
             'message': f'You cannot update person.id {person["id"]} by post, use put instead'
           }, 405 # Method not Allowed
 
-        personDescription = person['description'] if 'description' in person.keys() else ''
+        description = person['description'] if 'description' in person.keys() else ''
 
-        personEntry = ModelPerson(
+        entry = ModelPerson(
           name=person['name'],
-          description=personDescription,
+          description=description,
         )
-        session.add(personEntry)
+        session.add(entry)
         session.commit()
 
         # write picture after we know the database id
-        personImage = person['image'] if 'image' in person.keys() else ''
-        if personImage and personImage != '':
-          with open(f'static/images/person-{ personEntry.id }.png', 'wb') as image_file:
-            image_file.write(base64.b64decode(personImage))
-            personEntry.image = f'/static/images/person-{ personEntry.id }.png'
+        image = person['image'] if 'image' in person.keys() else ''
+        if image and image != '':
+          with open(f'static/images/person-{ entry.id }.png', 'wb') as image_file:
+            image_file.write(base64.b64decode(image))
+            entry.image = f'/static/images/person-{ entry.id }.png'
             session.commit()
 
         return {
@@ -131,20 +131,20 @@ class Person(Resource):
 
 
         imageLink = False
-        personImage = person['image'] if 'image' in person.keys() else ''
-        if personImage and personImage != '':
+        image = person['image'] if 'image' in person.keys() else ''
+        if image and image != '':
           with open(f'static/images/person-{ person["id"] }.png', 'wb') as image_file:
-            image_file.write(base64.b64decode(personImage))
+            image_file.write(base64.b64decode(image))
             imageLink = f'/static/images/person-{ person["id"] }.png'
 
 
-        personEntry = session.query(ModelPerson).get(id)
-        personDescription = person['description'] if 'description' in person.keys() else ''
+        entry = session.query(ModelPerson).get(id)
+        description = person['description'] if 'description' in person.keys() else ''
 
-        personEntry.name = person['name']
-        personEntry.description = personDescription
+        entry.name = person['name']
+        entry.description = description
         if imageLink:
-          personEntry.image = imageLink
+          entry.image = imageLink
         session.commit()
 
         return {
