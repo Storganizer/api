@@ -38,13 +38,10 @@ class Box(Base):
                       index=True
                   )
 
-    #boxes = relationship("Box", back_populates = "boxes")
     items = relationship("Item", back_populates = "box")
     location = relationship("Location", back_populates = "boxes")
     person = relationship("Person", back_populates = "boxes")
-
     parentLocationId = 0
-
 
     def __repr__(self) -> str:
       return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r}, image={self.image!r}, lastAccess={self.lastAccess!r})"
