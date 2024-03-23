@@ -36,7 +36,8 @@ class Backup(Resource):
       allData = {
         "locations": locations,
         "boxes": boxes,
-        "items": items
+        "items": items,
+        "persons": persons
       }
 
       response = make_response(json.dumps(allData))
