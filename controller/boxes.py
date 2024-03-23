@@ -17,7 +17,7 @@ class Boxes(Resource):
 
       boxes = []
       for box in session.scalars(select(ModelBox).order_by(ModelBox.name)):
-        boxes.append(box.getDataTransferObject())
+        boxes.append(box.getDataTransferObject(['parentLocationId']))
       session.commit()
       return boxes
 
@@ -46,11 +46,17 @@ class Boxes(Resource):
           description=boxDescription,
         )
 
+
         if 'locationId' in box.keys():
-          boxEntry.locationId=box['locationId']
+          boxEntry.boxId = None
+          boxEntry.locationId = box['locationId']
+
+        if 'boxId' in box.keys():
+          boxEntry.locationId = None
+          boxEntry.boxId = box['boxId']
 
         if 'personId' in box.keys():
-          boxEntry.personId=box['personId']
+          boxEntry.personId = box['personId']
 
         session.add(boxEntry)
         session.commit()
@@ -82,7 +88,7 @@ class Box(Resource):
       box = session.query(ModelBox).get(id)
       session.commit()
       if box:
-        return box.getDataTransferObject(['items', 'location'])
+        return box.getDataTransferObject(['items', 'parentLocationId'])
       return {
         'error': True,
         'message': f'Box {id} not found'
@@ -155,10 +161,15 @@ class Box(Resource):
           boxEntry.image = imageLink
         boxEntry.description = box['description']
         if 'locationId' in box.keys():
-          boxEntry.locationId=box['locationId']
+          boxEntry.boxId = None
+          boxEntry.locationId = box['locationId']
+
+        if 'boxId' in box.keys():
+          boxEntry.locationId = None
+          boxEntry.boxId = box['boxId']
 
         if 'personId' in box.keys():
-          boxEntry.personId=box['personId']
+          boxEntry.personId = box['personId']
 
         session.commit()
 

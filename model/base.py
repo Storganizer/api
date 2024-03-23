@@ -4,6 +4,8 @@ from flask_restful import marshal
 from pprint import pprint
 import socket
 
+# from pprint import pprint
+# import sys
 
 class DataTransferObject(object):
     pass
@@ -52,7 +54,12 @@ class Base(DeclarativeBase):
                     attribute = items
 
 
-                # parent elements
+                # # parent elements
+                # # special case boxInBox
+                # if (self.__class__.__name__ == 'Box' and dtoColumn == 'location'):
+
+                #     pprint('heyho')
+
                 if not isRecursive and isinstance(attribute, Base) and hasattr(attribute, 'getDataTransferObject'):
                      attribute = attribute.getDataTransferObject(isRecursive = True)
 
