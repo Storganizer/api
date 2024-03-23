@@ -12,7 +12,6 @@ import json
 import base64
 import time
 
-from pprint import pprint
 
 class Backup(Resource):
     
