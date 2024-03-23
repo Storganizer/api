@@ -17,27 +17,27 @@ class Backup(Resource):
     
     def get(self):
       locations = []
-      for location in session.scalars(select(ModelLocation).order_by(ModelLocation.name)):
+      for location in session.scalars(select(ModelLocation)):
         locations.append(location.getDataTransferObject())
 
       boxes = []
-      for box in session.scalars(select(ModelBox).order_by(ModelBox.name)):
+      for box in session.scalars(select(ModelBox)):
         boxes.append(box.getDataTransferObject())
     
       items = []
-      for item in session.scalars(select(ModelItem).order_by(ModelItem.name)):
+      for item in session.scalars(select(ModelItem)):
         items.append(item.getDataTransferObject())
 
       persons = []
-      for person in session.scalars(select(ModelPerson).order_by(ModelPerson.name)):
+      for person in session.scalars(select(ModelPerson)):
         persons.append(person.getDataTransferObject())
 
 
       allData = {
         "locations": locations,
+        "persons": persons,
         "boxes": boxes,
-        "items": items,
-        "persons": persons
+        "items": items
       }
 
       response = make_response(json.dumps(allData))
@@ -72,6 +72,17 @@ class Restore(Resource):
           session.add(locationObject)
           session.commit()
 
+      if 'persons' in keys:
+        for person in allElements['persons']:
+          personObject = ModelPerson(
+            id = person['id'],
+            name = person['name'],
+            description = person['description'],
+            image = person['image'],
+          )
+          session.add(personObject)
+          session.commit()
+
 
       if 'boxes' in keys:
        for box in allElements['boxes']:
@@ -102,16 +113,6 @@ class Restore(Resource):
           session.add(itemObject)
           session.commit()
 
-      if 'persons' in keys:
-        for person in allElements['persons']:
-          personObject = ModelItem(
-            id = person['id'],
-            name = person['name'],
-            description = person['description'],
-            image = person['image'],
-          )
-          session.add(itemObject)
-          session.commit()
 
 
 
