@@ -14,6 +14,7 @@ class DefaultImages(Resource):
       defaultImages = {
         "location": '/static/images/_default-location.jpg',
         "box": '/static/images/_default-box.jpg',
-        "item": '/static/images/_default-item.jpg'
+        "item": '/static/images/_default-item.jpg',
+        "person": '/static/images/_default-person.jpg'
       }
       return defaultImages
