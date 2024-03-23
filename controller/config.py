@@ -1,0 +1,19 @@
+import os
+from sqlalchemy import select
+from flask_restful import Resource
+from flask import request, make_response
+import json
+import base64
+import time
+
+from pprint import pprint
+
+class DefaultImages(Resource):
+    
+    def get(self):
+      defaultImages = {
+        "location": '/static/images/_default-location.jpg',
+        "box": '/static/images/_default-box.jpg',
+        "item": '/static/images/_default-item.jpg'
+      }
+      return defaultImages
