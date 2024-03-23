@@ -80,8 +80,9 @@ class Restore(Resource):
            name = box['name'],
            description = box['description'],
            image = box['image'],
-           #lastAccess = box['lastAccess'],
-           locationId = box['locationId']
+           boxId = box['boxId'],
+           locationId = box['locationId'],
+           personId = box['personId']
          )
          session.add(boxObject)
          session.commit()
@@ -97,6 +98,17 @@ class Restore(Resource):
             #lastUsage = item['lastUsage'],
             #state = item['state'],
             boxId = item['boxId']
+          )
+          session.add(itemObject)
+          session.commit()
+
+      if 'persons' in keys:
+        for person in allElements['persons']:
+          personObject = ModelItem(
+            id = person['id'],
+            name = person['name'],
+            description = person['description'],
+            image = person['image'],
           )
           session.add(itemObject)
           session.commit()
