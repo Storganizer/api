@@ -11,6 +11,7 @@ from sqlalchemy.sql import func
 
 from pprint import pprint
 import yaml
+import sys
 
 
 # main loop
@@ -20,6 +21,8 @@ if __name__ == "__main__":
   Base.metadata.create_all(bind=engine)
   print("db setup done")
  
+  sys.exit(0)
+
   print("Truncate everything first / very sqlite specific")
   session.execute(text('''DELETE FROM location;'''))
   session.execute(text('''DELETE FROM box;'''))

@@ -13,11 +13,6 @@ from sqlalchemy import text
 
 # main loop
 if __name__ == "__main__":
-  print("start db setup")
-  Base.metadata.create_all(bind=engine)
-  print("db setup done")
-
-  sys.exit(0)
   # print("Truncate everything first / very sqlite specific")
   # session.execute(text('''DELETE FROM location;'''))
   # session.commit()
