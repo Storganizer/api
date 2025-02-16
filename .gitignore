@@ -1,5 +1,12 @@
 storganizer.db
-static
+
+static/images/*
+!static/images/_default-location.jpg
+!static/images/_default-box.jpg
+!static/images/_default-item.jpg
+!static/images/_default-person.jpg
+
+postgres/
 
 # Byte-compiled / optimized / DLL files
 __pycache__
