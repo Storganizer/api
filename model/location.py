@@ -3,7 +3,7 @@ from model.box import Box
 
 from typing import List
 
-from sqlalchemy import Column, String, Integer, TEXT
+from sqlalchemy import ForeignKey, Column, String, Integer, TEXT
 from sqlalchemy.orm import Mapped, relationship
 
 
@@ -17,6 +17,13 @@ class Location(Base):
     description     = Column("description", TEXT)
     image           = Column("image", String)
     classification  = Column("classification", Integer)
+
+    locationTypeId  = Column(
+                      Integer,
+                      ForeignKey('location_type.id', ondelete='CASCADE'),
+                      nullable=True,
+                      index=True
+                  )
 
     boxes = relationship("Box", back_populates = "location")
 
