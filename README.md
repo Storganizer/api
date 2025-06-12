@@ -1,11 +1,10 @@
 # README - ToDo
 
 
-1. If you start the api for the first time, install all needed packages and create an empty folder for postgres.
+1. Make sure all python dependencies are installed
 
 ```
 	pip install -r requirements.txt
-	mkdir -p $(pwd)/postgres
 
 ```
 

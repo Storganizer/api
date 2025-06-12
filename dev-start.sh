@@ -4,7 +4,7 @@ podman rm -f storganizer-api
 podman rm -f storganizer-postgres
 podman pod rm storganizer
 
-podman pod create --name storganizer -p 5000:5000 -p 5432:5432
+podman pod create --name storganizer -p 5000:5000
 
 podman  run -it -d\
   --pod=storganizer \

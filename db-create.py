@@ -4,6 +4,7 @@ import sys
 
 from model.base import Base
 from model.location import Location
+from model.locationType import LocationType
 from model.box import Box
 from model.person import Person
 from model.item import Item, Tag
