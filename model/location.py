@@ -1,5 +1,6 @@
 from model.base import Base
 from model.box import Box
+from model.locationType import LocationType
 
 from typing import List
 
@@ -26,6 +27,7 @@ class Location(Base):
                   )
 
     boxes = relationship("Box", back_populates = "location")
+    locationType = relationship("LocationType", back_populates = "locations")
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r}, image={self.image!r}, classification={self.classification!r})"
