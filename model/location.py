@@ -11,13 +11,12 @@ from sqlalchemy.orm import Mapped, relationship
 class Location(Base):
 
     __tablename__ = "location"
-    dtoColumns = ["id", "name", "description", "image", "classification", "locationTypeId", "len boxes", "url /location/{id}"]
+    dtoColumns = ["id", "name", "description", "image", "locationTypeId", "len boxes", "url /location/{id}"]
 
     id              = Column("id", Integer, primary_key=True, autoincrement=True)
     name            = Column("name", String)
     description     = Column("description", TEXT)
     image           = Column("image", String)
-    classification  = Column("classification", Integer)
 
     locationTypeId  = Column(
                       Integer,
@@ -30,4 +29,4 @@ class Location(Base):
     locationType = relationship("LocationType", back_populates = "locations")
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r}, image={self.image!r}, classification={self.classification!r})"
+        return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r}, image={self.image!r})"
