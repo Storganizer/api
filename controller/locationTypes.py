@@ -16,7 +16,7 @@ class LocationTypes(Resource):
       #time.sleep(2)
       locationTypes = []
       for locationType in session.scalars(select(ModelLocationType).order_by(ModelLocationType.name)):
-        locationTypes.append(location.getDataTransferObject())
+        locationTypes.append(locationType.getDataTransferObject())
       session.commit()
       return locationTypes, 200 # OK
 

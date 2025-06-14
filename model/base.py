@@ -62,6 +62,6 @@ class Base(DeclarativeBase):
 
         dictionary = dto.__dict__
 
-        if not dictionary['image']:
+        if self.__tablename__ != "location_type" and not dictionary['image']:
             dictionary['image'] = f'/static/images/_default-{self.__tablename__}.jpg'
         return dto.__dict__
