@@ -37,12 +37,13 @@ class Locations(Resource):
             'message': f'You cannot update location.id {location["id"]} by post, use put instead'
           }, 405 # Method not Allowed
 
-        # {'classification': 1, 'description': 'Schlafzimmer', 'id': 0, 'name': 'Lorina'}
+        # {'locationTypeId': 1, 'description': 'Schlafzimmer', 'id': 0, 'name': 'Lorina'}
         locationDescription = location['description'] if 'description' in location.keys() else ''
+        locationTypeId = location['locationType'] if location['locationType'] > 0 else None
         locationEntry = ModelLocation(
           name=location['name'],
           description=locationDescription,
-          classification=location['classification']
+          locationTypeId=locationTypeId
         )
         session.add(locationEntry)
         session.commit()
@@ -144,7 +145,9 @@ class Location(Resource):
         if imageLink:
           locationEntry.image = imageLink
         locationEntry.description = location['description']
-        locationEntry.classification = location['classification']
+        locationTypeId = location['locationType'] if location['locationType'] > 0 else None
+
+        locationEntry.locationTypeId = locationTypeId
         session.commit()
 
         return {
