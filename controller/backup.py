@@ -1,3 +1,4 @@
+from model.locationType import LocationType as ModelLocationType
 from model.location import Location as ModelLocation
 from model.box import Box as ModelBox
 from model.item import Item as ModelItem
@@ -16,24 +17,29 @@ import time
 class Backup(Resource):
     
     def get(self):
+      locationTypes = []
+      for locationType in session.scalars(select(ModelLocationType).order_by(ModelLocationType.id)):
+        locationTypes.append(locationType.getDataTransferObject())
+
       locations = []
-      for location in session.scalars(select(ModelLocation)):
+      for location in session.scalars(select(ModelLocation).order_by(ModelLocation.id)):
         locations.append(location.getDataTransferObject())
 
+
       boxes = []
-      for box in session.scalars(select(ModelBox)):
+      for box in session.scalars(select(ModelBox).order_by(ModelBox.id)):
         boxes.append(box.getDataTransferObject())
     
       items = []
-      for item in session.scalars(select(ModelItem)):
+      for item in session.scalars(select(ModelItem).order_by(ModelItem.id)):
         items.append(item.getDataTransferObject())
 
       persons = []
-      for person in session.scalars(select(ModelPerson)):
+      for person in session.scalars(select(ModelPerson).order_by(ModelPerson.id)):
         persons.append(person.getDataTransferObject())
 
-
       allData = {
+        "locationTypes": locationTypes,
         "locations": locations,
         "persons": persons,
         "boxes": boxes,
@@ -60,6 +66,32 @@ class Restore(Resource):
       keys = allElements.keys()
 
 
+      session.query(ModelLocationType).delete()
+      session.commit()
+
+      session.query(ModelLocation).delete()
+      session.commit()
+
+      session.query(ModelPerson).delete()
+      session.commit()
+
+      session.query(ModelBox).delete()
+      session.commit()
+
+      session.query(ModelItem).delete()
+      session.commit()
+
+      if 'locationTypes' in keys:
+        for locationType in allElements['locationTypes']:
+          locationTypeObject = ModelLocationType(
+            id = locationType['id'],
+            name = locationType['name'],
+            description = locationType['description']
+          )
+          session.add(locationTypeObject)
+          session.commit()
+
+
       if 'locations' in keys:
         for location in allElements['locations']:
           locationObject = ModelLocation(
@@ -67,7 +99,6 @@ class Restore(Resource):
             name = location['name'],
             description = location['description'],
             image = location['image'],
-            classification = location['classification']
           )
           session.add(locationObject)
           session.commit()
