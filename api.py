@@ -19,6 +19,7 @@ api = Api(app)
 from flask_restful import Resource, abort, reqparse
 
 from controller.locations import Locations, Location
+from controller.locationTypes import LocationTypes, LocationType
 from controller.boxes import Boxes, Box
 from controller.items import Items, Item
 from controller.persons import Persons, Person
@@ -32,6 +33,8 @@ app.config['SWAGGER'] = {
 
 api.add_resource(Locations, '/locations')
 api.add_resource(Location, '/location/<id>')
+api.add_resource(LocationTypes, '/locationTypes')
+api.add_resource(LocationType, '/locationType/<id>')
 api.add_resource(Boxes, '/boxes')
 api.add_resource(Box, '/box/<id>')
 api.add_resource(Items, '/items')
