@@ -5,10 +5,10 @@ ENV SQLALCHEMY_CONNECTION_STRING 'sqlite+pysqlite:///storganizer.db'
 RUN apt update -y && apt purge gcc && apt --no-install-recommends install -y libpq-dev rustc g++; \
 	mkdir /app
 
-#COPY /controller /app/controller
-#COPY /model /app/model
-#COPY /api.py /app/api.py
-#COPY /seed.py /app/seed.py
+COPY /controller /app/controller
+COPY /model /app/model
+COPY /api.py /app/api.py
+COPY /db-create.py /app/db-create.py
 COPY /requirements.txt /app/requirements.txt
 
 WORKDIR  /app
