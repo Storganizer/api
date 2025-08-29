@@ -9,8 +9,12 @@ import json
 import base64
 import time
 
+from login import login_required
+
 
 class Locations(Resource):
+    
+    @login_required
     def get(self):
       print(request.remote_addr)
       #time.sleep(2)
@@ -20,6 +24,7 @@ class Locations(Resource):
       session.commit()
       return locations, 200 # OK
 
+    @login_required
     def post(self):
       try:
         location = json.loads(request.data)
@@ -68,6 +73,7 @@ class Locations(Resource):
 
 class Location(Resource):
 
+    @login_required
     def get(self, id):
       location = session.query(ModelLocation).get(id)
       session.commit()
@@ -80,6 +86,7 @@ class Location(Resource):
       }, 404 # not found
 
 
+    @login_required
     def delete(self, id):
       location = session.query(ModelLocation).get(id)
       if location:
@@ -100,6 +107,7 @@ class Location(Resource):
         'message': f'Location {id} not found'
       }, 404 # not found
 
+    @login_required
     def put(self, id):
       try:
         location = json.loads(request.data)

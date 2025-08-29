@@ -5,3 +5,6 @@ flask_wtf
 flasgger
 sqlalchemy
 psycopg2-binary
+authlib
+requests
+flask-cors

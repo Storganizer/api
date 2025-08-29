@@ -6,18 +6,15 @@ requires: `pip install flask-restful`
 """
 import sys
 
-from flask import Flask
+from flask import Flask, redirect, url_for, session
+from authlib.integrations.flask_client import OAuth
 from flask_wtf.csrf import CSRFProtect
 from flask_restful import Api
 from flask_cors import CORS
-
-
-app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
-api = Api(app)
-
+import uuid
 from flask_restful import Resource, abort, reqparse
 
+from login import User
 from controller.locations import Locations, Location
 from controller.locationTypes import LocationTypes, LocationType
 from controller.boxes import Boxes, Box
@@ -25,6 +22,24 @@ from controller.items import Items, Item
 from controller.persons import Persons, Person
 from controller.backup import Backup, Restore
 from controller.config import DefaultImages
+
+
+app = Flask(__name__)
+app.secret_key = 'app-secret-choose-freely'
+
+oauth = OAuth(app)
+oauth.register(
+    name='keycloak',
+    client_id='storganizer-dev',
+    client_secret='client-secret',
+    server_metadata_url='https://cloak.gs.net-sec.ch/realms/storganizer/.well-known/openid-configuration',
+    client_kwargs={
+        'scope': 'openid profile email'
+    }
+)
+
+cors = CORS(app, resources={r"/*": {"origins": "*", "supports_credentials": True}})
+api = Api(app)
 
 app.config['SWAGGER'] = {
     'title': 'Storganizer RESTful',
@@ -44,6 +59,32 @@ api.add_resource(Person, '/person/<id>')
 api.add_resource(Backup, '/backup')
 api.add_resource(Restore, '/restore')
 api.add_resource(DefaultImages, '/config/default-images')
+
+api.add_resource(User, '/user')
+
+
+# oidc
+@app.route('/login')
+def login():
+    redirect_uri = url_for('auth', _external=True)
+    nonce = uuid.uuid4().hex
+    session['nonce'] = nonce
+    return oauth.keycloak.authorize_redirect(redirect_uri, nonce=nonce)
+
+@app.route('/auth')
+def auth():
+    token = oauth.keycloak.authorize_access_token()
+    nonce = session.pop('nonce', None)
+    user = oauth.keycloak.parse_id_token(token, nonce=nonce)
+    session['user'] = user
+    return redirect("http://127.0.0.1:3000")
+
+@app.route('/profile')
+def profile():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return f"Hallo {session['user']['preferred_username']}"
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
