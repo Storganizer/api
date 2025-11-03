@@ -9,7 +9,8 @@ COPY /controller /app/controller
 COPY /model /app/model
 COPY /api.py /app/api.py
 COPY /login.py /app/login.py
-COPY /db-create.py /app/db-create.py
+COPY /db/create.py /app/db/create.py
+COPY /db/migrations/01-add-oidc.py /app/db/migrations/01-add-oidc.py
 COPY /requirements.txt /app/requirements.txt
 
 WORKDIR  /app

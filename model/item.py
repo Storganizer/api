@@ -47,7 +47,14 @@ class Item(Base):
                       nullable=True,
                       index=True
                   )
+    personId  = Column(
+                      Integer,
+                      ForeignKey('person.id', ondelete='CASCADE'),
+                      nullable=True,
+                      index=True
+                  )
     box = relationship("Box", back_populates = "items")
+    person = relationship("Person", back_populates = "items")
 
     # tags = relationship(
     #     secondary=association_table

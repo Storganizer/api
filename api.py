@@ -24,6 +24,10 @@ from controller.persons import Persons, Person
 from controller.backup import Backup, Restore
 from controller.config import DefaultImages
 
+from model.person import Person as ModelPerson
+from model.connection import session as db_session
+from sqlalchemy import select
+
 
 app = Flask(__name__)
 app.secret_key = 'app-secret-choose-freely'
@@ -31,6 +35,7 @@ app.secret_key = 'app-secret-choose-freely'
 # For production with HTTPS, use SESSION_COOKIE_SAMESITE='None' and SESSION_COOKIE_SECURE=True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['OIDC_AUTH'] = os.getenv('OIDC_AUTH', 'false').lower() == 'true'
 
 print(os.getenv('KEYCLOAK_CLIENT_SECRET', 'client-secret'))
 
@@ -91,6 +96,39 @@ def auth():
     nonce = session.pop('nonce', None)
     user = oauth.keycloak.parse_id_token(token, nonce=nonce)
     session['user'] = user
+
+    # If OIDC_AUTH is enabled, create or update Person record from OIDC claims
+    if app.config.get('OIDC_AUTH', False):
+        oidc_sub = user.get('sub')
+        email = user.get('email', '')
+        name = user.get('preferred_username', email.split('@')[0] if email else 'User')
+
+        # Look for existing person by oidc_sub
+        person = db_session.scalar(
+            select(ModelPerson).where(ModelPerson.oidc_sub == oidc_sub)
+        )
+
+        if person:
+            # Update existing person
+            person.name = name
+            person.email = email
+            db_session.commit()
+            print(f"Updated existing person: {person.id} ({name})")
+        else:
+            # Create new person
+            person = ModelPerson(
+                name=name,
+                email=email,
+                oidc_sub=oidc_sub,
+                description=f"Auto-created from OIDC login"
+            )
+            db_session.add(person)
+            db_session.commit()
+            print(f"Created new person: {person.id} ({name})")
+
+        # Store personId in session for easy access
+        session['personId'] = person.id
+
     return redirect("http://127.0.0.1:3000")
 
 @app.route('/profile')
@@ -102,5 +140,3 @@ def profile():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-
-sys.exit(0)

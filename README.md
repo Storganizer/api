@@ -60,7 +60,7 @@ pip install -r requirements.txt
 
 3. First-time setup - Create database tables:
 ```bash
-podman exec -it storganizer-api ./db-create.py
+podman exec -it storganizer-api ./db/create.py
 ```
 
 4. Stop and remove containers:

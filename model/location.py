@@ -25,8 +25,16 @@ class Location(Base):
                       index=True
                   )
 
+    personId  = Column(
+                      Integer,
+                      ForeignKey('person.id', ondelete='CASCADE'),
+                      nullable=True,
+                      index=True
+                  )
+
     boxes = relationship("Box", back_populates = "location")
     locationType = relationship("LocationType", back_populates = "locations")
+    person = relationship("Person", back_populates = "locations")
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r}, image={self.image!r})"

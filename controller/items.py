@@ -1,5 +1,6 @@
 from model.item import Item as ModelItem
 from model.connection import engine, session
+from login import oidc_required, getCurrentPersonId, isOidcEnabled
 
 import os
 from sqlalchemy import select
@@ -11,15 +12,24 @@ import time
 
 
 class Items(Resource):
+    @oidc_required
     def get(self):
         #time.sleep(6)
         items = []
-        for item in session.scalars(select(ModelItem).order_by(ModelItem.name)):
+        query = select(ModelItem).order_by(ModelItem.name)
+
+        # Filter by personId if OIDC is enabled
+        if isOidcEnabled():
+            personId = getCurrentPersonId()
+            query = query.where(ModelItem.personId == personId)
+
+        for item in session.scalars(query):
           items.append(item.getDataTransferObject())
         session.commit()
 
         return items
 
+    @oidc_required
     def post(self):
       try:
         item = json.loads(request.data)
@@ -37,13 +47,24 @@ class Items(Resource):
             'message': f'You cannot update item.id {item["id"]} by post, use put instead'
           }, 405 # Method not Allowed
 
+        # Set personId in OIDC mode, validate in OIDC mode
+        if isOidcEnabled():
+            personId = getCurrentPersonId()
+            if 'personId' in item.keys() and item['personId'] != personId:
+                return {
+                    'error': True,
+                    'message': 'You can only create items for yourself'
+                }, 403 # Forbidden
+            item['personId'] = personId
+
         # {'classification': 1, 'description': 'Schlafzimmer', 'id': 0, 'name': 'Lorina'}
         itemDescription = item['description'] if 'description' in item.keys() else ''
         itemEntry = ModelItem(
           name=item['name'],
           description=itemDescription,
           amount=item['amount'],
-          boxId=item['boxId']
+          boxId=item['boxId'],
+          personId=item.get('personId')
         )
         session.add(itemEntry)
         session.commit()
@@ -69,8 +90,19 @@ class Items(Resource):
 
 
 class Item(Resource):
+    @oidc_required
     def get(self, id):
       item = session.query(ModelItem).get(id)
+
+      # Verify ownership in OIDC mode
+      if item and isOidcEnabled():
+          personId = getCurrentPersonId()
+          if item.personId != personId:
+              return {
+                  'error': True,
+                  'message': f'Item {id} not found'
+              }, 404 # not found
+
       session.commit()
       if item:
         return item.getDataTransferObject(['box'])
@@ -81,8 +113,19 @@ class Item(Resource):
       }, 404 # not found
 
 
+    @oidc_required
     def delete(self, id):
       item = session.query(ModelItem).get(id)
+
+      # Verify ownership in OIDC mode
+      if item and isOidcEnabled():
+          personId = getCurrentPersonId()
+          if item.personId != personId:
+              return {
+                  'error': True,
+                  'message': f'Item {id} not found'
+              }, 404 # not found
+
       if item:
         session.delete(item)
         session.commit()
@@ -100,6 +143,7 @@ class Item(Resource):
         'message': f'Item {id} not found'
       }, 404 # not found
 
+    @oidc_required
     def put(self, id):
       try:
         item = json.loads(request.data)
@@ -133,6 +177,24 @@ class Item(Resource):
             'message': f'You cannot add item by put, use post instead'
           }, 405 # Method not Allowed
 
+        itemEntry = session.query(ModelItem).get(id)
+
+        # Verify ownership in OIDC mode
+        if itemEntry and isOidcEnabled():
+            personId = getCurrentPersonId()
+            if itemEntry.personId != personId:
+                return {
+                    'error': True,
+                    'message': f'Item {id} not found'
+                }, 404 # not found
+
+            # Validate personId if provided
+            if 'personId' in item.keys() and item['personId'] != personId:
+                return {
+                    'error': True,
+                    'message': 'You cannot change item ownership'
+                }, 403 # Forbidden
+
         imageLink = False
         itemImage = item['image'] if 'image' in item.keys() else ''
         if itemImage and itemImage != '':
@@ -140,7 +202,6 @@ class Item(Resource):
             image_file.write(base64.b64decode(itemImage))
             imageLink = f'/static/images/item-{ item["id"] }.png'
 
-        itemEntry = session.query(ModelItem).get(id)
         itemEntry.name = item['name']
         if imageLink:
           itemEntry.image = imageLink

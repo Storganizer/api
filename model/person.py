@@ -16,8 +16,13 @@ class Person(Base):
     name        = Column("name", String)
     description = Column("description", TEXT)
     image       = Column("image", String)
+    oidc_sub    = Column("oidc_sub", String, unique=True, nullable=True, index=True)
+    email       = Column("email", String, nullable=True)
 
     boxes = relationship("Box", back_populates = "person")
+    locations = relationship("Location", back_populates = "person")
+    locationTypes = relationship("LocationType", back_populates = "person")
+    items = relationship("Item", back_populates = "person")
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r}, image={self.name!r})"

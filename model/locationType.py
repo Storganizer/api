@@ -16,7 +16,15 @@ class LocationType(Base):
     name        = Column("name", String)
     description = Column("description", TEXT)
 
+    personId  = Column(
+                      Integer,
+                      ForeignKey('person.id', ondelete='CASCADE'),
+                      nullable=True,
+                      index=True
+                  )
+
     locations = relationship("Location", back_populates = "locationType")
+    person = relationship("Person", back_populates = "locationTypes")
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, description={self.description!r})"

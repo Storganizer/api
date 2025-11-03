@@ -1,5 +1,6 @@
 from model.person import Person as ModelPerson
 from model.connection import engine, session
+from login import oidc_required, getCurrentPersonId, isOidcEnabled
 
 import os
 from sqlalchemy import select
@@ -11,17 +12,33 @@ import time
 
 
 class Persons(Resource):
+    @oidc_required
     def get(self):
         #time.sleep(6)
         persons = []
-        for person in session.scalars(select(ModelPerson).order_by(ModelPerson.name)):
+        query = select(ModelPerson).order_by(ModelPerson.name)
+
+        # In OIDC mode, only return current user's Person
+        if isOidcEnabled():
+            personId = getCurrentPersonId()
+            query = query.where(ModelPerson.id == personId)
+
+        for person in session.scalars(query):
           persons.append(person.getDataTransferObject())
         session.commit()
 
         return persons
 
+    @oidc_required
     def post(self):
       try:
+        # In OIDC mode, Person creation is handled by auth callback
+        if isOidcEnabled():
+            return {
+                'error': True,
+                'message': 'Person creation is managed by authentication system'
+            }, 403 # Forbidden
+
         person = json.loads(request.data)
 
         # Fail if name not set or name Empty
@@ -66,8 +83,19 @@ class Persons(Resource):
 
 
 class Person(Resource):
+    @oidc_required
     def get(self, id):
       person = session.query(ModelPerson).get(id)
+
+      # In OIDC mode, only allow access to current user's Person
+      if person and isOidcEnabled():
+          personId = getCurrentPersonId()
+          if person.id != personId:
+              return {
+                  'error': True,
+                  'message': f'Person {id} not found'
+              }, 404 # not found
+
       session.commit()
       if person:
         return person.getDataTransferObject()
@@ -77,7 +105,15 @@ class Person(Resource):
         'message': f'Person {id} not found'
       }, 404 # not found
 
+    @oidc_required
     def delete(self, id):
+      # In OIDC mode, Person deletion is not allowed
+      if isOidcEnabled():
+          return {
+              'error': True,
+              'message': 'Person deletion is managed by authentication system'
+          }, 403 # Forbidden
+
       person = session.query(ModelPerson).get(id)
       if person:
         session.delete(person)
@@ -96,6 +132,7 @@ class Person(Resource):
         'message': f'Person {id} not found'
       }, 404 # not found
 
+    @oidc_required
     def put(self, id):
       try:
         person = json.loads(request.data)
@@ -129,6 +166,16 @@ class Person(Resource):
             'message': 'You cannot add person by put, use post instead'
           }, 405 # Method not Allowed
 
+        entry = session.query(ModelPerson).get(id)
+
+        # In OIDC mode, only allow updating current user's Person
+        if entry and isOidcEnabled():
+            personId = getCurrentPersonId()
+            if entry.id != personId:
+                return {
+                    'error': True,
+                    'message': f'Person {id} not found'
+                }, 404 # not found
 
         image_link = False
         image = person['image'] if 'image' in person.keys() else ''
@@ -138,7 +185,6 @@ class Person(Resource):
             image_link = f'/static/images/person-{ person["id"] }.png'
 
 
-        entry = session.query(ModelPerson).get(id)
         description = person['description'] if 'description' in person.keys() else ''
 
         entry.name = person['name']

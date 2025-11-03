@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+import sys
+import os
+
+# Add parent directory to path to import from api module
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
 from model.base import Base
 from model.location import Location
 from model.box import Box
@@ -11,7 +17,6 @@ from sqlalchemy.sql import func
 
 from pprint import pprint
 import yaml
-import sys
 
 
 # main loop

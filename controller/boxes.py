@@ -10,17 +10,27 @@ import base64
 import time
 
 from pprint import pprint
+from login import oidc_required, getCurrentPersonId, isOidcEnabled
 
 class Boxes(Resource):
+    @oidc_required
     def get(self):
       #time.sleep(8)
 
       boxes = []
-      for box in session.scalars(select(ModelBox).order_by(ModelBox.name)):
+      query = select(ModelBox).order_by(ModelBox.name)
+
+      # If OIDC is enabled, filter by current user's personId
+      if isOidcEnabled():
+        personId = getCurrentPersonId()
+        query = query.where(ModelBox.personId == personId)
+
+      for box in session.scalars(query):
         boxes.append(box.getDataTransferObject(['parentLocationId']))
       session.commit()
       return boxes
 
+    @oidc_required
     def post(self):
       try:
         box = json.loads(request.data)
@@ -38,12 +48,27 @@ class Boxes(Resource):
             'message': f'You cannot update box.id {box["id"]} by post, use put instead'
           }, 405 # Method not Allowed
 
+        # Handle personId based on OIDC mode
+        if isOidcEnabled():
+          personId = getCurrentPersonId()
+          # Validate that the sent personId matches the current user (if sent)
+          if 'personId' in box and box['personId'] != personId:
+            return {
+              'error': True,
+              'message': 'You can only create boxes for yourself'
+            }, 403 # Forbidden
+          boxPersonId = personId
+        else:
+          # In non-OIDC mode, use the personId from the request (or None)
+          boxPersonId = box.get('personId', None)
+
         # {'classification': 1, 'description': 'Schlafzimmer', 'id': 0, 'name': 'Lorina'}
         boxDescription = box['description'] if 'description' in box.keys() else ''
 
         boxEntry = ModelBox(
           name=box['name'],
           description=boxDescription,
+          personId=boxPersonId
         )
 
 
@@ -54,9 +79,6 @@ class Boxes(Resource):
         if 'boxId' in box.keys():
           boxEntry.locationId = None
           boxEntry.boxId = box['boxId']
-
-        if 'personId' in box.keys():
-          boxEntry.personId = box['personId']
 
         session.add(boxEntry)
         session.commit()
@@ -84,8 +106,19 @@ class Boxes(Resource):
 
 
 class Box(Resource):
+    @oidc_required
     def get(self, id):
       box = session.query(ModelBox).get(id)
+
+      # If OIDC is enabled, verify ownership
+      if isOidcEnabled() and box:
+        personId = getCurrentPersonId()
+        if box.personId != personId:
+          return {
+            'error': True,
+            'message': 'Access denied'
+          }, 403 # Forbidden
+
       session.commit()
       if box:
         return box.getDataTransferObject(['items', 'parentLocationId'])
@@ -94,9 +127,19 @@ class Box(Resource):
         'message': f'Box {id} not found'
       }, 404 # not found
 
+    @oidc_required
     def delete(self, id):
       box = session.query(ModelBox).get(id)
       if box:
+        # If OIDC is enabled, verify ownership
+        if isOidcEnabled():
+          personId = getCurrentPersonId()
+          if box.personId != personId:
+            return {
+              'error': True,
+              'message': 'You can only delete your own boxes'
+            }, 403 # Forbidden
+
         session.delete(box)
         session.commit()
 
@@ -113,6 +156,7 @@ class Box(Resource):
         'message': f'Box {id} not found'
       }, 404 # not found
 
+    @oidc_required
     def put(self, id):
       try:
         box = json.loads(request.data)
@@ -146,6 +190,29 @@ class Box(Resource):
             'message': f'You cannot add box by put, use post instead'
           }, 405 # Method not Allowed
 
+        boxEntry = session.query(ModelBox).get(id)
+
+        if not boxEntry:
+          return {
+            'error': True,
+            'message': f'Box {id} not found'
+          }, 404 # not found
+
+        # If OIDC is enabled, verify ownership
+        if isOidcEnabled():
+          personId = getCurrentPersonId()
+          if boxEntry.personId != personId:
+            return {
+              'error': True,
+              'message': 'You can only update your own boxes'
+            }, 403 # Forbidden
+
+          # Validate that the sent personId matches the current user (if sent)
+          if 'personId' in box and box['personId'] != personId:
+            return {
+              'error': True,
+              'message': 'You cannot change the owner of a box'
+            }, 403 # Forbidden
 
         imageLink = False
         boxImage = box['image'] if 'image' in box.keys() else ''
@@ -155,7 +222,6 @@ class Box(Resource):
             imageLink = f'/static/images/box-{ box["id"] }.png'
 
 
-        boxEntry = session.query(ModelBox).get(id)
         boxEntry.name = box['name']
         if imageLink:
           boxEntry.image = imageLink
@@ -168,7 +234,7 @@ class Box(Resource):
           boxEntry.locationId = None
           boxEntry.boxId = box['boxId']
 
-        if 'personId' in box.keys():
+        if 'personId' in box.keys() and not isOidcEnabled():
           boxEntry.personId = box['personId']
 
         session.commit()
