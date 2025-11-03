@@ -5,6 +5,7 @@ Example of Flask RESTFul integration.
 requires: `pip install flask-restful`
 """
 import sys
+import os
 
 from flask import Flask, redirect, url_for, session
 from authlib.integrations.flask_client import OAuth
@@ -26,19 +27,32 @@ from controller.config import DefaultImages
 
 app = Flask(__name__)
 app.secret_key = 'app-secret-choose-freely'
+# Session configuration for cross-origin requests
+# For production with HTTPS, use SESSION_COOKIE_SAMESITE='None' and SESSION_COOKIE_SECURE=True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+
+print(os.getenv('KEYCLOAK_CLIENT_SECRET', 'client-secret'))
 
 oauth = OAuth(app)
 oauth.register(
     name='keycloak',
-    client_id='storganizer-dev',
-    client_secret='client-secret',
-    server_metadata_url='https://cloak.gs.net-sec.ch/realms/storganizer/.well-known/openid-configuration',
+    client_id=os.getenv('KEYCLOAK_CLIENT_ID', 'storganizer-dev'),
+    client_secret=os.getenv('KEYCLOAK_CLIENT_SECRET', 'client-secret'),
+    server_metadata_url=os.getenv('KEYCLOAK_SERVER_METADATA_URL', 'https://cloak.gs.net-sec.ch/realms/storganizer/.well-known/openid-configuration'),
     client_kwargs={
         'scope': 'openid profile email'
     }
 )
 
-cors = CORS(app, resources={r"/*": {"origins": "*", "supports_credentials": True}})
+cors = CORS(app, resources={
+    r"/*": {
+        "origins": ["http://localhost:3000", "http://127.0.0.1:3000", "http://10.1.1.21:3000"],
+        "supports_credentials": True,
+        "allow_headers": ["Content-Type", "Authorization"],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    }
+})
 api = Api(app)
 
 app.config['SWAGGER'] = {

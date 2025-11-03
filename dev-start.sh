@@ -8,7 +8,7 @@ podman pod create --name storganizer -p 5000:5000
 
 podman  run -it -d\
   --pod=storganizer \
-  -e SQLALCHEMY_CONNECTION_STRING='postgresql+psycopg2://storganizer@localhost/storganizer' \
+  --env-file .env \
   -v $(pwd)/:/app:z \
   --name storganizer-api storganizer-api:dev
 

@@ -1,40 +1,120 @@
-# README - ToDo
+# README - Setup Instructions
 
+## Prerequisites
 
-1. Make sure all python dependencies are installed
+1. Podman installed
+2. Access to Keycloak admin console at https://cloak.gs.net-sec.ch/admin
 
+## Setup
+
+### 1. Get Keycloak Client Secret
+
+1. Log into Keycloak admin console
+2. Select "storganizer" realm
+3. Go to Clients → "storganizer-dev"
+4. Navigate to "Credentials" tab
+5. Copy the "Client Secret"
+
+### 2. Configure Keycloak Client
+
+In the "Settings" tab of your client, ensure:
+- **Client authentication:** ON
+- **Standard flow:** Enabled
+- **Valid redirect URIs:** 
+  - `http://localhost:5000/auth`
+  - `http://127.0.0.1:5000/auth`
+  - `http://0.0.0.0:5000/auth`
+  - `http://10.1.1.21:5000/auth`
+
+### 3. Create .env File
+
+```bash
+cp .env.example .env
 ```
-	pip install -r requirements.txt
 
+Edit `.env` and add your actual Keycloak client secret:
+
+```bash
+KEYCLOAK_CLIENT_SECRET=your-actual-secret-from-step-1
 ```
 
+### 4. Install Python Dependencies (for local development without container)
 
-2. Build the dev container
-
-```
-	./dev-build.sh
-
+```bash
+pip install -r requirements.txt
 ```
 
+## Running the Application
 
-2. Start the containers
+### With Container (Recommended)
 
-```
-	./dev-start.sh
-
-```
-
-2.1. If you start the database for the first time, create the tables.
-
-```
-	podman exec -it storganizer-api ./db-create.py
-
+1. Build the container:
+```bash
+./dev-build.sh
 ```
 
-
-3. Stop and remove the containers
-
+2. Start the containers (API + PostgreSQL):
+```bash
+./dev-start.sh
 ```
-	./dev-stop.sh
 
+3. First-time setup - Create database tables:
+```bash
+podman exec -it storganizer-api ./db-create.py
 ```
+
+4. Stop and remove containers:
+```bash
+./dev-stop.sh
+```
+
+### Without Container (Local Development)
+
+```bash
+# Load environment variables
+export $(cat .env | xargs)
+
+# Run the API
+python api.py
+```
+
+## Environment Variables
+
+The application reads configuration from environment variables:
+
+- `SQLALCHEMY_CONNECTION_STRING` - Database connection string
+- `KEYCLOAK_CLIENT_ID` - Keycloak OAuth client ID
+- `KEYCLOAK_CLIENT_SECRET` - Keycloak OAuth client secret
+- `KEYCLOAK_SERVER_METADATA_URL` - Keycloak OIDC discovery URL
+
+These are passed to the container via `--env-file .env` in `dev-start.sh`.
+
+## API Endpoints
+
+- `http://localhost:5000/login` - Initiate OAuth login
+- `http://localhost:5000/auth` - OAuth callback (handled automatically)
+- `http://localhost:5000/user` - Check login status
+- `http://localhost:5000/locations` - Locations API
+- `http://localhost:5000/boxes` - Boxes API
+- `http://localhost:5000/items` - Items API
+- And more...
+
+## Troubleshooting
+
+### OAuth Error: "Invalid client credentials"
+
+- Verify your `.env` file has the correct `KEYCLOAK_CLIENT_SECRET`
+- Check that redirect URIs are configured in Keycloak
+- Ensure the client is set to "confidential" type in Keycloak
+
+### Container doesn't read .env file
+
+- The `.env` file is passed using `--env-file .env` in `dev-start.sh`
+- Verify the file exists in the api directory
+- Check file permissions: `chmod 600 .env`
+
+### Database connection errors
+
+- Ensure PostgreSQL container is running: `podman ps`
+- Wait a few seconds for PostgreSQL to initialize
+- Check connection string in `.env`

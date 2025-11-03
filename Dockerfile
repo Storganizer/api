@@ -8,6 +8,7 @@ RUN apt update -y && apt purge gcc && apt --no-install-recommends install -y lib
 COPY /controller /app/controller
 COPY /model /app/model
 COPY /api.py /app/api.py
+COPY /login.py /app/login.py
 COPY /db-create.py /app/db-create.py
 COPY /requirements.txt /app/requirements.txt
 

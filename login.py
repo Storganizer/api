@@ -18,6 +18,9 @@ def login_required(f):
 class User(Resource):
 
     def get(self):
-      return {
-        'logged_in': 'user' in session,
-      }
+        user_data = {
+            'logged_in': 'user' in session,
+        }
+        if 'user' in session:
+            user_data['user'] = session['user']
+        return user_data

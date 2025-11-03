@@ -1,5 +1,8 @@
 storganizer.db
 
+# Environment variables
+.env
+
 static/images/*
 !static/images/_default-location.jpg
 !static/images/_default-box.jpg
