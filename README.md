@@ -91,13 +91,51 @@ These are passed to the container via `--env-file .env` in `dev-start.sh`.
 
 ## API Endpoints
 
-- `http://localhost:5000/login` - Initiate OAuth login
-- `http://localhost:5000/auth` - OAuth callback (handled automatically)
-- `http://localhost:5000/user` - Check login status
-- `http://localhost:5000/locations` - Locations API
-- `http://localhost:5000/boxes` - Boxes API
-- `http://localhost:5000/items` - Items API
-- And more...
+### Authentication
+- `GET /login` - Initiate OAuth/OIDC login flow
+- `GET /auth` - OAuth callback endpoint (handled automatically by Keycloak)
+- `GET /profile` - View user profile (requires login)
+- `GET /user` - Check login status and get user info
+
+### Locations
+- `GET /locations` - List all locations
+- `GET /location/<id>` - Get location by ID
+- `POST /locations` - Create new location
+- `PUT /location/<id>` - Update location
+- `DELETE /location/<id>` - Delete location
+
+### Location Types
+- `GET /locationTypes` - List all location types
+- `GET /locationType/<id>` - Get location type by ID
+- `POST /locationTypes` - Create new location type
+- `PUT /locationType/<id>` - Update location type
+- `DELETE /locationType/<id>` - Delete location type
+
+### Boxes
+- `GET /boxes` - List all boxes
+- `GET /box/<id>` - Get box by ID
+- `POST /boxes` - Create new box
+- `PUT /box/<id>` - Update box
+- `DELETE /box/<id>` - Delete box
+
+### Items
+- `GET /items` - List all items
+- `GET /item/<id>` - Get item by ID
+- `POST /items` - Create new item
+- `PUT /item/<id>` - Update item
+- `DELETE /item/<id>` - Delete item
+
+### Persons
+- `GET /persons` - List all persons
+- `GET /person/<id>` - Get person by ID
+- `POST /persons` - Create new person
+- `PUT /person/<id>` - Update person
+- `DELETE /person/<id>` - Delete person
+
+### Backup & Configuration
+- `GET /backup` - Create database backup
+- `POST /restore` - Restore database from backup
+- `GET /config/default-images` - Get default image configuration
 
 ## Troubleshooting
 
